@@ -22,8 +22,16 @@
   },
 
   "passport": {
-    "Google": {},
-    "Facebook": {},
-    "Twitter": {}
+    "Google": {
+      "clientID": "1015960669484-hg9b38kt49clq125lvi3sgsdg8a3s8dc.apps.googleusercontent.com",
+      "clientSecret": "PEj6t_WbUVZ7jaFU6mQYdySy",
+      "callbackURL": "http://localhost:3000/"
+    },
+
+    "Facebook": {
+      "clientID": "305502756559870",
+      "clientSecret": "d5f63de7cb4c7caab0e1f0f944e91597",
+      "callbackURL": "http://localhost:3000/"
+    }
   }
 }
