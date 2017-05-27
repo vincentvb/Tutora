@@ -1,9 +1,9 @@
 const db = require('../');
 
 const Question = db.Model.extend({
-	tableName: 'questions'
+	tableName: 'questions',
 	profiles: () => {
-		return this.belongsTo(Profile);
+		return this.belongsToMany(profiles);
 	}
 })
 
