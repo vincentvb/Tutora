@@ -128,7 +128,6 @@ passport.use('facebook', new FacebookStrategy({
   (accessToken, refreshToken, profile, done) => getOrCreateOAuthProfile('facebook', profile, done))
 );
 
-// REQUIRES PERMISSIONS FROM TWITTER TO OBTAIN USER EMAIL ADDRESSES
 
 const getOrCreateOAuthProfile = (type, oauthProfile, done) => {
   return models.Auth.where({ type, oauth_id: oauthProfile.id }).fetch({

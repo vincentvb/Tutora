@@ -6,7 +6,7 @@ module.exports.verify = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect('/login');
+  res.redirect('/landingPage');
 };
 
 module.exports.session = session({
