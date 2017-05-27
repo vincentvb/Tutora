@@ -2,6 +2,8 @@ const expect = require('chai').expect;
 const Profile = require('../../db/models/profiles.js');
 const dbUtils = require('../../db/lib/utils.js');
 
+const Bookshelf = require('../../db/Bookshelf.js');
+
 describe('Profile model tests', function () {
   // Deletes all tables, creates new tables, and seeds tables with test data
   beforeEach(function (done) {
@@ -76,6 +78,16 @@ describe('Profile model tests', function () {
         // If this expect statement is reached, there's an error.
         done(err);
       });
+  });
+
+  it(' Should be able to create a user profile according to Tom', function (done) {
+    Bookshelf.updateProfile(3, 'A funny guy', 'www.facebook.com', 'tutor', 'Tom', 'Dickson', '0624024', function(error, res) {
+      if (error) {
+        done(error);
+      } else {
+        done(res);
+      }
+    })
   });
 
 });
