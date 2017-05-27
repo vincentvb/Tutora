@@ -1,4 +1,5 @@
 const models = require('../../db/models');
+const Bookshelf = require('../../db/Bookshelf.js')
 
 module.exports.getAll = (req, res) => {
   models.Profile.fetchAll()
@@ -78,3 +79,18 @@ module.exports.update = (req, res) => {
 //       res.sendStatus(404);
 //     });
 // };
+
+// This works when you do a put on: http://localhost:3000/api/profiles/update/4
+module.exports.updateProfile = (req, res) => {
+  console.log('inside updaterrr, ', req.headers.userdescription);
+  Bookshelf.updateProfile(Number(req.params.id), req.headers.userdescription, req.headers.useravatar, req.headers.usertype, req.headers.userfirstname, req.headers.userlastname, req.headers.userphone, function (error, result) {
+    if (error) {
+      return res.sendStatus(500);
+      console.log(error);
+    }
+    return res.sendStatus(201);
+    console.log('The users profile where updated, ' + result);
+  });
+};
+
+

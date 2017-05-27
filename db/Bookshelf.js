@@ -4,6 +4,7 @@ const Question = require('./models/questions.js');
 module.exports = {
 	
 	updateProfile : (userID, userDescription, userAvatar, userType, userFirstName, userLastName, userPhone, callback) => {
+		console.log(userID, userDescription, userAvatar, userType, userFirstName, userLastName, userPhone)
 		Profile
 		.where({ id: userID })
 		.save({
