@@ -13,10 +13,15 @@ router.route('/login')
     res.render('login.ejs', { message: req.flash('loginMessage') });
   })
   .post(middleware.passport.authenticate('local-login', {
-    successRedirect: '/profile',
-    failureRedirect: '/login',
+    successRedirect: '/',
+    failureRedirect: '/landingPage',
     failureFlash: true
   }));
+
+router.route('/landingPage')
+  .get((req, res) => {
+    res.render('landingPage.ejs')
+  })
 
 router.route('/signup')
   .get((req, res) => {
@@ -24,7 +29,7 @@ router.route('/signup')
   })
   .post(middleware.passport.authenticate('local-signup', {
     successRedirect: '/profile',
-    failureRedirect: '/signup',
+    failureRedirect: '/landingPage',
     failureFlash: true
   }));
 
@@ -47,7 +52,7 @@ router.get('/auth/google', middleware.passport.authenticate('google', {
 
 router.get('/auth/google/callback', middleware.passport.authenticate('google', {
   successRedirect: '/profile',
-  failureRedirect: '/login'
+  failureRedirect: '/landingPage'
 }));
 
 router.get('/auth/facebook', middleware.passport.authenticate('facebook', {
@@ -56,15 +61,8 @@ router.get('/auth/facebook', middleware.passport.authenticate('facebook', {
 
 router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook', {
   successRedirect: '/profile',
-  failureRedirect: '/login',
+  failureRedirect: '/landingPage',
   failureFlash: true
-}));
-
-router.get('/auth/twitter', middleware.passport.authenticate('twitter'));
-
-router.get('/auth/twitter/callback', middleware.passport.authenticate('twitter', {
-  successRedirect: '/profile',
-  failureRedirect: '/login'
 }));
 
 module.exports = router;
