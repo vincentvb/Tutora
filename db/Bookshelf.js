@@ -41,11 +41,20 @@ module.exports = {
 		})
 	},
 
-	getAllQuestions : () => {
-		Question.collection
-		.fetch()
-		.then(documents => {
-			callback(null, documents);
+	getAllQuestions : (callback) => {
+		Question.fetchAll()
+		.then(questions => {
+			callback(null, questions);
+		})
+		.catch(error => {
+			callback(error, null);
+		})
+	},
+
+	getOneQuestion : (questionID, callback) => {
+		Question.where({ id : questionID }).fetch()
+		.then(question => {
+			callback(null, question);
 		})
 		.catch(error => {
 			callback(error, null);
@@ -53,3 +62,5 @@ module.exports = {
 	}
 
 };
+
+
