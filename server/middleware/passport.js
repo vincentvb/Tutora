@@ -33,6 +33,8 @@ passport.use('local-signup', new LocalStrategy({
   passReqToCallback: true
 },
   (req, email, password, done) => {
+    console.log(req.body);
+
     // check to see if there is a local account with this email address
     return models.Profile.where({ email }).fetch({
       withRelated: [{
@@ -42,7 +44,15 @@ passport.use('local-signup', new LocalStrategy({
       .then(profile => {
         // create a new profile if a profile does not exist
         if (!profile) {
-          return models.Profile.forge({ email }).save();
+          return models.Profile.forge({
+            first: req.body.first,
+            last: req.body.last,
+            display: req.body.display,
+            email,
+            phone: req.body.phone,
+            type: req.body.type
+           })
+            .save();
         }
         // throw if local auth account already exists
         if (profile.related('auths').at(0)) {
@@ -64,9 +74,11 @@ passport.use('local-signup', new LocalStrategy({
         done(null, profile.serialize());
       })
       .error(error => {
+        console.log(error);
         done(error, null);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         done(null, false, req.flash('signupMessage', 'An account with this email address already exists.'));
       });
   }));
@@ -104,9 +116,11 @@ passport.use('local-login', new LocalStrategy({
         done(null, profile.serialize());
       })
       .error(err => {
+        console.log(err);
         done(err, null);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         done(null, null, req.flash('loginMessage', 'Incorrect username or password'));
       });
   }));
@@ -123,7 +137,7 @@ passport.use('facebook', new FacebookStrategy({
   clientID: config.Facebook.clientID,
   clientSecret: config.Facebook.clientSecret,
   callbackURL: config.Facebook.callbackURL,
-  profileFields: ['id', 'emails', 'name']
+  profileFields: ['id', 'emails', 'name', 'picture']
 },
   (accessToken, refreshToken, profile, done) => getOrCreateOAuthProfile('facebook', profile, done))
 );
@@ -151,7 +165,8 @@ const getOrCreateOAuthProfile = (type, oauthProfile, done) => {
         first: oauthProfile.name.givenName,
         last: oauthProfile.name.familyName,
         display: oauthProfile.displayName || `${oauthProfile.name.givenName} ${oauthProfile.name.familyName}`,
-        email: oauthProfile.emails[0].value
+        email: oauthProfile.emails[0].value,
+        avatar: oauthProfile.photos[0].value
       };
 
       if (profile) {
