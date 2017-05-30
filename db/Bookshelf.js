@@ -4,6 +4,7 @@ const Question = require('./models/questions.js');
 module.exports = {
 	
 	updateProfile : (userID, userDescription, userAvatar, userType, userFirstName, userLastName, userPhone, callback) => {
+		console.log(userID, userDescription, userAvatar, userType, userFirstName, userLastName, userPhone)
 		Profile
 		.where({ id: userID })
 		.save({
@@ -40,11 +41,20 @@ module.exports = {
 		})
 	},
 
-	getAllQuestions : () => {
-		Question.collection
-		.fetch()
-		.then(documents => {
-			callback(null, documents);
+	getAllQuestions : (callback) => {
+		Question.fetchAll()
+		.then(questions => {
+			callback(null, questions);
+		})
+		.catch(error => {
+			callback(error, null);
+		})
+	},
+
+	getOneQuestion : (questionID, callback) => {
+		Question.where({ id : questionID }).fetch()
+		.then(question => {
+			callback(null, question);
 		})
 		.catch(error => {
 			callback(error, null);
@@ -52,3 +62,5 @@ module.exports = {
 	}
 
 };
+
+
