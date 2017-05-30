@@ -61,4 +61,9 @@ router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook
   failureFlash: true
 }));
 
+router.route('*')
+  .get(middleware.auth.verify, (req, res) => {
+    res.render('index.ejs');
+  });
+
 module.exports = router;

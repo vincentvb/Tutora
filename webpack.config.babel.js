@@ -7,6 +7,9 @@ const config = {
     path: path.join(__dirname, 'public/dist'),
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['.js', '.jsx', '.json']
+  },
   module: {
     rules: [
       { test: /\.(js|jsx)$/,
@@ -25,3 +28,10 @@ const config = {
 };
 
 export default config;
+
+  // devServer: {
+  //   contentBase: path.join(__dirname, 'public/dist'),
+  //   publicPath: 'http://localhost:3000', 
+  //   hot: true,
+  //   historyApiFallback: {index: 'server/views/index.ejs'}
+  // },

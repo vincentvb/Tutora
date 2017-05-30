@@ -4,7 +4,8 @@
   "scripts": {
     "start": "nodemon server",
     "test": "NODE_ENV=test grunt test",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "dev": "webpack-dev-server"
   },
   "author": "Hack Reactor",
   "license": "MIT",
@@ -23,6 +24,7 @@
     "express-session": "^1.15.1",
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
     "knex": "^0.12.9",
+    "material-ui": "^0.18.1",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
@@ -32,7 +34,11 @@
     "pg": "^6.1.5",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "redis": "^2.7.1"
+    "react-redux": "^5.0.5",
+    "react-router-dom": "^4.1.1",
+    "react-tap-event-plugin": "^2.0.1",
+    "redis": "^2.7.1",
+    "redux": "^3.6.0"
   },
   "devDependencies": {
     "babel-loader": "^7.0.0",
