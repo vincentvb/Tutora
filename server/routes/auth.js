@@ -13,7 +13,7 @@ router.route('/login')
     res.render('landingPage.ejs', { message: req.flash('incorrect') });
   })
   .post(middleware.passport.authenticate('local-login', {
-    successRedirect: '/profile',
+    successRedirect: '/',
     failureRedirect: '/landingPage',
     failureFlash: true
   }));
