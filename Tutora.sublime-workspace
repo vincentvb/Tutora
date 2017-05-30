@@ -279,15 +279,120 @@
 			"file": "package.json",
 			"settings":
 			{
-				"buffer_size": 1603,
+				"buffer_size": 1681,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "server/middleware/auth.js",
+			"contents": "Reducer\n// takes action and state from store (obj). makes a copy. tranforms. returns a new state.\n// doesn't modify the old state. No side effects. \n// can use combine reducer instead of root reducer\n// every action has a type, which determines where it's routed\n// state is the state of the reducer at any time.",
+			"file": "/Users/agnes/Documents/hackreactor/Notes/Redux.js",
+			"file_size": -1,
+			"file_write_time": -1,
 			"settings":
 			{
-				"buffer_size": 509,
+				"buffer_size": 312,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "client/src/reducers.js",
+			"settings":
+			{
+				"buffer_size": 430,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "client/src/store.js",
+			"settings":
+			{
+				"buffer_size": 135,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "client/src/app.js",
+			"settings":
+			{
+				"buffer_size": 775,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "'use strict';\nconst app = require('./app');\nconst db = require('../db');\nconst PORT = process.env.port || 3000;\n\napp.listen(PORT, () => {\n  console.log('Example app listening on port 3000!');\n});\n\n\n",
+			"file": "server/index.js",
+			"file_size": 196,
+			"file_write_time": 131403109780000000,
+			"settings":
+			{
+				"buffer_size": 198,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "server/routes/auth.js",
+			"settings":
+			{
+				"buffer_size": 1707,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/agnes/Documents/examples/complete-intro-to-react/webpack.config.js",
+			"settings":
+			{
+				"buffer_size": 972,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "client/src/components/Nav.js",
+			"settings":
+			{
+				"buffer_size": 71,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "webpack.config.babel.js",
+			"settings":
+			{
+				"buffer_size": 799,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "README.md",
+			"settings":
+			{
+				"buffer_size": 1866,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 191,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "client/src/components/AskQuestion.js",
+			"settings":
+			{
+				"buffer_size": 319,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/agnes/Documents/hackreactor/Notes/PSQL.js",
+			"settings":
+			{
+				"buffer_size": 374,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -295,7 +400,7 @@
 			"file": ".gitignore",
 			"settings":
 			{
-				"buffer_size": 703,
+				"buffer_size": 695,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -308,10 +413,14 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 347.0,
-		"last_filter": "mi",
+		"height": 87.0,
+		"last_filter": "instal",
 		"selected_items":
 		[
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
 			[
 				"mi",
 				"View: Toggle Minimap"
@@ -329,7 +438,7 @@
 				"Floobits - Join Workspace"
 			]
 		],
-		"width": 86.0
+		"width": 467.0
 	},
 	"console":
 	{
@@ -353,20 +462,21 @@
 		"/Users/agnes/Documents/hackreactor/Tutora/client",
 		"/Users/agnes/Documents/hackreactor/Tutora/client/src",
 		"/Users/agnes/Documents/hackreactor/Tutora/client/src/components",
-		"/Users/agnes/Documents/hackreactor/Tutora/client/test",
-		"/Users/agnes/Documents/hackreactor/Tutora/config",
-		"/Users/agnes/Documents/hackreactor/Tutora/db",
+		"/Users/agnes/Documents/hackreactor/Tutora/client/src/containers",
 		"/Users/agnes/Documents/hackreactor/Tutora/db/seeds",
 		"/Users/agnes/Documents/hackreactor/Tutora/public",
-		"/Users/agnes/Documents/hackreactor/Tutora/public/dist",
 		"/Users/agnes/Documents/hackreactor/Tutora/server",
 		"/Users/agnes/Documents/hackreactor/Tutora/server/controllers",
 		"/Users/agnes/Documents/hackreactor/Tutora/server/middleware",
 		"/Users/agnes/Documents/hackreactor/Tutora/server/routes",
+		"/Users/agnes/Documents/hackreactor/Tutora/server/test",
+		"/Users/agnes/Documents/hackreactor/Tutora/server/views",
 		"/Users/agnes/Documents/hackreactor/Notes"
 	],
 	"file_history":
 	[
+		"/Users/agnes/Documents/hackreactor/Tutora/client/src/actionCreators.js",
+		"/Users/agnes/Documents/hackreactor/Tutora/client/src/actions.js",
 		"/Users/agnes/Documents/hackreactor/Tutora/server/routes/api.js",
 		"/Users/agnes/Documents/hackreactor/Notes/PSQL",
 		"/Users/agnes/Documents/projects/MajesticOwls/react-client/src/index.jsx",
@@ -465,6 +575,7 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"/Users/agnes/Documents/hackreactor/Tutora",
 			"<current file>",
 			""
 		]
@@ -474,6 +585,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"register",
 			"postgresql",
 			"BookVenuePage",
 			"ComedianProfile",
@@ -512,7 +624,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -521,15 +633,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1603,
+						"buffer_size": 1681,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								535,
+								535
 							]
 						],
 						"settings":
@@ -542,16 +654,186 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "server/middleware/auth.js",
-					"semi_transient": true,
+					"file": "/Users/agnes/Documents/hackreactor/Notes/Redux.js",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 509,
+						"buffer_size": 312,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								312,
+								312
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "client/src/reducers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 430,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								430,
+								430
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "client/src/store.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 135,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								135,
+								135
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "client/src/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 775,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								774,
+								774
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "server/index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 198,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								198,
+								198
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "server/routes/auth.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1707,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1594,
+								1597
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 464.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/Users/agnes/Documents/examples/complete-intro-to-react/webpack.config.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 972,
 						"regions":
 						{
 						},
@@ -572,24 +854,194 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": ".gitignore",
+					"buffer": 8,
+					"file": "client/src/components/Nav.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 703,
+						"buffer_size": 71,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								459,
-								459
+								71,
+								71
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "webpack.config.babel.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 799,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								799,
+								799
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "README.md",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1866,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 191,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								191,
+								191
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "client/src/components/AskQuestion.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 319,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								265,
+								265
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "/Users/agnes/Documents/hackreactor/Notes/PSQL.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 374,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								374,
+								374
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": ".gitignore",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 695,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
@@ -600,7 +1052,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 14,
 					"type": "text"
 				}
 			]
@@ -691,7 +1143,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 334.0,
+	"side_bar_width": 221.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
