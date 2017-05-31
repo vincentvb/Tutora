@@ -5,14 +5,12 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AskQuestion from './components/AskQuestion.js';
+import Index from './components/Index.js';
 
 const App = () => (
   <div>
-    <h1> Hello World </h1>
-    <p><Link to='/askquestion' className='ask-question'> Ask Question </Link></p>
-
+    <Route path='/' component={Index} />
     <Route path='/askquestion' component={AskQuestion} />
-
   </div>
 )
 

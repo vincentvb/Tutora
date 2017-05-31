@@ -22,7 +22,7 @@ module.exports.getAll = (req, res) => {
 };
 
 module.exports.postQuestion = (req, res) => {
-	Bookshelf.saveQuestion(req.headers.title, req.headers.body, req.headers.userid, req.headers.image, function(error, result) {
+	Bookshelf.saveQuestion(req.body.title, req.body.body, req.body.userid, req.body.image, function(error, result) {
 		if (error) {
 			return res.sendStatus(500);
 			console.log(error);
