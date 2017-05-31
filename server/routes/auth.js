@@ -29,6 +29,11 @@ router.route('/landingPage')
   }));
 
 
+router.route('/getuserinfo')
+  .get(middleware.auth.verify, (req, res) => {
+    res.json(req.user)
+  });
+
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
     console.log(req.user);
