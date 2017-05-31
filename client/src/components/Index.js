@@ -9,13 +9,26 @@ class Index extends React.Component {
     this.state = {
     	id: 2
     };
+  }
+
+  componetWillMount() {
+	  // this.socket = io.connect();
 	  
-	  var socket = io.connect();
+	  // this.socket.on('connect', function () {
+	  //   socket.emit({
+	  //   	message: 'User connected!',
+	  //   	user_id: this.state.id
+	  //   });
+	  // });
 
-	  socket.on('connect', function () {
-	    socket.emit('hi, my userID is: ', this.state.id);
-	  });
+   //  this.socket.on('new message', (e) => {
+   //    console.log('message recieved');
+   //    this.recieveMessage(e);
+   //  });
+  }
 
+  componentWillUnmount() {
+    // this.socket.disconnect();
   }
 
   render() {
