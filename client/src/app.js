@@ -19,11 +19,12 @@ class App extends React.Component{
 
     // this.state = { userid: {} }
 
-    this.getUserInfo = this.getUserInfo.bind(this);
+    // this.getUserInfo = this.getUserInfo.bind(this);
   }
 
   componentWillMount(){
-    props.getUserInfo() 
+    console.log(getUserInfo)
+    // props.getUserID() 
   }
 
     // props.setUserID();
@@ -77,7 +78,7 @@ let mapStateToProps = (state) => ({
 //   }
 // }) 
 
-const mapDispatchToProps = (dispatch) => ({
+let mapDispatchToProps = (dispatch) => ({
   getUserID: userid => dispatch(getUserInfo())
 }) 
 
