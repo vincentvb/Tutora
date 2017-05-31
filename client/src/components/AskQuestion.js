@@ -77,8 +77,6 @@ class AskQuestion extends React.Component{
   render() {
     return (
       <div>
-        <h1> Question </h1>
-
         <FloatingActionButton style={style} onClick={this.openModal} >
           <ContentAdd/>
         </FloatingActionButton>
@@ -120,9 +118,7 @@ class AskQuestion extends React.Component{
             onClick={this.postQuestion}
            />
         </Modal>
-
       </div>
-
     )
   }
 }
