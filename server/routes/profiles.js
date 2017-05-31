@@ -15,6 +15,9 @@ router.route('/:id')
   // .delete(ProfileController.deleteOne)
   ;
 
+router.route('/updateProfile')
+  .post(ProfileController.update)
+
 router.route('/update/:id')
 	.put(ProfileController.updateProfile)
 
