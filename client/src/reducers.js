@@ -1,22 +1,33 @@
 import { combineReducers } from 'redux';
-import { SET_USER_ID } from './actions'
+// import { SET_USER_ID } from './actions'
 
 const DEFAULT_STATE = {
   userid: {}
 }
 
-const userid = (state={}, action: Action) => {
-  if (action.type === SET_USER_ID){
-    return Object.assign({}, state, { [action.payload]: action.payload });
+const userid = (state= {}, action) => {
+  switch(action.type) {
+    case ('SET_USER_ID') : return action.userid
+    default : return state
   }
-  return state;
+  // if (action.type === 'SET_USER_ID'){
+  //   return Object.assign({}, state, { userid: action.userid });
+  // }
+  // return state;
 };
 
-const rootReducer = combineReducers( { userid });
+
+const rootReducer = combineReducers( { userid } );
 
 
 export default rootReducer
 
+// const userid = (state={}, action: Action) => {
+//   if (action.type === SET_USER_ID){
+//     return Object.assign({}, state, { [action.payload]: action.payload });
+//   }
+//   return state;
+// };
 
 
 // const setUserID = (state, action) => {

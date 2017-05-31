@@ -23,29 +23,33 @@ class App extends React.Component{
   }
 
   componentWillMount(){
-    console.log(getUserInfo)
-    // props.getUserID() 
+    // this.getUserInfo();
+
+
+    // console.log(getUserInfo)
+    console.log(this.props);
+    this.props.getUserID() 
   }
 
     // props.setUserID();
   
 
  // getUserInfo (){
- //    var context = this;
+ //    // var context = this;
  //    $.get('/getuserinfo')
  //     .done((data) => {
  //        console.log(data)
  //        // console.log(props);
- //        context.props.getUserID(data);
- //        // this.setState({userid: data})
+ //        // context.props.getUserID(data);
+ //        this.setState({userid: data})
  //     })
  //     .fail((err)=> {
  //        console.error(err)
  //     })
- //   }
+ //  }
 
   render () {
-    console.log('props in render:', this.props.userid);
+    console.log('props in render:', this.props);
     return (
       <div>
         <h1> Hello World {this.props.userid} </h1>
@@ -61,7 +65,7 @@ class App extends React.Component{
 
 }
 
-let mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
   userid: state.userid
 });
 
@@ -78,13 +82,21 @@ let mapStateToProps = (state) => ({
 //   }
 // }) 
 
-let mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   getUserID: userid => dispatch(getUserInfo())
 }) 
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+App = connect(mapStateToProps, mapDispatchToProps)(App);
 
 injectTapEventPlugin();
 
-ReactDOM.render(<MuiThemeProvider muiTheme={getMuiTheme()}>
-  <BrowserRouter><Provider store={store}><App /></Provider></BrowserRouter></MuiThemeProvider>, document.getElementById('root'));
+ReactDOM.render(
+  <MuiThemeProvider muiTheme={getMuiTheme()}>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
+  </MuiThemeProvider>, document.getElementById('root'));
+
+
