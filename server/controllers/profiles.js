@@ -43,15 +43,24 @@ module.exports.getOne = (req, res) => {
 };
 
 module.exports.update = (req, res) => {
-  models.Profile.where({ id: req.params.id }).fetch()
+  console.log(req.body);
+  models.Profile.where({ id: req.body.id }).fetch()
     .then(profile => {
       if (!profile) {
         throw profile;
       }
-      return profile.save(req.body, { method: 'update' });
+      return profile.save({
+        first: req.body.first || profile.first,
+        last: req.body.last || profile.last,
+        display: req.body.display || profile.display,
+        email: req.body.email || profile.email,
+        phone: req.body.phone || profile.phone,
+        description: req.body.description || profile.description,
+        avatar: req.body.avatar || profile.avatar
+      }, { method: 'update' });
     })
     .then(() => {
-      res.sendStatus(201);
+      res.redirect("/profile");
     })
     .error(err => {
       res.status(500).send(err);
@@ -92,5 +101,3 @@ module.exports.updateProfile = (req, res) => {
     console.log('The users profile where updated, ' + result);
   });
 };
-
-

@@ -25,6 +25,7 @@
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
     "knex": "^0.12.9",
     "material-ui": "^0.18.1",
+    "mdbootstrap": "^4.3.2",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",

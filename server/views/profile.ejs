@@ -1,31 +1,61 @@
 <% include head.ejs%>
 
-    <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-        <a href="/" class="btn btn-default btn-sm">Home page</a>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-    </div>
+<div class="container profile">
+  <div class="row">
 
-    <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
 
-        <!-- LOCAL INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
 
-                <% if (user.email) { %>
-                <p>
-                    <strong>display name</strong>: <%= user.display %><br>
-                    <strong>id</strong>: <%= user.id %><br>
-                    <strong>email</strong>: <%= user.email %>
-                </p>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title"><%= user.first + " " + user.last %></h3>
+          <A href="/edit" >Edit Profile</A>
+          <A href="/logout" style="margin-left: 75%;"> Logout </A>
 
-                <a href="/unlink/local" class="btn btn-default">Unlink</a>
-                <% } else { %>
-                <a href="/connect/local" class="btn btn-default">Connect Local</a>
-                <% } %>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+
+            <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src= "<%= user.avatar %>" class="img-circle img-responsive"> </div>
+
+
+            <div class=" col-md-9 col-lg-9 ">
+
+              <table class="table table-user-information">
+                <tbody>
+                  <tr>
+                    <td>Display Name: </td>
+                    <td><%= user.display %></td>
+                  </tr>
+                  <tr>
+                    <td>Email:</td>
+                    <td><%= user.email %></td>
+                  </tr>
+                  <tr>
+                    <td>Phone Number:</td>
+                    <td><%= user.phone %></td>
+                  </tr>
+                  <tr>
+                    <td>User Type: </td>
+                    <td><%= user.type %></td>
+                  <tr>
+                    <td>About You: </td>
+                    <td><%= user.description %></td>
+                  </tr>
+
+
+
+                </tbody>
+              </table>
 
             </div>
+          </div>
         </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
 
 <% include foot.ejs%>
