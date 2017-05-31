@@ -3,6 +3,8 @@ const express = require('express');
 const path = require('path');
 const middleware = require('./middleware');
 const routes = require('./routes');
+const redis = require('redis');
+const client = redis.createClient();
 
 const app = express();
 const http = require('http').Server(app);
@@ -29,13 +31,38 @@ app.use('/api/profiles', routes.profiles);
 app.use('/api/questions', routes.questions);
 
 
+client.on('connect', () => {
+  console.log("redis connected");
+})
+
+http.listen(3000, () => {
+  console.log("listening on 3000")
+})
 
 io.on('connection', (socket) => {
+  socket.on('userData', (data) => {
+    socket.join(data.room);
+    socket.userId = data.user_id
+    client.set(socket.userId, "online");
+    client.get(socket.id, (err, reply) => {
+      // console.log(reply);
+    })
+  })
+
+  socket.on('roomJoin', (data) => {
+    socket.join(data.room);
+    socket.userId = data.user_id
+  })
+
+  socket.on('messageSend', (data) => {
+    io.to(data.room).emit(data.message);
+  })
+
+  socket.on('disconnect', () => {
+    client.del(socket.userId)
+  })
   console.log('a user connected');
 })
 
-http.listen(4000, () => {
-  console.log("listening on 4000")
-})
 
 module.exports = app;

@@ -12,7 +12,7 @@ WORKDIR /usr/src/app
 # Install App Dependencies
 COPY package.json /usr/src/app/
 RUN npm install
-RUN webpack --config webpack.config.babel.js
+# RUN webpack --config webpack.config.babel.js
 
 # Bundle app source
 COPY . /usr/src/app
@@ -21,4 +21,4 @@ COPY . /usr/src/app
 # ENV NODE_ENV $NODE_ENV
 
 EXPOSE 3000
-CMD ["start", "nodemon server"]
+CMD ["npm", "start"]
