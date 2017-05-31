@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-
 import Modal from 'react-modal';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -17,27 +16,30 @@ class AskQuestion extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      userID: undefined,
+      userID: 3,
       questions: [],
       modalIsOpen: false,
-      questionInput: ''
+      questionInput: '',
+      questionTitle: '',
+      questionDescription: ''
     };
     this.postQuestion = this.postQuestion.bind(this);
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleQuestionInput = this.handleQuestionInput.bind(this);
+    this.handleDescriptionInput = this.handleDescriptionInput.bind(this);
   }
 
   postQuestion() {
-    var header = {
-      title: 'Hej fran UI',
-      body: this.state.questionInput,
-      userid: 3,
-      image: 'www.playahead.com'
+    var body = {
+      title: this.state.questionInput,
+      body: this.state.questionDescription,
+      userid: this.state.userID,
+      image: 'www.placeholder.com'
     };
 
-    axios.post('/api/questions', header)
+    axios.post('/api/questions', body)
     .then(response => {
       console.log('Posted question to server. ', response);
     })
@@ -45,6 +47,7 @@ class AskQuestion extends React.Component{
       console.log('Error while posting to the server, ', error);
     });
 
+    this.closeModal();
   }
 
   openModal() {
@@ -62,6 +65,12 @@ class AskQuestion extends React.Component{
   handleQuestionInput(event) {
     this.setState({
       questionInput: event.target.value
+    });
+  }
+
+  handleDescriptionInput(event) {
+    this.setState({
+      questionDescription: event.target.value
     });
   }
 
@@ -87,11 +96,19 @@ class AskQuestion extends React.Component{
           <h3 ref={subtitle => this.subtitle = subtitle}>Ask a question</h3>
           <br></br>
           <TextField
-            className="question"
+            className="questionTitle"
             placeholder="Question"
-            value={this.state.email}
             onChange={this.handleQuestionInput}
-            id="email"
+            id="title"
+          />
+          <br></br>
+          <TextField
+            className="questionBody"
+            onChange={this.handleDescriptionInput}
+            id="description"
+            multiLine={true}
+            rows={2}
+            floatingLabelText="Description"
           />
           <br></br>
           <RaisedButton
