@@ -70,9 +70,20 @@ router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook
   failureFlash: true
 }));
 
-router.route('*')
+router.route(unless('/api/*'), '*')
   .get(middleware.auth.verify, (req, res) => {
     res.render('index.ejs');
   });
 
+function unless(path, middleware) {
+  return function(req, res, next) {
+    if (path === req.path) {
+        return next();
+    } else {
+        return middleware(req, res, next);
+    }
+  };
+}
+
 module.exports = router;
+
