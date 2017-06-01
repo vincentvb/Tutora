@@ -8,7 +8,7 @@ import { getUserQuestions } from '../actionCreators.js';
 class QuestionPage extends React.Component{
   constructor(props){
     super(props)
-    
+
     this.state = { questions: [] }
 
     this.getUserQuestions = this.getUserQuestions.bind(this);
@@ -21,7 +21,7 @@ class QuestionPage extends React.Component{
 
   getUserQuestions(){
     axios
-      .get('/api/questions/user/2')
+      .get('/api/questions/user/')
       .then(response => {
         // console.log(response, "RESPONSE");
         this.setState({ questions: response.data})
@@ -45,7 +45,7 @@ class QuestionPage extends React.Component{
         Question Page
         <QuestionList questions={this.state.questions} />
 
-      </div> 
+      </div>
     )
   }
 
