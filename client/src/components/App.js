@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom'
 import AskQuestion from './AskQuestion.js';
 import Index from './Index.js';
 import $ from 'jquery';
@@ -23,16 +23,13 @@ class App extends React.Component {
     // console.log('props in render:', this.props);
     return (
       <div>
-        <Nav />
-        <h1> Hello World </h1>
-
-        <p><Link to='/askquestion' className='ask-question'> Ask Question </Link></p>
-
-        <QuestionPage />
-
-        <Route path='/' component={Index} />
-        <Route path='/classroom' component={Classroom} />
-        <Route path='/askquestion' component={AskQuestion} />
+        <BrowserRouter>
+          <Switch>
+            <Route exact path='/' component={Index} />
+            <Route path='/classroom' component={Classroom} />
+            <Route exact path='/askquestion' component={AskQuestion} />
+          </Switch>
+        </BrowserRouter>
       </div>
     )
   }

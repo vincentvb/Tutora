@@ -43,14 +43,15 @@ io.on('connection', (socket) => {
   socket.on('userData', (data) => {
     socket.join(data.room);
     socket.userId = data.user_id
+    socket.room = data.room;
     client.set(socket.userId, "online");
-    client.get(socket.id, (err, reply) => {
-      // console.log(reply);
-    })
+
   })
 
   socket.on('roomJoin', (data) => {
+    client.set(socket.userId, "in chat")
     socket.join(data.room);
+    socket.room = data.room
     socket.userId = data.user_id
 })
 
@@ -61,7 +62,16 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
-    client.del(socket.userId)
+    if (socket.userId && socket.room === 'home') {
+      client.set(socket.userId, "offline")
+      setTimeout(() => {
+        console.log(socket.userId);
+        client.get(socket.userId, (err, reply) => {
+          if (reply === "offline");
+            client.del(socket.userId)
+        })
+      }, 10000)
+     }
   })
   console.log('a user connected');
 })
