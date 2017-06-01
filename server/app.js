@@ -52,10 +52,12 @@ io.on('connection', (socket) => {
   socket.on('roomJoin', (data) => {
     socket.join(data.room);
     socket.userId = data.user_id
-  })
+})
 
-  socket.on('messageSend', (data) => {
-    io.to(data.room).emit(data.message);
+
+
+  socket.on('chatMessage', (data) => {
+    io.to(data.room).emit('newMessage', data.message);
   })
 
   socket.on('disconnect', () => {

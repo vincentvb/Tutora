@@ -22,6 +22,25 @@ class Classroom extends React.Component {
     console.log(this.state.messages);
   }
 
+  componentWillMount(){
+    this.socket = io.connect();
+
+    this.socket.on('connect', (socket) => {
+      this.socket.emit('roomJoin', {
+        room: 'class#',
+        user_id: this.state.id
+      });
+    });
+
+    this.socket.on('newMessage', (userMessage) => {
+      console.log(userMessage);
+      var newMessages = this.state.messages.slice();
+      newMessages.push({id: 0, message: userMessage})
+      this.setState({messages: newMessages})
+      this.setState({userChatInput: ''})
+    })
+  }
+
   chatInput(event) {
     this.setState({
       userChatInput: event.target.value
@@ -29,11 +48,11 @@ class Classroom extends React.Component {
   }
 
   postChat() {
-    var newMessages = this.state.messages.slice();
-    newMessages.push({ id: 0, message: this.state.userChatInput })
-      this.setState({messages: newMessages
-    });
-    this.setState({userChatInput: ''});
+    this.socket.emit('chatMessage', {message: this.state.userChatInput, room: 'class#'});
+  }
+
+  componentWillUnmount() {
+    this.socket.disconnect();
   }
 
   render() {
