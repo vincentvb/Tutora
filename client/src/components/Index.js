@@ -14,25 +14,25 @@ class Index extends React.Component {
   }
 
   componentWillMount() {
-	  this.socket = io.connect();
-    console.log(this.socket);
-
-	  this.socket.on('connect', (socket) => {
-	    this.socket.emit('userData', {
-        room: 'home',
-	    	message: 'User connected!',
-	    	user_id: this.state.id
-	    });
-	  });
-
-    this.socket.on('new message', (e) => {
-      console.log('message recieved');
-      this.recieveMessage(e);
-    });
+	  // this.socket = io.connect();
+    // console.log(this.socket);
+    //
+	  // this.socket.on('connect', (socket) => {
+	  //   this.socket.emit('userData', {
+    //     room: 'home',
+	  //   	message: 'User connected!',
+	  //   	user_id: this.state.id
+	  //   });
+	  // });
+    //
+    // this.socket.on('new message', (e) => {
+    //   console.log('message recieved');
+    //   this.recieveMessage(e);
+    // });
   }
 
   componentWillUnmount() {
-    this.socket.disconnect();
+    // this.socket.disconnect();
   }
 
   render() {
