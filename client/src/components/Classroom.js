@@ -36,7 +36,7 @@ class Classroom extends React.Component {
     this.socket.on('newMessage', (userMessage) => {
       console.log(userMessage);
       var newMessages = this.state.messages.slice();
-      newMessages.push({id: 0, message: userMessage})
+      newMessages.push({id: 1, message: userMessage})
       this.setState({messages: newMessages})
       this.refs.a.scrollTop = this.refs.a.scrollHeight;
       this.setState({userChatInput: ''})
