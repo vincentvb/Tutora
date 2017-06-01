@@ -18,7 +18,7 @@ class Index extends React.Component {
 
 	  this.socket.on('connect', (socket) => {
 	    this.socket.emit('userData', {
-        room: 'home'
+        room: 'home',
 	    	message: 'User connected!',
 	    	user_id: this.state.id
 	    });

@@ -5,7 +5,7 @@ import AskQuestion from './AskQuestion.js';
 import Index from './Index.js';
 import $ from 'jquery';
 import { Provider, connect } from 'react-redux'
-import getUserInfo from '../actionCreators.js'; 
+import getUserInfo from '../actionCreators.js';
 
 
 
@@ -15,7 +15,7 @@ class App extends React.Component{
   }
 
   componentWillMount(){
-    this.props.getUserID() 
+    this.props.getUserID()
   }
 
   render () {
@@ -42,10 +42,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   getUserID: userid => dispatch(getUserInfo())
-}) 
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-
-
-
