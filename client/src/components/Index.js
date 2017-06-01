@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import AskQuestion from './AskQuestion.js';
+import Classroom from './Classroom.js'
 
 
 class Index extends React.Component {
@@ -39,6 +40,7 @@ class Index extends React.Component {
 		  <div>
 		    <h2> Questions </h2>
 		    <AskQuestion/>
+        <Classroom/>
 		  </div>
 		)
   }

@@ -6,10 +6,10 @@ import Index from './Index.js';
 import $ from 'jquery';
 import { Provider, connect } from 'react-redux'
 import getUserInfo from '../actionCreators.js';
+import Classroom from './Classroom.js'
 
 
-
-class App extends React.Component{
+class App extends React.Component {
   constructor(props){
     super(props)
   }
@@ -23,12 +23,9 @@ class App extends React.Component{
     return (
       <div>
         <h1> Hello World </h1>
-
-        <p><Link to='/askquestion' className='ask-question'> Ask Question </Link></p>
-
         <Route path='/' component={Index} />
+        <Route path='/classroom' component={Classroom} />
         <Route path='/askquestion' component={AskQuestion} />
-
       </div>
     )
   }
