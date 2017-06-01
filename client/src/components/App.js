@@ -23,12 +23,9 @@ class App extends React.Component {
     return (
       <div>
         <h1> Hello World </h1>
-
-        <p><Link to='/classroom' className='ask-question'> Classroom </Link></p>
-
         <Route path='/' component={Index} />
-        <Route path='/askquestion' component={AskQuestion} />
         <Route path='/classroom' component={Classroom} />
+        <Route path='/askquestion' component={AskQuestion} />
       </div>
     )
   }

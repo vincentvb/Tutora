@@ -93,4 +93,4 @@ const style2 = {
   margin: 12
 };
 
-export default Classroom
+export default Classroom;
