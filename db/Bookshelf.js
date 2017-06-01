@@ -59,6 +59,16 @@ module.exports = {
 		.catch(error => {
 			callback(error, null);
 		})
+	},
+
+	getUserQuestions : (userID, callback) => {
+		Question.where({ profile_id : userID }).fetch()
+		.then(questions => {
+			callback(null, questions);
+		})
+		.catch((error) => {
+			callback(error, null);
+		})
 	}
 
 };

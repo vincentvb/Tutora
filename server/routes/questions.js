@@ -12,4 +12,8 @@ router.route('/:id')
   .get(QuestionController.getOne)
   ;
 
+router.route('/user/:id')
+  .get(QuestionController.getUserQ)
+  ;
+
 module.exports = router;

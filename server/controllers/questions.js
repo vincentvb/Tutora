@@ -21,6 +21,16 @@ module.exports.getAll = (req, res) => {
 	});
 };
 
+module.exports.getUserQ = (req, res) => {
+	Bookshelf.getUserQuestions(req.params.id, function(error, result) {
+		if (error) {
+			console.log(error);
+			return res.sendStatus(500);
+		}
+		return res.send(result);
+	});
+};
+
 module.exports.postQuestion = (req, res) => {
 	Bookshelf.saveQuestion(req.body.title, req.body.body, req.body.userid, req.body.image, function(error, result) {
 		if (error) {
