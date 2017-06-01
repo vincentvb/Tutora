@@ -5,7 +5,7 @@ import AskQuestion from './AskQuestion.js';
 import Index from './Index.js';
 import $ from 'jquery';
 import { Provider, connect } from 'react-redux'
-import getUserInfo from '../actionCreators.js';
+import { getUserInfo } from '../actionCreators.js';
 import Classroom from './Classroom.js'
 import Nav from './Nav.js'
 import QuestionPage from '../containers/QuestionPage.js'

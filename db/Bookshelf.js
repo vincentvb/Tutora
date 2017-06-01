@@ -62,8 +62,9 @@ module.exports = {
 	},
 
 	getUserQuestions : (userID, callback) => {
-		Question.where({ profile_id : userID }).fetch()
+		Question.where({ profile_id : userID }).fetchAll()
 		.then(questions => {
+			// console.log(questions, "QUESTIONS FROM GET")
 			callback(null, questions);
 		})
 		.catch((error) => {
