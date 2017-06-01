@@ -7,7 +7,8 @@ import $ from 'jquery';
 import { Provider, connect } from 'react-redux'
 import getUserInfo from '../actionCreators.js';
 import Classroom from './Classroom.js'
-
+import Nav from './Nav.js'
+import QuestionPage from '../containers/QuestionPage.js'
 
 class App extends React.Component {
   constructor(props){
@@ -22,7 +23,13 @@ class App extends React.Component {
     // console.log('props in render:', this.props);
     return (
       <div>
+        <Nav />
         <h1> Hello World </h1>
+
+        <p><Link to='/askquestion' className='ask-question'> Ask Question </Link></p>
+
+        <QuestionPage />
+
         <Route path='/' component={Index} />
         <Route path='/classroom' component={Classroom} />
         <Route path='/askquestion' component={AskQuestion} />

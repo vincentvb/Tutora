@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ActionQuestionAnswer from 'material-ui/svg-icons/action/question-answer';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Modal from 'react-modal';
 import TextField from 'material-ui/TextField';
@@ -17,7 +18,7 @@ class AskQuestion extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userID: 3,
+      userID: 2,
       questions: [],
       modalIsOpen: false,
       questionInput: '',
@@ -79,7 +80,7 @@ class AskQuestion extends React.Component {
     return (
       <div>
         <FloatingActionButton style={style} onClick={this.openModal} >
-          <ContentAdd/>
+          <ActionQuestionAnswer/>
         </FloatingActionButton>
 
         <Modal
