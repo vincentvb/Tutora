@@ -4,6 +4,7 @@ import {Card, CardHeader} from 'material-ui/Card';
 import { ChatFeed, Message } from 'react-chat-ui'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import {GridList} from 'material-ui/GridList';
 
 class Classroom extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class Classroom extends React.Component {
     }
     this.chatInput = this.chatInput.bind(this);
     this.postChat = this.postChat.bind(this);
-
+    this.postChatEnter = this.postChatEnter.bind(this);
     console.log(this.state.messages);
   }
 
@@ -35,10 +36,15 @@ class Classroom extends React.Component {
     this.socket.on('newMessage', (userMessage) => {
       console.log(userMessage);
       var newMessages = this.state.messages.slice();
-      newMessages.push({id: 0, message: userMessage})
+      newMessages.push({id: 1, message: userMessage})
       this.setState({messages: newMessages})
+      this.refs.a.scrollTop = this.refs.a.scrollHeight;
       this.setState({userChatInput: ''})
     })
+  }
+
+  componentDidMount() {
+    this.refs.a.scrollTop = this.refs.a.scrollHeight;
   }
 
   chatInput(event) {
@@ -49,6 +55,17 @@ class Classroom extends React.Component {
 
   postChat() {
     this.socket.emit('chatMessage', {message: this.state.userChatInput, room: 'class#'});
+    this.setState({userChatInput: ''})
+    this.refs.a.scrollTop = this.refs.a.scrollHeight;
+    this.refs.b.input.value = '';
+  }
+
+  postChatEnter(e) {
+    e.preventDefault();
+    this.socket.emit('chatMessage', {message: this.state.userChatInput, room: 'class#'});
+    this.setState({userChatInput: ''})
+    this.refs.a.scrollTop = this.refs.a.scrollHeight;
+    this.refs.b.input.value = '';
   }
 
   componentWillUnmount() {
@@ -58,35 +75,43 @@ class Classroom extends React.Component {
   render() {
     return (
       <div>
+      <form onSubmit={this.postChatEnter}>
       <Card style={styleCard}>
         <CardHeader
           title="Chat"
-          subtitle="For tutors and students"
         />
-        <ChatFeed
-          messages={this.state.messages}
-          isTyping={this.state.is_typing}
-          hasInputField={false}
-          bubblesCentered={false}
-          bubbleStyles={
-            {
-              text: {
-                fontSize: 12
-              },
-              chatbubble: {
-                borderRadius: 20,
-                padding: 10,
-                margin: 15
+        <div 
+          style={divstyle}
+          ref = "a"
+        >
+          <ChatFeed
+            messages={this.state.messages}
+            isTyping={this.state.is_typing}
+            hasInputField={false}
+            bubblesCentered={false}
+            bubbleStyles={
+              {
+                text: {
+                  fontSize: 12
+                },
+                chatbubble: {
+                  borderRadius: 20,
+                  padding: 10,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  marginBottom: 5
+                }
               }
             }
-          }
-        />
+          />
+        </div>
         <TextField
           style = {style}
           className="chatinput"
           onChange={this.chatInput}
           id="chat"
           floatingLabelText="Say something"
+          ref = "b"
         />
         <RaisedButton
           label = "Post"
@@ -95,21 +120,28 @@ class Classroom extends React.Component {
           onClick={this.postChat}
          />
       </Card>
+      </form>
       </div>
     )
   }
 }
 
 const styleCard = {
-  width: '50%'
+  width: '40%'
 };
 
 const style = {
-  margin: 15
+  margin: 15,
+  width: '65%'
 };
 
 const style2 = {
   margin: 12
 };
+
+const divstyle = {
+  height:200,
+  overflow: "scroll"
+}
 
 export default Classroom;
