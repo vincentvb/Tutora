@@ -2,7 +2,7 @@ const models = require('../../db/models');
 const Bookshelf = require('../../db/Bookshelf.js')
 
 module.exports.getOne = (req, res) => {
-	Bookshelf.getOneQuestion(req.params.id, function(error, result) {
+	Bookshelf.getOneQuestion(req.user.id, function(error, result) {
 		if (error) {
 			console.log(error);
 			return res.sendStatus(500);

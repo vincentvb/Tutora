@@ -3,17 +3,36 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 
 
-const QuestionListItem = ({question}) => (
+class QuestionListItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      broadcastSocket: props.broadcastSocket
+    }
+    this.broadcast = this.broadcast.bind(this);
+  }
+
+broadcast() {
+  this.state.broadcastSocket(this.props.question.profile_id)
+}
+
+render() {
+
+return (
   <div style={style.card}>
     <Card>
       <CardHeader
-        title={question.title}
+        title={this.props.question.title}
       />
-      <CardText>{question.body} </CardText>
+    <CardText>{this.props.question.body} {this.props.question.profile_id} </CardText>
+    <FlatButton label="Answer Question" primary={true} onTouchTap={this.broadcast} />
     </Card>
   </div>
 
 )
+}
+
+}
 
 
 export default QuestionListItem

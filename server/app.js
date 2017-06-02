@@ -55,6 +55,10 @@ io.on('connection', (socket) => {
     socket.userId = data.user_id
 })
 
+  socket.on('connectionRequest', (data) => {
+    io.to('home').emit('alertMessage', data.receivingUser)
+  })
+
 
 
   socket.on('chatMessage', (data) => {
