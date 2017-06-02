@@ -21,7 +21,7 @@ class QuestionPage extends React.Component{
 
   getUserQuestions(){
     axios
-      .get('/api/questions/user/')
+      .get('/api/questions/')
       .then(response => {
         // console.log(response, "RESPONSE");
         this.setState({ questions: response.data})
@@ -39,16 +39,22 @@ class QuestionPage extends React.Component{
     // console.log(this.props.userq, "User Questions")
     // console.log(this.props.user, "Question userid")
 
+    if (this.state.questions.length > 1) {
+
     return (
 
       <div className="container">
         Question Page
-        <QuestionList questions={this.state.questions} />
+        <QuestionList questions={this.state.questions} broadcastSocket = {this.props.broadcastSocket} />
 
       </div>
     )
   }
+  else {
+    return <p>Hello</p>
+  }
 
+}
 }
 
 const mapStateToProps = (state) => ({

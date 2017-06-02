@@ -1,5 +1,6 @@
 const express = require('express');
 const middleware = require('../middleware');
+const models = require('../../db/Bookshelf.js');
 
 const router = express.Router();
 
@@ -31,8 +32,13 @@ router.route('/landingPage')
 
 router.route('/getuserinfo')
   .get(middleware.auth.verify, (req, res) => {
-    res.json(req.user)
+    res.send(JSON.stringify(req.user))
   });
+
+router.get('/getConnectionInfo', (req, res) => {
+  console.log(req.query.id)
+  models.getUser(req.query.id, res);
+})
 
 router.route('/profile')
   .get(middleware.auth.verify, (req, res) => {
@@ -91,4 +97,3 @@ function unless(path, middleware) {
 }
 
 module.exports = router;
-

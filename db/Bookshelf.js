@@ -2,7 +2,16 @@ const Profile = require('./models/profiles.js');
 const Question = require('./models/questions.js');
 
 module.exports = {
-	
+
+	getUser : (userID, res) => {
+		console.log(userID)
+		Profile
+		.where({id: userID}).fetch()
+		.then(user => {
+			res.send(user)
+		})
+	},
+
 	updateProfile : (userID, userDescription, userAvatar, userType, userFirstName, userLastName, userPhone, callback) => {
 		console.log(userID, userDescription, userAvatar, userType, userFirstName, userLastName, userPhone)
 		Profile
@@ -52,6 +61,7 @@ module.exports = {
 	},
 
 	getOneQuestion : (questionID, callback) => {
+		console.log("QUESTION", questionID);
 		Question.where({ id : questionID }).fetch()
 		.then(question => {
 			callback(null, question);
@@ -73,5 +83,3 @@ module.exports = {
 	}
 
 };
-
-

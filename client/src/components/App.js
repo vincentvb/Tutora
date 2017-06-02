@@ -15,9 +15,6 @@ class App extends React.Component {
     super(props)
   }
 
-  componentWillMount(){
-    this.props.getUserID()
-  }
 
   render () {
     // console.log('props in render:', this.props);

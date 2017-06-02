@@ -1,14 +1,17 @@
 import React from 'react';
 import QuestionListItem from './QuestionListItem.js'
 
-const QuestionList = ({questions}) => (
+const QuestionList = (props) => {
+  console.log(props.questions.length)
+ return (
   <div>
-  {questions.map(question => 
-    <QuestionListItem question={question} key={question.id} />
+  {props.questions.map(question =>
+    <QuestionListItem question={question} broadcastSocket = {props.broadcastSocket} />
   )}
    </div>
-  
+
 
 )
+}
 
 export default QuestionList;

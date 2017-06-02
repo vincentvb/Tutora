@@ -18,7 +18,6 @@ class AskQuestion extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userID: 2,
       questions: [],
       modalIsOpen: false,
       questionInput: '',
@@ -37,7 +36,7 @@ class AskQuestion extends React.Component {
     var body = {
       title: this.state.questionInput,
       body: this.state.questionDescription,
-      userid: this.state.userID,
+      userid: this.props.id,
       image: 'www.placeholder.com'
     };
 
