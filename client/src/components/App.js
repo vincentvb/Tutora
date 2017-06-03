@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Link, Switch } from 'react-router-dom'
 import AskQuestion from './AskQuestion.js';
 import Index from './Index.js';
 import $ from 'jquery';
+import axios from 'axios';
 import { Provider, connect } from 'react-redux'
 import { getUserInfo } from '../actionCreators.js';
 import Classroom from './Classroom.js'
@@ -13,11 +14,17 @@ import QuestionPage from '../containers/QuestionPage.js'
 class App extends React.Component {
   constructor(props){
     super(props)
+
   }
 
+  componentWillMount(){
+    this.props.getUserID();
+    
+  }
 
   render () {
-    // console.log('props in render:', this.props);
+    // console.log('userid prop in App:', this.props.userid)
+
     return (
       <div>
         <BrowserRouter>
@@ -29,17 +36,15 @@ class App extends React.Component {
         </BrowserRouter>
       </div>
     )
+  
   }
 
 }
 
-const mapStateToProps = (state) => ({
-  userid: state.userid
-});
 
 
 const mapDispatchToProps = dispatch => ({
   getUserID: userid => dispatch(getUserInfo())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

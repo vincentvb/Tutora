@@ -1,6 +1,8 @@
 import axios from 'axios';
 import $ from 'jquery';
 
+var userId
+
 var setUserID = function (userid){
   return { type: 'SET_USER_ID', userid }
 }
@@ -14,6 +16,7 @@ export function getUserInfo (){
     axios
       .get('/getuserinfo')
       .then(response => {
+        userId = response.data.id;
         dispatch(setUserID(response.data))
       })
       .catch(error => {
@@ -23,19 +26,25 @@ export function getUserInfo (){
   };
 }
 
-export function getUserQuestions (){
-  return dispatch => {
-    axios
-      .get('/api/questions/user/2')
-      .then(response => {
-        console.log(response.data, "GETUSERQ")
-        dispatch(setUserQ(response.data))
-      })
-      .catch(error => {
-        console.error('axios error', error)
-      });
-  }
-}
+// export function getUserInfo(userid){
+//   return dispatch => {
+//     dispatch(setUserID(userid))
+//   }
+// }
+
+// export function getUserQuestions (){
+//   return dispatch => {
+//     axios
+//       .get('/api/questions/user/2')
+//       .then(response => {
+//         // console.log(response.data, "GETUSERQ")
+//         dispatch(setUserQ(response.data))
+//       })
+//       .catch(error => {
+//         console.error('axios error', error)
+//       });
+//   }
+// }
 
 
 

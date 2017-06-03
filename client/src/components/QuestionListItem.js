@@ -3,8 +3,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
 import axios from 'axios';
-
-
+import { connect } from 'react-redux'
 
 
 class QuestionListItem extends React.Component {
@@ -23,13 +22,13 @@ class QuestionListItem extends React.Component {
   }
 
 componentDidMount() {
-  axios
-    .get(`/api/profiles/${this.props.question.profile_id}`)
-    .then(response => {
-      this.setState({userInformation: response})
-      console.log(this.props.question)
-      console.log(response);
-    })
+  // axios
+  //   .get(`/api/profiles/${this.props.question.profile_id}`)
+  //   .then(response => {
+  //     this.setState({userInformation: response})
+  //     console.log(this.props.question)
+  //     console.log(response);
+  //   })
 }
 
 broadcast() {
@@ -53,6 +52,10 @@ handleReduce () {
 };
 
 render() {
+  var label = "ANSWER QUESTION"
+  if (this.props.user.type === 'student'){
+    label = ""
+  }
 
 return (
   <div style={style.card}>
@@ -70,7 +73,7 @@ return (
           {this.props.question.body}
         </CardText>
         <CardActions>
-          <FlatButton label="Answer Question" primary={true} onTouchTap={this.broadcast} />
+          <FlatButton label={label} primary={true} onTouchTap={this.broadcast} />
         </CardActions>
       </Card>
   </div>
@@ -80,8 +83,13 @@ return (
 
 }
 
+const mapStateToProps = (state) => ({
+  user: state.userid,
+  userq: state.userquestions
+});
 
-export default QuestionListItem
+
+export default connect(mapStateToProps, null)(QuestionListItem)
 
 const style = {
   card: {

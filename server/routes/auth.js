@@ -29,6 +29,20 @@ router.route('/landingPage')
     failureFlash: true
   }));
 
+  router.route('/redirectsignup')
+    .get((req, res) => {
+      console.log("IN HERE");
+      res.redirect('/signup2');
+    });
+
+router.route('/signup2')
+  .get((req, res) => {
+    res.render('signup2.ejs')
+  })
+  .post(middleware.auth.update, (req, res) => {
+    res.redirect('/')
+  });
+
 
 router.route('/getuserinfo')
   .get(middleware.auth.verify, (req, res) => {
@@ -81,19 +95,28 @@ router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook
   failureFlash: true
 }));
 
-router.route(unless('/api/*'), '*')
-  .get(middleware.auth.verify, (req, res) => {
+router.get('/register/google', middleware.passport.authenticate('google', {
+  scope: ['email', 'profile']
+}));
+
+router.get('/register/google/callback', middleware.passport.authenticate('google', {
+  successRedirect: '/signup2',
+  failureRedirect: '/landingPage'
+}));
+
+router.get('/register/facebook', middleware.passport.authenticate('facebook', {
+  scope: ['public_profile', 'email']
+}));
+
+router.get('/register/facebook/callback', middleware.passport.authenticate('facebook', {
+  successRedirect: '/signup2',
+  failureRedirect: '/landingPage',
+  failureFlash: true
+}));
+
+router.get('*', middleware.auth.verify, (req, res) => {
     res.render('index.ejs');
   });
 
-function unless(path, middleware) {
-  return function(req, res, next) {
-    if (path === req.path) {
-        return next();
-    } else {
-        return middleware(req, res, next);
-    }
-  };
-}
 
 module.exports = router;

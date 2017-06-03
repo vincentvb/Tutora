@@ -9,6 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
+import { connect } from 'react-redux'
 
 const backgroundStyles = {
   backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)"
@@ -95,6 +96,9 @@ class Index extends React.Component {
 
 
   render() {
+
+    // console.log(this.props.userid, "USER INFO FROM REDUX")
+
     if (this.state.redirect) {
       var roomName = JSON.stringify(this.state.roomName)
       var userId = this.state.id;
@@ -106,7 +110,7 @@ class Index extends React.Component {
         }}/>
       )
     }
-    else {
+    else if (this.props.userid.id) {
     const buttonStyle = {
       position: "absolute",
       top: "0px",
@@ -133,7 +137,7 @@ class Index extends React.Component {
 
         <Nav />
         <div style={{marginLeft: "5%"}}>
-        <QuestionPage id={this.state.id} broadcastSocket = {this.broadcastSocket} />
+        <QuestionPage userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
 
 		    <AskQuestion id={this.state.id}/>
 
@@ -150,7 +154,14 @@ class Index extends React.Component {
 		)
 
    }
+ else {
+    return null
+  }
  }
 }
 
-export default Index;
+const mapStateToProps = (state) => ({
+  userid: state.userid
+});
+
+export default connect(mapStateToProps)(Index);

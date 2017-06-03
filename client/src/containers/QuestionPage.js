@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom'
 import QuestionList from '../components/QuestionList.js'
 import { getUserQuestions } from '../actionCreators.js';
 
@@ -9,25 +10,53 @@ class QuestionPage extends React.Component{
   constructor(props){
     super(props)
 
-    this.state = { questions: [] }
+    this.state = {
+      questions: [],
+      redirectToReg: false
+    }
 
-    this.getUserQuestions = this.getUserQuestions.bind(this);
+    this.getUserQuest = this.getUserQuest.bind(this);
+    this.getAllQuest = this.getAllQuest.bind(this);
   }
 
   componentDidMount(){
-    // this.props.getUserQ();
-    this.getUserQuestions();
+    var usertype = this.props.userinfo.type;
+    console.log(usertype);
+
+    if (usertype === 'tutor'){
+      this.getAllQuest();
+    } else if (usertype === 'student'){
+      this.getUserQuest();
+    } else {
+      axios
+        .get('/redirectsignup')
+        .then(response => {
+          console.log("redirected", response)
+        })
+        .catch(error => {
+           console.error('error redirect', error)
+        })
+    }
   }
 
-  getUserQuestions(){
+  getUserQuest(){
+    axios
+      .get('/api/questions/user/'+this.props.userinfo.id)
+      .then(response => {
+        this.setState({ questions: response.data})
+        console.log(response);
+        console.log(this.state.questions, "Questions")
+      })
+      .catch(error => {
+        console.error('axios error', error)
+      });
+  }
+
+  getAllQuest(){
     axios
       .get('/api/questions/')
       .then(response => {
-        // console.log(response, "RESPONSE");
         this.setState({ questions: response.data})
-        // console.log(this.props.user.id, "user id")
-        // var address = '/api/questions/'+this.props.user.id
-        // console.log(address, "address")
         console.log(this.state.questions, "Questions")
       })
       .catch(error => {
@@ -38,9 +67,9 @@ class QuestionPage extends React.Component{
   render(){
     // console.log(this.props.userq, "User Questions")
     // console.log(this.props.user, "Question userid")
-
-    if (this.state.questions.length > 1) {
-
+    console.log(this.state.questions, "QUESTIONS")
+    if (this.state.questions.length > 0) {
+      console.log("IN QUESTION STATEMENT");
     return (
 
       <div className="container">
@@ -56,13 +85,15 @@ class QuestionPage extends React.Component{
 }
 }
 
-const mapStateToProps = (state) => ({
-  user: state.userid,
-  userq: state.userquestions
-});
+export default QuestionPage
 
-const mapDispatchToProps = dispatch => ({
-  getUserQ: questions => dispatch(getUserQuestions())
-})
+// const mapStateToProps = (state) => ({
+//   user: state.userid,
+//   userq: state.userquestions
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuestionPage);
+// const mapDispatchToProps = dispatch => ({
+//   getUserQ: questions => dispatch(getUserQuestions())
+// })
+
+// export default connect(mapStateToProps, mapDispatchToProps)(QuestionPage);
