@@ -9,6 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
+import { connect } from 'react-redux'
 
 
 class Index extends React.Component {
@@ -147,4 +148,4 @@ const mapStateToProps = (state) => ({
   userid: state.userid
 });
 
-export default connect(mapStatetoProps)(Index);
+export default connect(mapStateToProps)(Index);

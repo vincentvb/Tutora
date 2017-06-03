@@ -15,6 +15,7 @@ class QuestionPage extends React.Component{
   }
 
   componentDidMount(){
+    console.log(this.props.userinfo, "USER INFO FROM REDUX")
     // this.props.getUserQ();
     this.getUserQuest();
   }
