@@ -5,7 +5,10 @@
     "start": "nodemon server",
     "test": "NODE_ENV=test grunt test",
     "build": "webpack --watch",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server",
+    "compile":  "webpack --config webpack.config.babel.js",
+    "migrateDB": "knex migrate:latest",
+    "seedDB": "knex seed:run"
   },
   "author": "Hack Reactor",
   "license": "MIT",
