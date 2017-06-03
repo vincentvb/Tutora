@@ -29,6 +29,14 @@ router.route('/landingPage')
     failureFlash: true
   }));
 
+router.route('/signup2')
+  .get((req, res) => {
+    res.render('signup2.ejs')
+  })
+  .post(middleware.auth.update, (req, res) => {
+    res.redirect('/')
+  });
+
 
 router.route('/getuserinfo')
   .get(middleware.auth.verify, (req, res) => {
@@ -67,7 +75,7 @@ router.get('/auth/google', middleware.passport.authenticate('google', {
 }));
 
 router.get('/auth/google/callback', middleware.passport.authenticate('google', {
-  successRedirect: '/',
+  successRedirect: '/signup2',
   failureRedirect: '/landingPage'
 }));
 
@@ -76,24 +84,14 @@ router.get('/auth/facebook', middleware.passport.authenticate('facebook', {
 }));
 
 router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook', {
-  successRedirect: '/',
+  successRedirect: '/signup2',
   failureRedirect: '/landingPage',
   failureFlash: true
 }));
 
-router.route(unless('/api/*'), '*')
-  .get(middleware.auth.verify, (req, res) => {
+router.get('*', middleware.auth.verify, (req, res) => {
     res.render('index.ejs');
   });
 
-function unless(path, middleware) {
-  return function(req, res, next) {
-    if (path === req.path) {
-        return next();
-    } else {
-        return middleware(req, res, next);
-    }
-  };
-}
 
 module.exports = router;
