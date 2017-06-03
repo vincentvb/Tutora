@@ -9,15 +9,6 @@ services:
       - 6379
     networks:
       - webnet
-  # postgres:
-  #   # container_name: localhost
-  #   image: "postgres:9.4"
-  #   environment:
-  #     POSTGRES_PASSWORD: postgres
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_DB: thesis
-  #   networks:
-  #     - webnet
   db:
     image: postgres
     ports:
@@ -28,6 +19,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: thesis
+    volumes: 
+      - db-data:/var/lib/postgresql/data
     # It actually need to be on the same fucking network:
     networks:
       - webnet
@@ -58,5 +51,7 @@ services:
       - DOCKER=isTrue
     networks:
       - webnet
+volumes:
+  db-data:
 networks:
   webnet:
