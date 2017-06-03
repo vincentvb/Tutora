@@ -65,15 +65,13 @@ class QuestionPage extends React.Component{
   }
 
   render(){
-    // console.log(this.props.userq, "User Questions")
-    // console.log(this.props.user, "Question userid")
-    console.log(this.state.questions, "QUESTIONS")
+
     if (this.state.questions.length > 0) {
       console.log("IN QUESTION STATEMENT");
     return (
 
       <div className="container">
-        <QuestionList questions={this.state.questions} broadcastSocket = {this.props.broadcastSocket} />
+        <QuestionList userName = {this.props.userinfo.display} questions={this.state.questions} broadcastSocket = {this.props.broadcastSocket} />
 
       </div>
     )

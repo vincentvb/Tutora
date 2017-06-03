@@ -9,7 +9,9 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import Snackbar from 'material-ui/Snackbar';
+
 
 const backgroundStyles = {
   backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)"
@@ -22,13 +24,15 @@ class Index extends React.Component {
     this.state = {
       redirect: false,
     	id: 2,
-      open: false
+      open: false,
+      snackBar: true
     };
     this.redirect = this.redirect.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.getUserInfo = this.getUserInfo.bind(this);
     this.broadcastSocket = this.broadcastSocket.bind(this);
+    this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
   }
 
 
@@ -51,6 +55,12 @@ class Index extends React.Component {
         context.setState({id: response.data.id})
       })
   }
+
+  handleSnackBarClose () {
+    this.setState({
+      snackBar: false,
+    });
+  };
 
   handleOpen() {
     this.setState({open: true});
@@ -96,6 +106,7 @@ class Index extends React.Component {
 
 
   render() {
+    console.log(this.props.userid)
 
     // console.log(this.props.userid, "USER INFO FROM REDUX")
 
@@ -118,6 +129,14 @@ class Index extends React.Component {
       color: "white"
 
     }
+    const snackBarStyle = {
+      top: 0,
+      bottom: 'auto',
+      left: (window.innerWidth - 288) / 2,
+      transform: this.props.errorMessage ?
+          'translate3d(0, 0, 0)' :
+          `translate3d(0, -50px, 0)`
+    }
     const actions = [
       <FlatButton
         label="Reject invitation"
@@ -132,7 +151,14 @@ class Index extends React.Component {
     ];
 
   	return (
-		  <div style = {{backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)", backgroundSize: "100%"}}>
+		  <div style = {{backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)", backgroundSize: "100%", backgroundRepeat: "no-repeat", backgroundAttachment: "fixed"}}>
+        <Snackbar
+          open={this.state.snackBar}
+          message={this.props.userid.type === "tutor" ? "Browse Student Questions and Engage!" : "Post a Question and Get the Answers You Need!"}
+          action="close"
+          autoHideDuration={15000}
+          onActionTouchTap={this.handleSnackBarClose}
+          />
         <a href="/logout"> <FlatButton style = {buttonStyle} label="Logout" /> </a>
 
         <Nav />

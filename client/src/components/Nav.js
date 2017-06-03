@@ -18,6 +18,8 @@ import Subheader from 'material-ui/Subheader';
 import styles from '../style.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import Drawer from 'material-ui/Drawer';
+import ActionList from 'material-ui/svg-icons/action/list';
+
 
 
 class Nav extends React.Component {
@@ -34,13 +36,24 @@ handleClose () {this.setState({open: false})};
 
 
 render() {
-
+var mediumIcon = {
+    width: 48,
+    height: 48,
+    color: "white"
+  }
+var medium = {
+    width: 96,
+    height: 96
+  }
 return(
   <div>
-      <RaisedButton
-        label="Toggle Drawer"
-        onTouchTap={this.handleToggle}
-      />
+    <IconButton
+      onTouchTap = {this.handleToggle}
+      iconStyle = {mediumIcon}
+      style = {medium}
+    >
+      <ActionList />
+    </IconButton>
     <MuiThemeProvider>
       <Drawer
         docked={false}
