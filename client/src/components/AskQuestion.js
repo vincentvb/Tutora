@@ -14,6 +14,8 @@ import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Snackbar from 'material-ui/Snackbar';
+
 
 
 
@@ -25,7 +27,8 @@ class AskQuestion extends React.Component {
       modalIsOpen: false,
       questionInput: '',
       questionTitle: '',
-      questionDescription: ''
+      questionDescription: '',
+      snackBarQuestion: false
     };
     this.postQuestion = this.postQuestion.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -33,6 +36,7 @@ class AskQuestion extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.handleQuestionInput = this.handleQuestionInput.bind(this);
     this.handleDescriptionInput = this.handleDescriptionInput.bind(this);
+    this.handleSnackBarQuestionClose = this.handleSnackBarQuestionClose.bind(this);
   }
 
   postQuestion() {
@@ -50,6 +54,8 @@ class AskQuestion extends React.Component {
     .catch(error => {
       console.log('Error while posting to the server, ', error);
     });
+
+    this.setState({snackBarQuestion: true})
 
     this.closeModal();
   }
@@ -78,6 +84,12 @@ class AskQuestion extends React.Component {
     });
   }
 
+  handleSnackBarQuestionClose () {
+    this.setState({
+      snackBarQuestion: false
+    })
+  }
+
   render() {
    const actions = [
    <FlatButton
@@ -89,32 +101,40 @@ class AskQuestion extends React.Component {
  ];
     return (
       <div>
+        <Snackbar
+          open={this.state.snackBarQuestion}
+          message="Your Question Has Been Posted!"
+          action="close"
+          autoHideDuration={5000}
+          onActionTouchTap={this.handleSnackBarQuestionClose}
+        />
         <FloatingActionButton style={style} onClick={this.openModal} >
           <ActionQuestionAnswer/>
         </FloatingActionButton>
 
         <Dialog
           title="Post Your Question"
+          titleStyle = {{textAlign: "center"}}
           actions = {actions}
           modal={false}
           open={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
         >
-          <br></br>
           <TextField
             className="questionTitle"
-            placeholder="Question"
+            fullWidth = {true}
             onChange={this.handleQuestionInput}
+            floatingLabelText="Question Description"
             id="title"
           />
-          <br></br>
           <TextField
             className="questionBody"
             onChange={this.handleDescriptionInput}
             id="description"
+            fullWidth= {true}
             multiLine={true}
-            rows={2}
-            floatingLabelText="Description"
+            rows={4}
+            floatingLabelText="Question Body"
           />
         </Dialog>
       </div>

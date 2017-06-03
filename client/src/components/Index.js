@@ -25,7 +25,8 @@ class Index extends React.Component {
       redirect: false,
     	id: 2,
       open: false,
-      snackBar: true
+      snackBar: true,
+      snackBarQuestion: false
     };
     this.redirect = this.redirect.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
@@ -34,6 +35,7 @@ class Index extends React.Component {
     this.broadcastSocket = this.broadcastSocket.bind(this);
     this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
   }
+
 
 
 
@@ -55,6 +57,7 @@ class Index extends React.Component {
         context.setState({id: response.data.id})
       })
   }
+
 
   handleSnackBarClose () {
     this.setState({
@@ -161,7 +164,7 @@ class Index extends React.Component {
           />
         <a href="/logout"> <FlatButton style = {buttonStyle} label="Logout" /> </a>
 
-        <Nav />
+        <Nav user={this.props.userid}/>
         <div style={{marginLeft: "5%"}}>
         <QuestionPage userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
 

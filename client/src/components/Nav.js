@@ -19,6 +19,7 @@ import styles from '../style.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import Drawer from 'material-ui/Drawer';
 import ActionList from 'material-ui/svg-icons/action/list';
+import axios from 'axios';
 
 
 
@@ -28,14 +29,21 @@ class Nav extends React.Component {
     super(props);
     this.state = {open: false};
     this.handleToggle = this.handleToggle.bind(this);
+    this.handleProfileRedirect = this.handleProfileRedirect.bind(this);
   }
 
 handleToggle () {this.setState({open: !this.state.open})};
 
 handleClose () {this.setState({open: false})};
 
+handleProfileRedirect () {
+  axios
+    .get('/redirectsignup');
+}
+
 
 render() {
+console.log("NAV PROPS", this.props.user);
 var mediumIcon = {
     width: 48,
     height: 48,
@@ -61,8 +69,9 @@ return(
         open={this.state.open}
         onRequestChange={(open) => this.setState({open})}
       >
-        <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
-        <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
+        <img src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50" style={{align: "center"}}/>
+        <p style={{textAlign: "center"}}>{this.props.user.display}</p>
+        <a href = "/profile"> <MenuItem onTouchTap={this.handleProfileRedirect}>Profile Page</MenuItem> </a>
     </Drawer>
     </MuiThemeProvider>
   </div>
