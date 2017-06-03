@@ -20,5 +20,8 @@ COPY . /usr/src/app
 # ARG NODE_ENV
 # ENV NODE_ENV $NODE_ENV
 
+# Creates a mount point
+VOLUME [ "/usr/src/app" ]
+
 EXPOSE 3000
 CMD ["npm", "start"]

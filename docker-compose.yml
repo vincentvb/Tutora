@@ -1,28 +1,40 @@
 version: "3"
 services:
-  web:
-    image: tutora
-    deploy:
-      replicas: 5
-      restart_policy:
-        condition: on-failure
-      resources:
-        limits:
-          cpus: "0.1"
-          memory: 50M
-    ports:
-      - "3000:3000"
-    networks:
-     - webnet
   redis:
-    image: redis
-    ports:
-      - "6379:6379"
-    #volumes:
-     # - ./data:/data
+    image: "redis:alpine"
     deploy:
       placement:
         constraints: [node.role == manager]
+    networks:
+      - webnet
+  postgres:
+    image: "postgres:9.4"
+    environment:
+     POSTGRES_DATABASE: thesis
+     POSTGRES_PASSWORD: postgres
+     POSTGRES_USER: postgres
+  web:
+    build: .
+    # image: tutora
+    # deploy:
+    #   replicas: 5
+    #   restart_policy:
+    #     condition: on-failure
+    #   resources:
+    #     limits:
+    #       cpus: "0.1"
+    #       memory: 50M
+    ports:
+      - "80:3000"
+    networks:
+     - webnet
+    volumes:
+     - .:/usr/src/app
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - COMPOSE_PROJECT_NAME=tutora
     networks:
       - webnet
 networks:

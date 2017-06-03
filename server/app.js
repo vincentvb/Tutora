@@ -4,7 +4,9 @@ const path = require('path');
 const middleware = require('./middleware');
 const routes = require('./routes');
 const redis = require('redis');
-const client = redis.createClient();
+const client = redis.createClient({
+  host: process.env.REDIS_HOST || '127.0.0.1'
+});
 
 const app = express();
 const http = require('http').Server(app);
