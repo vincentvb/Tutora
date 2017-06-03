@@ -10,15 +10,15 @@ router.route('/')
 
 router.route('/:id')
   .get(ProfileController.getOne)
-  .put(ProfileController.update)
+  .put(ProfileController.updateProfile)
 
   // .delete(ProfileController.deleteOne)
   ;
 
 router.route('/updateProfile')
-  .post(ProfileController.update)
+  .post(ProfileController.updateProfile)
 
-router.route('/update/:id')
-	.put(ProfileController.updateProfile)
+// router.route('/update/:id')
+// 	.put(ProfileController.updateProfileById)
 
 module.exports = router;

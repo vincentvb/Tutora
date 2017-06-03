@@ -24,7 +24,7 @@ router.route('/landingPage')
     res.render('landingPage.ejs')
   })
   .post(middleware.passport.authenticate('local-signup', {
-    successRedirect: '/profile',
+    successRedirect: '/',
     failureRedirect: '/landingPage',
     failureFlash: true
   }));

@@ -23,9 +23,9 @@ class QuestionPage extends React.Component{
     var usertype = this.props.userinfo.type;
     console.log(usertype);
 
-    if (usertype === 'tutor'){
+    if (usertype.toLowerCase() === 'tutor'){
       this.getAllQuest();
-    } else if (usertype === 'student'){
+    } else if (usertype.toLowerCase() === 'student'){
       this.getUserQuest();
     } else {
       axios
