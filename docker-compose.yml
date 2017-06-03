@@ -5,14 +5,32 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
+    expose:
+      - 6379
     networks:
       - webnet
-  postgres:
-    image: "postgres:9.4"
+  # postgres:
+  #   # container_name: localhost
+  #   image: "postgres:9.4"
+  #   environment:
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: thesis
+  #   networks:
+  #     - webnet
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
     environment:
-     POSTGRES_DATABASE: thesis
-     POSTGRES_PASSWORD: postgres
-     POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: thesis
+    # It actually need to be on the same fucking network:
+    networks:
+      - webnet
   web:
     build: .
     # image: tutora
@@ -24,6 +42,8 @@ services:
     #     limits:
     #       cpus: "0.1"
     #       memory: 50M
+    links:
+      - db
     ports:
       - "80:3000"
     networks:
@@ -35,6 +55,7 @@ services:
     environment:
       - REDIS_HOST=redis
       - COMPOSE_PROJECT_NAME=tutora
+      - DOCKER=isTrue
     networks:
       - webnet
 networks:

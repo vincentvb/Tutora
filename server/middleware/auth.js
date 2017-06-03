@@ -1,6 +1,8 @@
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
-const redisClient = require('redis').createClient();
+const redisClient = require('redis').createClient({
+  host: process.env.REDIS_HOST || '127.0.0.1'
+});
 const models = require('../../db/models');
 
 module.exports.verify = (req, res, next) => {
@@ -23,7 +25,7 @@ module.exports.update = (req, res, done) => {
 module.exports.session = session({
   store: new RedisStore({
     client: redisClient,
-    host: 'localhost',
+    host: process.env.REDIS_HOST || 'localhost',
     port: 6379
   }),
   secret: 'more laughter, more love, more life',
