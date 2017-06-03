@@ -1,6 +1,7 @@
 import React from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import { connect } from 'react-redux'
 
 
 class QuestionListItem extends React.Component {
@@ -17,6 +18,10 @@ broadcast() {
 }
 
 render() {
+  var label = "ANSWER QUESTION"
+  if (this.props.user.type === 'student'){
+    label = ""
+  }
 
 return (
   <div style={style.card}>
@@ -25,7 +30,7 @@ return (
         title={this.props.question.title}
       />
     <CardText>{this.props.question.body} {this.props.question.profile_id} </CardText>
-    <FlatButton label="Answer Question" primary={true} onTouchTap={this.broadcast} />
+    <FlatButton label={label} primary={true} onTouchTap={this.broadcast} />
     </Card>
   </div>
 
@@ -34,8 +39,13 @@ return (
 
 }
 
+const mapStateToProps = (state) => ({
+  user: state.userid,
+  userq: state.userquestions
+});
 
-export default QuestionListItem
+
+export default connect(mapStateToProps, null)(QuestionListItem)
 
 const style = {
   card: {
