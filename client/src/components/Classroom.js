@@ -20,21 +20,19 @@ class Classroom extends React.Component {
     this.chatInput = this.chatInput.bind(this);
     this.postChat = this.postChat.bind(this);
     this.postChatEnter = this.postChatEnter.bind(this);
-    console.log(this.state.messages);
   }
 
   componentWillMount(){
+    this.setState({currentRoom: this.props.location.search.split('&')[0]})
     this.socket = io.connect();
-
     this.socket.on('connect', (socket) => {
       this.socket.emit('roomJoin', {
-        room: 'class#',
-        user_id: this.state.id
+        room: this.props.location.search.split("&")[0],
+        user_id: this.props.location.search.split("&")[1]
       });
     });
 
     this.socket.on('newMessage', (userMessage) => {
-      console.log(userMessage);
       var newMessages = this.state.messages.slice();
       newMessages.push({id: 1, message: userMessage})
       this.setState({messages: newMessages})
@@ -54,7 +52,7 @@ class Classroom extends React.Component {
   }
 
   postChat() {
-    this.socket.emit('chatMessage', {message: this.state.userChatInput, room: 'class#'});
+    this.socket.emit('chatMessage', {message: this.state.userChatInput, room: this.state.currentRoom});
     this.setState({userChatInput: ''})
     this.refs.a.scrollTop = this.refs.a.scrollHeight;
     this.refs.b.input.value = '';
@@ -62,7 +60,7 @@ class Classroom extends React.Component {
 
   postChatEnter(e) {
     e.preventDefault();
-    this.socket.emit('chatMessage', {message: this.state.userChatInput, room: 'class#'});
+    this.socket.emit('chatMessage', {message: this.state.userChatInput, room: this.state.currentRoom});
     this.setState({userChatInput: ''})
     this.refs.a.scrollTop = this.refs.a.scrollHeight;
     this.refs.b.input.value = '';
@@ -80,7 +78,7 @@ class Classroom extends React.Component {
         <CardHeader
           title="Chat"
         />
-        <div 
+        <div
           style={divstyle}
           ref = "a"
         >

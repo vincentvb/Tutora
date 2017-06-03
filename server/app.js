@@ -49,14 +49,18 @@ io.on('connection', (socket) => {
   })
 
   socket.on('roomJoin', (data) => {
+    console.log(data);
+    socket.userId = data.user_id
     client.set(socket.userId, "in chat")
     socket.join(data.room);
     socket.room = data.room
-    socket.userId = data.user_id
 })
 
   socket.on('connectionRequest', (data) => {
-    io.to('home').emit('alertMessage', data.receivingUser)
+    io.to('home').emit('alertMessage', {
+      receivingUser: data.receivingUser,
+      roomName: data.roomName
+    })
   })
 
 

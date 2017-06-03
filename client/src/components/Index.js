@@ -29,11 +29,13 @@ class Index extends React.Component {
 
 
   broadcastSocket (userId) {
-    var context = this;
-    context.socket.emit('connectionRequest', {
+
+    this.socket.emit('connectionRequest', {
       receivingUser: userId,
-      requestUser: context.state.id
+      requestUser: this.state.id,
+      roomName: this.state.roomName
    })
+   this.setState({redirect: true})
 }
 
   getUserInfo () {
@@ -57,6 +59,8 @@ class Index extends React.Component {
 
     this.getUserInfo();
 	  this.socket = io.connect();
+    var randomRoom = Math.random() * 9999999
+    this.setState({roomName: randomRoom})
     console.log(this.socket);
 
 	  this.socket.on('connect', (socket) => {
@@ -67,9 +71,10 @@ class Index extends React.Component {
 	    });
 	  });
 
-    this.socket.on('alertMessage', (userID) => {
-      console.log("IN HERE");
-      if (userID === this.state.id) {
+    this.socket.on('alertMessage', (alert) => {
+      console.log(alert);
+      this.setState({roomName: alert.roomName})
+      if (alert.receivingUser === this.state.id) {
         this.setState({open: true})
       }
     });
@@ -80,13 +85,20 @@ class Index extends React.Component {
   }
 
   redirect() {
+    console.log("IN REDIRECT");
     this.setState({redirect: true})
   }
 
   render() {
     if (this.state.redirect) {
+      var roomName = JSON.stringify(this.state.roomName)
+      var userId = this.state.id;
+      console.log("USERID", userId)
       return (
-      <Redirect to = "/classroom" />
+        <Redirect to={{
+          pathname: '/classroom',
+          search: roomName + "&" + userId
+        }}/>
       )
     }
     else {
@@ -99,8 +111,8 @@ class Index extends React.Component {
       <FlatButton
         label="Take me to the classroom"
         primary={true}
-        onTouchTap={this.handleClose}
-      />,
+        onTouchTap={this.redirect}
+      />
     ];
 
   	return (
