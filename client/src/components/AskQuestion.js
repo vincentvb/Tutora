@@ -12,6 +12,9 @@ import Exit from 'material-ui/svg-icons/content/clear';
 import Write from 'material-ui/svg-icons/content/create';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+
 
 
 class AskQuestion extends React.Component {
@@ -76,23 +79,27 @@ class AskQuestion extends React.Component {
   }
 
   render() {
+   const actions = [
+   <FlatButton
+     label="Submit"
+     primary={true}
+     keyboardFocused={true}
+     onTouchTap={this.postQuestion}
+   />,
+ ];
     return (
       <div>
         <FloatingActionButton style={style} onClick={this.openModal} >
           <ActionQuestionAnswer/>
         </FloatingActionButton>
 
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
+        <Dialog
+          title="Post Your Question"
+          actions = {actions}
+          modal={false}
+          open={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="Modal"
         >
-          <IconButton onClick={this.closeModal} style={iconstyle}>
-            <Exit />
-          </IconButton>
-          <h3 ref={subtitle => this.subtitle = subtitle}>Ask a question</h3>
           <br></br>
           <TextField
             className="questionTitle"
@@ -109,16 +116,7 @@ class AskQuestion extends React.Component {
             rows={2}
             floatingLabelText="Description"
           />
-          <br></br>
-          <RaisedButton
-            label = "Post"
-            primary = {true}
-            style = {style2}
-            class="btn"
-            icon={<Write />}
-            onClick={this.postQuestion}
-           />
-        </Modal>
+        </Dialog>
       </div>
     )
   }

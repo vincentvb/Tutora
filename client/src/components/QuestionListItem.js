@@ -61,14 +61,12 @@ return (
   <div style={style.card}>
     <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         <CardHeader
-          title={this.props.question.title}
-          subtitle="Subtitle"
+          title={this.props.userName}
+          subtitle={this.props.question.title}
           avatar="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"
           actAsExpander={true}
           showExpandableButton={true}
         />
-        <CardText>
-        </CardText>
         <CardText expandable={true}>
           {this.props.question.body}
         </CardText>
