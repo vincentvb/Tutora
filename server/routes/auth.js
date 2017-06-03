@@ -29,6 +29,12 @@ router.route('/landingPage')
     failureFlash: true
   }));
 
+  router.route('/redirectsignup')
+    .get((req, res) => {
+      console.log("IN HERE");
+      res.redirect('/signup2');
+    });
+
 router.route('/signup2')
   .get((req, res) => {
     res.render('signup2.ejs')

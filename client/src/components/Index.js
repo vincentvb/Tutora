@@ -11,6 +11,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
 import { connect } from 'react-redux'
 
+const backgroundStyles = {
+  backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)"
+}
+
 
 class Index extends React.Component {
   constructor(props) {
@@ -90,7 +94,11 @@ class Index extends React.Component {
     this.setState({redirect: true})
   }
 
+
   render() {
+
+    // console.log(this.props.userid, "USER INFO FROM REDUX")
+
     if (this.state.redirect) {
       var roomName = JSON.stringify(this.state.roomName)
       var userId = this.state.id;
@@ -103,42 +111,50 @@ class Index extends React.Component {
       )
     }
     else if (this.props.userid.id) {
-      const actions = [
-        <FlatButton
-          label="Reject invitation"
-          primary={true}
-          onTouchTap={this.handleClose}
-        />,
-        <FlatButton
-          label="Take me to the classroom"
-          primary={true}
-          onTouchTap={this.redirect}
-        />
-      ];
+    const buttonStyle = {
+      position: "absolute",
+      top: "0px",
+      right: "0px",
+      color: "white"
 
-    	return (
-  		  <div>
-          <Nav />
-          <h1> Hello World </h1>
-          <QuestionPage userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
-  		    <h2> Questions </h2>
-          <p onClick={this.redirect}>Clickity click</p>
-  		    <AskQuestion id={this.state.id}/>
+    }
+    const actions = [
+      <FlatButton
+        label="Reject invitation"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label="Take me to the classroom"
+        primary={true}
+        onTouchTap={this.redirect}
+      />
+    ];
 
-          {/* Delete me (RaisedButton) when you hook up the Dialog Modal to render automatically */}
-          <RaisedButton label="Tutor Clicks To Answer" onTouchTap={this.broadcastSocket} />
-          <RaisedButton label="Student Receives Tutor" onTouchTap={this.handleOpen} />
-          <Dialog
-            title="We found a tutor for your question!"
-            actions={actions}
-            modal={true}
-            open={this.state.open}
-          >
-            Accept and go to the classroom or wait.
-          </Dialog>
-  		  </div>
-  		)
-  } else {
+  	return (
+		  <div style = {{backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)", backgroundSize: "100%"}}>
+        <a href="/logout"> <FlatButton style = {buttonStyle} label="Logout" /> </a>
+
+        <Nav />
+        <div style={{marginLeft: "5%"}}>
+        <QuestionPage userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
+
+		    <AskQuestion id={this.state.id}/>
+
+        <Dialog
+          title="We found a tutor for your question!"
+          actions={actions}
+          modal={true}
+          open={this.state.open}
+        >
+          Accept and go to the classroom or wait.
+        </Dialog>
+      </div>
+		  </div>
+		)
+
+   }
+ else {
     return null
   }
  }
