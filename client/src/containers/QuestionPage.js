@@ -44,7 +44,6 @@ class QuestionPage extends React.Component{
     return (
 
       <div className="container">
-        Question Page
         <QuestionList questions={this.state.questions} broadcastSocket = {this.props.broadcastSocket} />
 
       </div>

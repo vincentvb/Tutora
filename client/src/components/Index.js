@@ -10,6 +10,10 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
 
+const backgroundStyles = {
+  backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)"
+}
+
 
 class Index extends React.Component {
   constructor(props) {
@@ -89,6 +93,7 @@ class Index extends React.Component {
     this.setState({redirect: true})
   }
 
+
   render() {
     if (this.state.redirect) {
       var roomName = JSON.stringify(this.state.roomName)
@@ -102,6 +107,13 @@ class Index extends React.Component {
       )
     }
     else {
+    const buttonStyle = {
+      position: "absolute",
+      top: "0px",
+      right: "0px",
+      color: "white"
+
+    }
     const actions = [
       <FlatButton
         label="Reject invitation"
@@ -116,17 +128,15 @@ class Index extends React.Component {
     ];
 
   	return (
-		  <div>
+		  <div style = {{backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)", backgroundSize: "100%"}}>
+        <a href="/logout"> <FlatButton style = {buttonStyle} label="Logout" /> </a>
+
         <Nav />
-        <h1> Hello World </h1>
+        <div style={{marginLeft: "5%"}}>
         <QuestionPage id={this.state.id} broadcastSocket = {this.broadcastSocket} />
-		    <h2> Questions </h2>
-        <p onClick={this.redirect}>Clickity click</p>
+
 		    <AskQuestion id={this.state.id}/>
 
-        {/* Delete me (RaisedButton) when you hook up the Dialog Modal to render automatically */}
-        <RaisedButton label="Tutor Clicks To Answer" onTouchTap={this.broadcastSocket} />
-        <RaisedButton label="Student Receives Tutor" onTouchTap={this.handleOpen} />
         <Dialog
           title="We found a tutor for your question!"
           actions={actions}
@@ -135,6 +145,7 @@ class Index extends React.Component {
         >
           Accept and go to the classroom or wait.
         </Dialog>
+      </div>
 		  </div>
 		)
 
