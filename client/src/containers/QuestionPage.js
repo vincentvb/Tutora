@@ -12,23 +12,46 @@ class QuestionPage extends React.Component{
     this.state = { questions: [] }
 
     this.getUserQuest = this.getUserQuest.bind(this);
+    this.getAllQuest = this.getAllQuest.bind(this);
   }
 
   componentDidMount(){
     console.log(this.props.userinfo, "USER INFO FROM REDUX")
-    // this.props.getUserQ();
-    this.getUserQuest();
+    var usertype = this.props.userinfo.type;
+    
+    if (usertype === 'tutor'){
+      this.getAllQuest();
+    } else if (usertype === 'student'){
+      this.getUserQuest();
+    } else {
+        axios
+          .get('/signup2')
+          .then(response => {
+            console.log("redirected to finish registration")
+          })
+          .catch(error => {
+            console.error('signup redirect error', error)
+          })
+    }
   }
 
   getUserQuest(){
     axios
+      .get('/api/questions/user/'+this.props.userinfo.id)
+      .then(response => {
+        this.setState({ questions: response.data})
+        console.log(this.state.questions, "Questions")
+      })
+      .catch(error => {
+        console.error('axios error', error)
+      });
+  }
+
+  getAllQuest(){
+    axios
       .get('/api/questions/')
       .then(response => {
-        // console.log(response, "RESPONSE");
         this.setState({ questions: response.data})
-        // console.log(this.props.user.id, "user id")
-        // var address = '/api/questions/'+this.props.user.id
-        // console.log(address, "address")
         console.log(this.state.questions, "Questions")
       })
       .catch(error => {

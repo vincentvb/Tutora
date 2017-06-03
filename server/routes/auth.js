@@ -75,7 +75,7 @@ router.get('/auth/google', middleware.passport.authenticate('google', {
 }));
 
 router.get('/auth/google/callback', middleware.passport.authenticate('google', {
-  successRedirect: '/signup2',
+  successRedirect: '/',
   failureRedirect: '/landingPage'
 }));
 
@@ -84,6 +84,25 @@ router.get('/auth/facebook', middleware.passport.authenticate('facebook', {
 }));
 
 router.get('/auth/facebook/callback', middleware.passport.authenticate('facebook', {
+  successRedirect: '/',
+  failureRedirect: '/landingPage',
+  failureFlash: true
+}));
+
+router.get('/register/google', middleware.passport.authenticate('google', {
+  scope: ['email', 'profile']
+}));
+
+router.get('/register/google/callback', middleware.passport.authenticate('google', {
+  successRedirect: '/signup2',
+  failureRedirect: '/landingPage'
+}));
+
+router.get('/register/facebook', middleware.passport.authenticate('facebook', {
+  scope: ['public_profile', 'email']
+}));
+
+router.get('/register/facebook/callback', middleware.passport.authenticate('facebook', {
   successRedirect: '/signup2',
   failureRedirect: '/landingPage',
   failureFlash: true
