@@ -9,6 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
+import { connect } from 'react-redux'
 
 
 class Index extends React.Component {
@@ -101,45 +102,50 @@ class Index extends React.Component {
         }}/>
       )
     }
-    else {
-    const actions = [
-      <FlatButton
-        label="Reject invitation"
-        primary={true}
-        onTouchTap={this.handleClose}
-      />,
-      <FlatButton
-        label="Take me to the classroom"
-        primary={true}
-        onTouchTap={this.redirect}
-      />
-    ];
+    else if (this.props.userid.id) {
+      const actions = [
+        <FlatButton
+          label="Reject invitation"
+          primary={true}
+          onTouchTap={this.handleClose}
+        />,
+        <FlatButton
+          label="Take me to the classroom"
+          primary={true}
+          onTouchTap={this.redirect}
+        />
+      ];
 
-  	return (
-		  <div>
-        <Nav />
-        <h1> Hello World </h1>
-        <QuestionPage id={this.state.id} broadcastSocket = {this.broadcastSocket} />
-		    <h2> Questions </h2>
-        <p onClick={this.redirect}>Clickity click</p>
-		    <AskQuestion id={this.state.id}/>
+    	return (
+  		  <div>
+          <Nav />
+          <h1> Hello World </h1>
+          <QuestionPage userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
+  		    <h2> Questions </h2>
+          <p onClick={this.redirect}>Clickity click</p>
+  		    <AskQuestion id={this.state.id}/>
 
-        {/* Delete me (RaisedButton) when you hook up the Dialog Modal to render automatically */}
-        <RaisedButton label="Tutor Clicks To Answer" onTouchTap={this.broadcastSocket} />
-        <RaisedButton label="Student Receives Tutor" onTouchTap={this.handleOpen} />
-        <Dialog
-          title="We found a tutor for your question!"
-          actions={actions}
-          modal={true}
-          open={this.state.open}
-        >
-          Accept and go to the classroom or wait.
-        </Dialog>
-		  </div>
-		)
-
-   }
+          {/* Delete me (RaisedButton) when you hook up the Dialog Modal to render automatically */}
+          <RaisedButton label="Tutor Clicks To Answer" onTouchTap={this.broadcastSocket} />
+          <RaisedButton label="Student Receives Tutor" onTouchTap={this.handleOpen} />
+          <Dialog
+            title="We found a tutor for your question!"
+            actions={actions}
+            modal={true}
+            open={this.state.open}
+          >
+            Accept and go to the classroom or wait.
+          </Dialog>
+  		  </div>
+  		)
+  } else {
+    return null
+  }
  }
 }
 
-export default Index;
+const mapStateToProps = (state) => ({
+  userid: state.userid
+});
+
+export default connect(mapStateToProps)(Index);

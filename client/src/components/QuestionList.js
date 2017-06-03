@@ -6,7 +6,7 @@ const QuestionList = (props) => {
  return (
   <div>
   {props.questions.map(question =>
-    <QuestionListItem question={question} broadcastSocket = {props.broadcastSocket} />
+    <QuestionListItem key={question.id} question={question} broadcastSocket = {props.broadcastSocket} />
   )}
    </div>
 

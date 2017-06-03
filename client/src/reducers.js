@@ -4,7 +4,7 @@ const DEFAULT_STATE = {
   userid: {}
 }
 
-const useridReducer = (state= {}, action) => {
+const userid = (state= {}, action) => {
   switch(action.type) {
     case ('SET_USER_ID') : return action.userid
     default : return state
@@ -16,7 +16,7 @@ const useridReducer = (state= {}, action) => {
 };
 
 
-const userqReducer = (state= [], action) => {
+const userq = (state= [], action) => {
   // if (action.type === 'SET_USER_Q'){
   //   console.log(action.userquestions, "USERQ CHECK ON REDUCER")
   // }
@@ -31,7 +31,7 @@ const userqReducer = (state= [], action) => {
 };
 
 
-const rootReducer = combineReducers( { useridReducer, userqReducer } );
+const rootReducer = combineReducers( { userid, userq } );
 
 
 export default rootReducer

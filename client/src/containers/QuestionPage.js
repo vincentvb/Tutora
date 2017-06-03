@@ -11,15 +11,16 @@ class QuestionPage extends React.Component{
 
     this.state = { questions: [] }
 
-    this.getUserQuestions = this.getUserQuestions.bind(this);
+    this.getUserQuest = this.getUserQuest.bind(this);
   }
 
   componentDidMount(){
+    console.log(this.props.userinfo, "USER INFO FROM REDUX")
     // this.props.getUserQ();
-    this.getUserQuestions();
+    this.getUserQuest();
   }
 
-  getUserQuestions(){
+  getUserQuest(){
     axios
       .get('/api/questions/')
       .then(response => {
@@ -57,13 +58,15 @@ class QuestionPage extends React.Component{
 }
 }
 
-const mapStateToProps = (state) => ({
-  user: state.userid,
-  userq: state.userquestions
-});
+export default QuestionPage
 
-const mapDispatchToProps = dispatch => ({
-  getUserQ: questions => dispatch(getUserQuestions())
-})
+// const mapStateToProps = (state) => ({
+//   user: state.userid,
+//   userq: state.userquestions
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuestionPage);
+// const mapDispatchToProps = dispatch => ({
+//   getUserQ: questions => dispatch(getUserQuestions())
+// })
+
+// export default connect(mapStateToProps, mapDispatchToProps)(QuestionPage);
