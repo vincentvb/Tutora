@@ -5,8 +5,9 @@ import { ChatFeed, Message } from 'react-chat-ui'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {GridList} from 'material-ui/GridList';
+import { connect } from 'react-redux'
 
-class Classroom extends React.Component {
+class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,12 +24,13 @@ class Classroom extends React.Component {
   }
 
   componentWillMount(){
-    this.setState({currentRoom: this.props.location.search.split('&')[0]})
+    var roomName = this.props.location;
+    this.setState({currentRoom: roomName.split('&')[0]})
     this.socket = io.connect();
     this.socket.on('connect', (socket) => {
       this.socket.emit('roomJoin', {
-        room: this.props.location.search.split("&")[0],
-        user_id: this.props.location.search.split("&")[1]
+        room: roomName.split("&")[0],
+        user_id: roomName.split("&")[1]
       });
     });
 
@@ -73,60 +75,60 @@ class Classroom extends React.Component {
   render() {
     return (
       <div>
-      <form onSubmit={this.postChatEnter}>
-      <Card style={styleCard}>
-        <CardHeader
-          title="Chat"
-        />
-        <div
-          style={divstyle}
-          ref = "a"
-        >
-          <ChatFeed
-            messages={this.state.messages}
-            isTyping={this.state.is_typing}
-            hasInputField={false}
-            bubblesCentered={false}
-            bubbleStyles={
-              {
-                text: {
-                  fontSize: 12
-                },
-                chatbubble: {
-                  borderRadius: 20,
-                  padding: 10,
-                  marginLeft: 15,
-                  marginRight: 15,
-                  marginBottom: 5
-                }
-              }
-            }
+        <form onSubmit={this.postChatEnter}>
+        <Card>
+          <CardHeader
+            title="Chat"
           />
-        </div>
-        <TextField
-          style = {style}
-          className="chatinput"
-          onChange={this.chatInput}
-          id="chat"
-          floatingLabelText="Say something"
-          ref = "b"
-        />
-        <RaisedButton
-          label = "Post"
-          primary = {true}
-          style = {style2}
-          onClick={this.postChat}
-         />
-      </Card>
-      </form>
+          <div style={styles.chat} ref = "a">
+            <ChatFeed
+              messages={this.state.messages}
+              isTyping={this.state.is_typing}
+              hasInputField={false}
+              bubblesCentered={false}
+              bubbleStyles={styles.bubbleStyles}
+            />
+          </div>
+          <TextField
+            style = {style}
+            className="chatinput"
+            onChange={this.chatInput}
+            id="chat"
+            floatingLabelText="Say something"
+            ref = "b"
+          />
+          <RaisedButton
+            label = "Post"
+            primary = {true}
+            style = {style2}
+            onClick={this.postChat}
+           />
+        </Card>
+        </form>
       </div>
     )
   }
 }
 
-const styleCard = {
-  width: '40%'
-};
+const styles = {
+
+  chat: {
+    height:200,
+    overflow: "scroll"
+  },
+  bubbleStyles: {
+    text: {
+      fontSize: 12
+    },
+    chatbubble: {
+      borderRadius: 20,
+      padding: 10,
+      marginLeft: 15,
+      marginRight: 15,
+      marginBottom: 5
+    }
+  }
+}
 
 const style = {
   margin: 15,
@@ -137,9 +139,9 @@ const style2 = {
   margin: 12
 };
 
-const divstyle = {
-  height:200,
-  overflow: "scroll"
-}
+const mapStateToProps = (state) => ({
+  location: state.location
+});
 
-export default Classroom;
+
+export default connect(mapStateToProps, null)(Chat);

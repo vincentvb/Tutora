@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom'
 import AskQuestion from './AskQuestion.js';
-import Classroom from './Classroom.js'
+import Classroom from '../containers/Classroom.js'
 import Nav from './Nav.js'
 import QuestionPage from '../containers/QuestionPage.js'
 import Dialog from 'material-ui/Dialog';
@@ -11,10 +11,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
+import { setRoomLocation } from '../actionCreators.js'
 
 
 const backgroundStyles = {
-  backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)"
+  backgroundImage: "url('../public/assets/Questionmark.jpeg')"
+  // backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)"
 }
 
 
@@ -40,6 +42,8 @@ class Index extends React.Component {
 
 
   broadcastSocket (userId) {
+    console.log(this.props.questionerid, "QUESTIONER ID")
+    console.log(userId, "STATE QUESTIONER ID")
 
     this.socket.emit('connectionRequest', {
       receivingUser: userId,
@@ -70,7 +74,9 @@ class Index extends React.Component {
   };
 
   handleClose() {
+    // also reset the Answerer to null 
     this.setState({open: false});
+    
   };
 
   componentWillMount() {
@@ -109,18 +115,17 @@ class Index extends React.Component {
 
 
   render() {
-    console.log(this.props.userid)
+    // console.log(this.props.userid)
 
     // console.log(this.props.userid, "USER INFO FROM REDUX")
 
     if (this.state.redirect) {
       var roomName = JSON.stringify(this.state.roomName)
-      var userId = this.state.id;
-      console.log("USERID", userId)
+      var search = roomName + "&" + this.props.userid.id;
+      this.props.setRoomLocation(search)
       return (
         <Redirect to={{
-          pathname: '/classroom',
-          search: roomName + "&" + userId
+          pathname: '/classroom'
         }}/>
       )
     }
@@ -166,9 +171,9 @@ class Index extends React.Component {
 
         <Nav user={this.props.userid}/>
         <div style={{marginLeft: "5%"}}>
-        <QuestionPage userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
+        <QuestionPage userinfo={this.props.userid} id={this.props.userid.id} broadcastSocket = {this.broadcastSocket} />
 
-		    <AskQuestion id={this.state.id}/>
+		    <AskQuestion id={this.props.userid.id}/>
 
         <Dialog
           title="We found a tutor for your question!"
@@ -190,7 +195,12 @@ class Index extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userid: state.userid
+  userid: state.userid, 
+  questionerid: state.questioner
 });
 
-export default connect(mapStateToProps)(Index);
+const mapDispatchToProps = dispatch => ({
+  setRoomLocation: location => dispatch(setRoomLocation(location))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

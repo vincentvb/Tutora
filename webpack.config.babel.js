@@ -22,7 +22,18 @@ const config = {
             }
           }
         ]
+      },
+      { test: /\.css$/,
+        loader: 'style-loader!css-loader'
       }
+      // {
+      //   test: /\.css?/, 
+      //   use: [
+      //     {
+      //       loader: 'style-loader!css-loader'
+      //     }
+      //   ]
+      // }
     ]
   }
 };

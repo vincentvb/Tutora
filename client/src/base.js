@@ -5,12 +5,9 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider, connect } from 'react-redux'
-import Index from './components/Index.js';
-import Classroom from './components/Classroom.js'
-import AskQuestion from './components/AskQuestion.js';
-
 import store from './store';
-import App from './components/App.js'
+import App from './components/App.js';
+import Style from '!style-loader!css-loader!./style.css';
 
 
 
