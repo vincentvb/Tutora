@@ -12,23 +12,24 @@ class QuestionListItem extends React.Component {
     this.state = {
       broadcastSocket: props.broadcastSocket,
       expanded: false,
-      userInformation: {}
+      userInformation: {},
+      questionUserName: "",
+      questionAvatar: null
     }
     this.broadcast = this.broadcast.bind(this);
     this.handleExpandChange = this.handleExpandChange.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
-    this.handleExand = this.handleExpand.bind(this);
+    this.handleExpand = this.handleExpand.bind(this);
     this.handleReduce = this.handleReduce.bind(this);
   }
 
 componentDidMount() {
-  // axios
-  //   .get(`/api/profiles/${this.props.question.profile_id}`)
-  //   .then(response => {
-  //     this.setState({userInformation: response})
-  //     console.log(this.props.question)
-  //     console.log(response);
-  //   })
+  axios
+    .get(`/api/profiles/${this.props.question.profile_id}`)
+    .then(response => {
+      this.setState({questionUserName: response.data.display})
+      this.setState({questionAvatar: response.data.avatar})
+    })
 }
 
 broadcast() {
@@ -51,6 +52,8 @@ handleReduce () {
   this.setState({expanded: false});
 };
 
+
+
 render() {
   var label = "ANSWER QUESTION"
   if (this.props.user.type === 'student'){
@@ -61,16 +64,16 @@ return (
   <div style={style.card}>
     <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         <CardHeader
-          title={this.props.userName}
+          title={this.state.questionUserName}
           subtitle={this.props.question.title}
-          avatar="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"
+          avatar={this.state.questionAvatar || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"}
           actAsExpander={true}
           showExpandableButton={true}
         />
         <CardText expandable={true}>
-          {this.props.question.body}
+          <p style={{fontSize: "30px;"}}>{this.props.question.body}</p>
         </CardText>
-        <CardActions>
+        <CardActions expandable = {true}>
           <FlatButton label={label} primary={true} onTouchTap={this.broadcast} />
         </CardActions>
       </Card>
