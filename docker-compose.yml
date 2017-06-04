@@ -49,6 +49,7 @@ services:
       - REDIS_HOST=redis
       - COMPOSE_PROJECT_NAME=tutora
       - DOCKER=isTrue
+    command: npm run migrateDB
     networks:
       - webnet
 volumes:
