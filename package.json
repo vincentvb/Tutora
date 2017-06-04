@@ -7,7 +7,7 @@
     "build": "webpack --watch",
     "dev": "webpack-dev-server",
     "compile":  "webpack --config webpack.config.babel.js",
-    "migrateDB": "knex migrate:latest",
+    "migrateDB": "knex migrate:latest && nodemon server",
     "seedDB": "knex seed:run"
   },
   "author": "Hack Reactor",
