@@ -42,7 +42,7 @@ module.exports.getOne = (req, res) => {
     });
 };
 
-module.exports.update = (req, res) => {
+module.exports.updateProfile = (req, res) => {
   console.log(req.body);
   models.Profile.where({ id: req.body.id }).fetch()
     .then(profile => {
@@ -55,6 +55,7 @@ module.exports.update = (req, res) => {
         display: req.body.display || profile.display,
         email: req.body.email || profile.email,
         phone: req.body.phone || profile.phone,
+        type: req.body.type || profile.type,
         description: req.body.description || profile.description,
         avatar: req.body.avatar || profile.avatar
       }, { method: 'update' });
@@ -90,14 +91,15 @@ module.exports.update = (req, res) => {
 // };
 
 // This works when you do a put on: http://localhost:3000/api/profiles/update/4
-module.exports.updateProfile = (req, res) => {
-  console.log('inside updaterrr, ', req.headers.userdescription);
-  Bookshelf.updateProfile(Number(req.params.id), req.headers.userdescription, req.headers.useravatar, req.headers.usertype, req.headers.userfirstname, req.headers.userlastname, req.headers.userphone, function (error, result) {
-    if (error) {
-      return res.sendStatus(500);
-      console.log(error);
-    }
-    return res.sendStatus(201);
-    console.log('The users profile where updated, ' + result);
-  });
-};
+// This is not currently being used. 
+// module.exports.updateProfileById = (req, res) => {
+//   console.log('IN HERE');
+//   Bookshelf.updateProfile(Number(req.params.id), req.headers.userdescription, req.headers.useravatar, req.headers.usertype, req.headers.userfirstname, req.headers.userlastname, req.headers.userphone, function (error, result) {
+//     if (error) {
+//       return res.sendStatus(500);
+//       console.log(error);
+//     }
+//     return res.sendStatus(201);
+//     console.log('The users profile where updated, ' + result);
+//   });
+// };

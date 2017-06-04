@@ -15,7 +15,6 @@ import ContentFilter from 'material-ui/svg-icons/content/filter-list';
 import Checkbox from 'material-ui/Checkbox';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import styles from '../style.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import Drawer from 'material-ui/Drawer';
 import ActionList from 'material-ui/svg-icons/action/list';

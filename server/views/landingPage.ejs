@@ -3,6 +3,10 @@
 <head>
 <title>Tutora</title>
 <style>
+
+@import url('https://fonts.googleapis.com/css?family=Vibur');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 body {
   background-image: url("https://static.pexels.com/photos/226588/pexels-photo-226588.jpeg");
   background-size: 100%;
@@ -18,7 +22,16 @@ body {
 body h1 {
   color: white;
   text-align: center;
+  font-family: 'Vibur', cursive;
+  font-weight: bold;
 }
+
+.subtitle {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+}
+
 .panel-login {
 	border-color: #ccc;
 	-webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
@@ -116,6 +129,7 @@ body h1 {
 	border-color: #1CA347;
 }
 .topDiv {
+  margin: 20px;
   opacity:0.91;
 }
 </style>
@@ -160,7 +174,8 @@ document.getElementById("type").defaultValue = "student";
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
 </head>
 <body>
-  <h1>Welcome to Tutora!</h1>
+  <h1>Tutora</h1>
+  <p class="subtitle"> The place to get your questions answered by a tutor</p>
   <div class="container topDiv">
       	<div class="row">
   			<div class="col-md-6 col-md-offset-3">
@@ -223,14 +238,8 @@ document.getElementById("type").defaultValue = "student";
                       <input type="text" name="last" id="lastname" tabindex="1" class="form-control" placeholder="Last Name" value="">
                     </div>
   									<div class="form-group">
-  										<input type="text" name="display" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
-  									</div>
-  									<div class="form-group">
   										<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
   									</div>
-                    <div class="form-group">
-                      <input type="text" name="phone" id="lastname" tabindex="1" class="form-control" placeholder="Phone Number (e.g. 123-456-7890") value="">
-                    </div>
   									<div class="form-group">
   										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
   									</div>

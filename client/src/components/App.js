@@ -7,7 +7,7 @@ import $ from 'jquery';
 import axios from 'axios';
 import { Provider, connect } from 'react-redux'
 import { getUserInfo } from '../actionCreators.js';
-import Classroom from './Classroom.js'
+import Classroom from '../containers/Classroom.js'
 import Nav from './Nav.js'
 import QuestionPage from '../containers/QuestionPage.js'
 
