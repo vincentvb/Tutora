@@ -21,6 +21,23 @@ class Chat extends React.Component {
     this.chatInput = this.chatInput.bind(this);
     this.postChat = this.postChat.bind(this);
     this.postChatEnter = this.postChatEnter.bind(this);
+
+    // To handle logic around who the sender and the receiver is
+    this.messageCache = {};
+    this.cacheInput = this.cacheInput.bind(this);
+    this.checkIfExist = this.checkIfExist.bind(this);
+  }
+
+  cacheInput(message) {
+    var d = new Date();
+    var messageWithSec = message + d.getSeconds();
+    this.messageCache[messageWithSec] = messageWithSec;
+  }
+
+  checkIfExist(message) {
+    var d = new Date();
+    var messageWithSec = message + d.getSeconds();
+    return messageWithSec in this.messageCache;
   }
 
   componentWillMount(){
@@ -35,12 +52,22 @@ class Chat extends React.Component {
     });
 
     this.socket.on('newMessage', (userMessage) => {
-      var newMessages = this.state.messages.slice();
-      newMessages.push({id: 1, message: userMessage})
-      this.setState({messages: newMessages})
-      this.refs.a.scrollTop = this.refs.a.scrollHeight;
-      this.setState({userChatInput: ''})
-    })
+      if (this.checkIfExist(userMessage)) {
+        var newMessages = this.state.messages.slice();
+        newMessages.push({id: 0, message: userMessage});
+        this.setState({messages: newMessages});
+        this.refs.a.scrollTop = this.refs.a.scrollHeight;
+        this.setState({userChatInput: ''});
+      } else {
+        var newMessages = this.state.messages.slice();
+        newMessages.push({id: 1, message: userMessage});
+        this.setState({messages: newMessages});
+        this.refs.a.scrollTop = this.refs.a.scrollHeight;
+        this.setState({userChatInput: ''});
+        this.cacheInput(userMessage);
+      }
+
+    });
   }
 
   componentDidMount() {
@@ -58,6 +85,8 @@ class Chat extends React.Component {
     this.setState({userChatInput: ''})
     this.refs.a.scrollTop = this.refs.a.scrollHeight;
     this.refs.b.input.value = '';
+
+    this.cacheInput(this.state.userChatInput);
   }
 
   postChatEnter(e) {
@@ -66,6 +95,8 @@ class Chat extends React.Component {
     this.setState({userChatInput: ''})
     this.refs.a.scrollTop = this.refs.a.scrollHeight;
     this.refs.b.input.value = '';
+
+    this.cacheInput(this.state.userChatInput);
   }
 
   componentWillUnmount() {
