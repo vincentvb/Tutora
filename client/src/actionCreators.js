@@ -26,6 +26,18 @@ export function getUserInfo (){
   };
 }
 
+export const setRoomLocation = (location) => {
+  return { type: 'SET_LOCATION', location}
+}
+
+export const setQuestioner = (questionerid) => {
+  return { type: 'SET_QUESTIONER', questionerid}
+}
+
+export const setAnswerer = (answerername) => {
+  return { type: 'SET_ANSWERER', answerername}
+}
+
 // export function getUserInfo(userid){
 //   return dispatch => {
 //     dispatch(setUserID(userid))

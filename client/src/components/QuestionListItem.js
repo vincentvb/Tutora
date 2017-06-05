@@ -3,7 +3,8 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
 import axios from 'axios';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { setQuestioner, setAnswerer } from '../actionCreators.js'
 
 
 class QuestionListItem extends React.Component {
@@ -25,15 +26,24 @@ class QuestionListItem extends React.Component {
 
 componentDidMount() {
   axios
-    .get(`/api/profiles/${this.props.question.profile_id}`)
-    .then(response => {
-      this.setState({questionUserName: response.data.display})
-      this.setState({questionAvatar: response.data.avatar})
-    })
+  .get(`/api/profiles/${this.props.question.profile_id}`)
+  .then(response => {
+    this.setState({ questionUserName: response.data.display })
+    this.setState({ questionAvatar: response.data.avatar })
+  })
+
 }
 
 broadcast() {
-  this.state.broadcastSocket(this.props.question.profile_id)
+  axios
+  .get(`/api/profiles/${this.props.question.profile_id}`)
+  .then(response => {
+    this.props.setQuestioner(response.data.display);
+  })
+
+  this.state.broadcastSocket(this.props.question.profile_id);
+  this.props.setAnswerer(this.props.user.display)
+
 }
 
 handleExpandChange (expanded) {
@@ -56,7 +66,7 @@ handleReduce () {
 
 render() {
   var label = "ANSWER QUESTION"
-  if (this.props.user.type === 'student'){
+  if (this.props.user.type.toLowerCase() === 'student'){
     label = ""
   }
 
@@ -86,11 +96,16 @@ return (
 
 const mapStateToProps = (state) => ({
   user: state.userid,
-  userq: state.userquestions
+  questioner: state.questioner
 });
 
+const mapDispatchToProps = dispatch => ({
+  setQuestioner: questionerid => dispatch(setQuestioner(questionerid)), 
+  setAnswerer: answerername => dispatch(setAnswerer(answerername))
+})
 
-export default connect(mapStateToProps, null)(QuestionListItem)
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionListItem)
 
 const style = {
   card: {

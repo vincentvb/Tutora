@@ -38,7 +38,7 @@ client.on('connect', () => {
 })
 
 http.listen(3000, () => {
-  console.log("listening on 3000")
+  console.log("listening on 3000 (or 80 if you are running me Docker)")
 })
 
 io.on('connection', (socket) => {

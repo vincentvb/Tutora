@@ -24,9 +24,7 @@ class QuestionPage extends React.Component {
     this.updateQuestions()
     var usertype = this.props.userinfo.type
     this.props.socket.on('updateQuestions', () => {
-      if (usertype === "tutor") {
-        this.updateQuestions()
-       }
+      this.updateQuestions()
      })
    }
 
@@ -46,7 +44,8 @@ updateQuestions() {
     .catch(error => {
       console.error('error redirect', error)
     })
-  }
+
+ }
 }
 
   getUserQuest(){
@@ -76,32 +75,33 @@ updateQuestions() {
 
   render(){
 
+    // console.log(this.props.userq, "User Questions")
+    // console.log(this.props.user, "Question userid")
+    // console.log(this.state.questions, "QUESTIONS")
+
     if (this.state.questions.length > 0) {
-      console.log("IN QUESTION STATEMENT");
-    return (
+      return (
 
-      <div className="container">
-        <QuestionList userName = {this.props.userinfo.display} questions={this.state.questions} broadcastSocket = {this.props.broadcastSocket} />
+        <div className="container">
+          <QuestionList userName= {this.props.userinfo.display} questions={this.state.questions} broadcastSocket = {this.props.broadcastSocket} />
+        </div>
+      )
+    } else {
+      return <p>Hello</p>
+    }
 
-      </div>
-    )
   }
-  else {
-    return <p>Hello</p>
-  }
-
-}
 }
 
-export default QuestionPage
 
-// const mapStateToProps = (state) => ({
-//   user: state.userid,
-//   userq: state.userquestions
-// });
 
-// const mapDispatchToProps = dispatch => ({
-//   getUserQ: questions => dispatch(getUserQuestions())
-// })
+const mapStateToProps = (state) => ({
+  user: state.userid,
+  userq: state.userquestions
+});
 
-// export default connect(mapStateToProps, mapDispatchToProps)(QuestionPage);
+const mapDispatchToProps = dispatch => ({
+  getUserQ: questions => dispatch(getUserQuestions())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionPage);

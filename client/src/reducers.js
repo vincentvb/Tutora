@@ -24,14 +24,30 @@ const userq = (state= [], action) => {
     case ('SET_USER_Q') : return action.userquestions
     default : return state
   }
-  // if (action.type === 'SET_USER_ID'){
-  //   return Object.assign({}, state, { userid: action.userid });
-  // }
-  // return state;
 };
 
+const location = (state= '', action) => {
+  switch(action.type) {
+    case ('SET_LOCATION') : return action.location
+    default : return state
+  }
+};
 
-const rootReducer = combineReducers( { userid, userq } );
+const questioner = (state= '', action) => {
+  switch(action.type) {
+    case ('SET_QUESTIONER') : return action.questionerid
+    default : return state
+  }
+};
+
+const answerer = (state= '', action) => {
+  switch(action.type) {
+    case ('SET_ANSWERER') : return action.answerername
+    default : return state
+  }
+};
+
+const rootReducer = combineReducers( { userid, userq, location, questioner, answerer } );
 
 
 export default rootReducer
