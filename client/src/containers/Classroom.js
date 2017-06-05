@@ -48,7 +48,8 @@ export default connect(mapStateToProps, null)(Classroom)
 
 const styles = {
   header: {
-    fontSize: 20,
+    fontSize: 40,
+    fontWeight: 'bold',
     fontFamily: 'Vibur',
     textAlign: 'center',
     margin: 30
