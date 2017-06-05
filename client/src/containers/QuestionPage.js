@@ -6,7 +6,7 @@ import QuestionList from '../components/QuestionList.js'
 import { getUserQuestions } from '../actionCreators.js';
 
 
-class QuestionPage extends React.Component{
+class QuestionPage extends React.Component {
   constructor(props){
     super(props)
 
@@ -17,27 +17,37 @@ class QuestionPage extends React.Component{
 
     this.getUserQuest = this.getUserQuest.bind(this);
     this.getAllQuest = this.getAllQuest.bind(this);
+    this.updateQuestions = this.updateQuestions.bind(this);
   }
 
-  componentDidMount(){
-    var usertype = this.props.userinfo.type;
-    console.log(usertype);
+  componentDidMount() {
+    this.updateQuestions()
+    var usertype = this.props.userinfo.type
+    this.props.socket.on('updateQuestions', () => {
+      if (usertype === "tutor") {
+        this.updateQuestions()
+       }
+     })
+   }
 
-    if (usertype === 'tutor'){
-      this.getAllQuest();
-    } else if (usertype === 'student'){
-      this.getUserQuest();
-    } else {
-      axios
-        .get('/redirectsignup')
-        .then(response => {
-          console.log("redirected", response)
-        })
-        .catch(error => {
-           console.error('error redirect', error)
-        })
-    }
+updateQuestions() {
+  console.log("IN HERE");
+  var usertype = this.props.userinfo.type;
+  if (usertype === 'tutor'){
+    this.getAllQuest();
+  } else if (usertype === 'student'){
+    this.getUserQuest();
+  } else {
+    axios
+    .get('/redirectsignup')
+    .then(response => {
+      console.log("redirected", response)
+    })
+    .catch(error => {
+      console.error('error redirect', error)
+    })
   }
+}
 
   getUserQuest(){
     axios

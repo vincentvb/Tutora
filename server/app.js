@@ -65,6 +65,10 @@ io.on('connection', (socket) => {
     })
   })
 
+  socket.on('updateQuestions', () => {
+    io.to('home').emit('updateQuestions');
+  })
+
 
 
   socket.on('chatMessage', (data) => {

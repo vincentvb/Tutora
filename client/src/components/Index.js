@@ -166,9 +166,9 @@ class Index extends React.Component {
 
         <Nav user={this.props.userid}/>
         <div style={{marginLeft: "5%"}}>
-        <QuestionPage userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
+        <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
 
-		    <AskQuestion id={this.state.id}/>
+		    <AskQuestion socket = {this.socket} id={this.state.id}/>
 
         <Dialog
           title="We found a tutor for your question!"
