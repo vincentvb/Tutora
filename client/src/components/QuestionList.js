@@ -13,25 +13,34 @@ class QuestionList extends React.Component {
     this.mapQuestions = this.mapQuestions.bind(this);
   }
 
-  mapQuestions() {
-  console.log("IN HERE");
-  this.props.questions.map(question => {
-    console.log("QUESTION ID", this.state.questionId)
-    if (!this.state.questionId[question.id]) {
+  mapQuestions(questions, deleteStatus) {
+  if (deleteStatus === "deleteStatus" && questions.length > 0) {
+    questions.map(question => {
+      console.log("QUESTION", question.user);
+      if (!this.state.questionId[question.user.question.id]) {
+        var obj = this.state.questionId;
+        obj[question.user.question.id] = 0
+        this.setState({questionId: obj})
+        this.props.socket.emit('checkOnline', {question: question.user.question})
+      }
+    })
+  }
+  else {
+  questions.map(question => {
+    if (!this.state.questionId[question.id] && questions.length > 0) {
       var obj = this.state.questionId;
-      console.log("QUESTION", question);
       obj[question.id] = 0
       this.setState({questionId: obj})
       this.props.socket.emit('checkOnline', {question})
     }
-  })
+   })
+  }
 }
 
 componentDidMount () {
-  this.mapQuestions();
+  this.mapQuestions(this.props.questions);
   var context = this
   this.props.socket.on('userOnline', (response) => {
-  console.log(this.state.questionId[response.user.question.id])
   if (this.state.questionId[response.user.question.id] === 0) {
     console.log("IN HERE");
     let variable = context.state.questions
@@ -40,16 +49,23 @@ componentDidMount () {
     this.state.questionId[response.user.question.id] = 1
   }
 })
+ this.props.socket.on('delete', (response) => {
+    var questions = this.state.questions
+    this.state.questions = []
+    this.state.questionId = {}
+    console.log(questions, "QUESTIONS MAPPED");
+    this.mapQuestions(questions, "deleteStatus")
+ })
 }
 
-componentWillReceiveProps() {
-  this.mapQuestions();
+componentWillReceiveProps(newProps) {
+  this.mapQuestions(newProps.questions);
 }
 
 
 render() {
+  console.log(this.state.questions, "")
  if (this.state.questions.length > 0) {
-   console.log("QUESTIONS", this.state.questions);
  return (
   <div>
   {this.state.questions.map(question =>

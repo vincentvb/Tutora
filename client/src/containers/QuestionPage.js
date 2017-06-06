@@ -29,6 +29,7 @@ class QuestionPage extends React.Component {
     this.updateQuestions()
     var usertype = this.props.userinfo.type
     this.props.socket.on('updateQuestions', () => {
+      console.log("UPDATING QUESTIONS");
       this.updateQuestions()
      })
    }
@@ -38,6 +39,7 @@ updateQuestions() {
   if (usertype === 'tutor'){
     this.getAllQuest();
   } else if (usertype === 'student'){
+    console.log("IN HERE");
     this.getUserQuest();
   } else {
     axios
@@ -57,6 +59,9 @@ updateQuestions() {
       .get('/api/questions/user/'+this.props.userinfo.id)
       .then(response => {
         this.setState({ questions: response.data})
+      })
+      .then(response => {
+        this.updateState();
       })
       .catch(error => {
         console.error('axios error', error)
@@ -101,7 +106,7 @@ updateQuestions() {
 
   render(){
 
-    console.log(this.state.questions, "QUESTIONS");
+    console.log(this.state.questions, "QUESTION PAGE");
 
     // console.log(this.props.userq, "User Questions")
     // console.log(this.props.user, "Question userid")
