@@ -69,7 +69,9 @@ io.on('connection', (socket) => {
   })
 
   socket.on('checkOnline', (user) => {
+    console.log("checkONLINEUSER", user);
     var id = user.question.profile_id.toString();
+    console.log(id);
     client.get(id, (err, res) => {
       console.log(res);
       if (res === "online") {
@@ -89,15 +91,15 @@ io.on('connection', (socket) => {
     if (socket.userId) {
       client.set(socket.userId, "offline")
       setTimeout(() => {
-        console.log(socket.userId);
         client.get(socket.userId, (err, reply) => {
-          console.log(reply);
           if (reply === "offline") {
             client.del(socket.userId)
+            io.to('home').emit('delete')
             io.to('home').emit('updateQuestions')
+            console.log("UPDATE QUESTIONS");
           }
         })
-      }, 10000)
+      }, 5000)
      }
   })
   console.log('a user connected');
