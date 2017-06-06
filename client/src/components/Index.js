@@ -25,7 +25,7 @@ class Index extends React.Component {
     super(props);
     this.state = {
       redirect: false,
-    	id: 2,
+    	id: "",
       open: false,
       snackBar: true,
       snackBarQuestion: false
@@ -60,6 +60,9 @@ class Index extends React.Component {
       .then(response => {
         context.setState({id: response.data.id})
       })
+      .then(response => {
+
+      })
   }
 
 
@@ -74,9 +77,9 @@ class Index extends React.Component {
   };
 
   handleClose() {
-    // also reset the Answerer to null 
+    // also reset the Answerer to null
     this.setState({open: false});
-    
+
   };
 
   componentWillMount() {
@@ -86,14 +89,6 @@ class Index extends React.Component {
     var randomRoom = Math.random() * 9999999
     this.setState({roomName: randomRoom})
     console.log(this.socket);
-
-	  this.socket.on('connect', (socket) => {
-	    this.socket.emit('userData', {
-        room: 'home',
-	    	message: 'User connected!',
-	    	user_id: this.state.id
-	    });
-	  });
 
     this.socket.on('alertMessage', (alert) => {
       console.log(alert);
@@ -115,6 +110,13 @@ class Index extends React.Component {
 
 
   render() {
+    if (this.state.id !== "") {
+        this.socket.emit('userData', {
+          room: 'home',
+          message: 'User connected!',
+          user_id: this.state.id
+        });
+      };
     // console.log(this.props.userid)
 
     // console.log(this.props.userid, "USER INFO FROM REDUX")
@@ -129,7 +131,7 @@ class Index extends React.Component {
         }}/>
       )
     }
-    else if (this.props.userid.id) {
+    else if (this.props.userid.id && this.state.id !== "") {
     const buttonStyle = {
       position: "absolute",
       top: "0px",
@@ -145,6 +147,11 @@ class Index extends React.Component {
           'translate3d(0, 0, 0)' :
           `translate3d(0, -50px, 0)`
     }
+    const imageStyle = {
+      position: "fixed",
+      width: "100%",
+      height: "100%"
+    }
     const actions = [
       <FlatButton
         label="Reject invitation"
@@ -159,7 +166,8 @@ class Index extends React.Component {
     ];
 
   	return (
-		  <div style = {{backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)", backgroundSize: "100%", backgroundRepeat: "no-repeat", backgroundAttachment: "fixed"}}>
+		  <div>
+        <img src ="https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg" style = {imageStyle} />
         <Snackbar
           open={this.state.snackBar}
           message={this.props.userid.type === "tutor" ? "Browse Student Questions and Engage!" : "Post a Question and Get the Answers You Need!"}
@@ -171,9 +179,10 @@ class Index extends React.Component {
 
         <Nav user={this.props.userid}/>
         <div style={{marginLeft: "5%"}}>
-        <QuestionPage userinfo={this.props.userid} id={this.props.userid.id} broadcastSocket = {this.broadcastSocket} />
+        <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
 
-		    <AskQuestion id={this.props.userid.id}/>
+		    <AskQuestion socket = {this.socket} id={this.state.id}/>
+
 
         <Dialog
           title="We found a tutor for your question!"
@@ -195,7 +204,7 @@ class Index extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userid: state.userid, 
+  userid: state.userid,
   questionerid: state.questioner
 });
 

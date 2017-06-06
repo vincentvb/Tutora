@@ -51,6 +51,10 @@ class AskQuestion extends React.Component {
     .then(response => {
       console.log('Posted question to server. ', response);
     })
+    .then(() => {
+      this.props.socket.emit('updateQuestions', () => {
+      })
+    })
     .catch(error => {
       console.log('Error while posting to the server, ', error);
     });
