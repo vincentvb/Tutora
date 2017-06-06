@@ -26,7 +26,7 @@ class QuestionListItem extends React.Component {
 
 componentDidMount() {
   axios
-  .get(`/api/profiles/${this.props.question.profile_id}`)
+  .get(`/api/profiles/${this.props.question.user.question.profile_id}`)
   .then(response => {
     this.setState({ questionUserName: response.data.display })
     this.setState({ questionAvatar: response.data.avatar })
@@ -36,7 +36,7 @@ componentDidMount() {
 
 broadcast() {
   axios
-  .get(`/api/profiles/${this.props.question.profile_id}`)
+  .get(`/api/profiles/${this.props.question.user.question.profile_id}`)
   .then(response => {
     this.props.setQuestioner(response.data.display);
   })
@@ -75,13 +75,13 @@ return (
     <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         <CardHeader
           title={this.state.questionUserName}
-          subtitle={this.props.question.title}
+          subtitle={this.props.question.user.question.title}
           avatar={this.state.questionAvatar || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"}
           actAsExpander={true}
           showExpandableButton={true}
         />
         <CardText expandable={true}>
-          <p style={{fontSize: "30px;"}}>{this.props.question.body}</p>
+          <p style={{fontSize: "30px;"}}>{this.props.question.user.question.body}</p>
         </CardText>
         <CardActions expandable = {true}>
           <FlatButton label={label} primary={true} onTouchTap={this.broadcast} />
@@ -100,7 +100,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setQuestioner: questionerid => dispatch(setQuestioner(questionerid)), 
+  setQuestioner: questionerid => dispatch(setQuestioner(questionerid)),
   setAnswerer: answerername => dispatch(setAnswerer(answerername))
 })
 

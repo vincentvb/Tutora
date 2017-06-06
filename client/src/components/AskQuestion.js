@@ -53,7 +53,6 @@ class AskQuestion extends React.Component {
     })
     .then(() => {
       this.props.socket.emit('updateQuestions', () => {
-
       })
     })
     .catch(error => {

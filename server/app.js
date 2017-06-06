@@ -53,7 +53,6 @@ io.on('connection', (socket) => {
   socket.on('roomJoin', (data) => {
     console.log(data);
     socket.userId = data.user_id
-    client.set(socket.userId, "in chat")
     socket.join(data.room);
     socket.room = data.room
 })
@@ -69,20 +68,34 @@ io.on('connection', (socket) => {
     io.to('home').emit('updateQuestions');
   })
 
+  socket.on('checkOnline', (user) => {
+    var id = user.question.profile_id.toString();
+    client.get(id, (err, res) => {
+      console.log(res);
+      if (res === "online") {
+      io.to('home').emit('userOnline', {
+        user
+       })
+     }
 
+   })
+  })
 
   socket.on('chatMessage', (data) => {
     io.to(data.room).emit('newMessage', data.message);
   })
 
   socket.on('disconnect', () => {
-    if (socket.userId && socket.room === 'home') {
+    if (socket.userId) {
       client.set(socket.userId, "offline")
       setTimeout(() => {
         console.log(socket.userId);
         client.get(socket.userId, (err, reply) => {
-          if (reply === "offline");
+          console.log(reply);
+          if (reply === "offline") {
             client.del(socket.userId)
+            io.to('home').emit('updateQuestions')
+          }
         })
       }, 10000)
      }

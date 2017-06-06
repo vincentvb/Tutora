@@ -32,7 +32,7 @@ router.route('/landingPage')
   router.route('/redirectsignup')
     .get((req, res) => {
       console.log("IN HERE");
-      res.redirect('/logout')
+      res.redirect('/')
     });
 
 router.route('/signup2')
