@@ -215,6 +215,31 @@ function customInput (el) {
     label.innerText = value
   }
 }
+
+function sendImage(event) {
+  // Get user id:
+  var userID = $('#userID').val();
+  // Read image:
+  var image = event.target.files[0];
+  var reader = new FileReader();
+  var readedImage = reader.readAsDataURL(image);
+  // When image is ready, send a PUT to the server
+  reader.onload = function() {
+    var dataToBeSent = reader.result.split('base64,')[1];
+    $.ajax({
+      url: "/api/profiles/updatePicture/" + userID,
+      method: "PUT",
+      data: {
+        data: dataToBeSent
+      },
+      dataType: "image/jpg",
+      success: function(data) {
+        console.log('Successfully uploaded a picture to the server! data: ', data);
+      }
+    });
+  };
+}
+
 </script>
 
 </head>
@@ -226,7 +251,7 @@ function customInput (el) {
 
                 <h3 style="text-align:center;" class="page-header">Profile Information</h4>
                 <form role="form" action="api/profiles/updateProfile" method="post">
-                  <input name="id" type="hidden" value="<%= user.id %>">
+                  <input name="id" type="hidden" id="userID" value="<%= user.id %>">
                     <h5>First Name</h5>
                     <div class="form-group float-label-control">
                       <label for =""></label>
@@ -268,7 +293,7 @@ function customInput (el) {
                     <h5>Avatar Upload</h5>
                     <div class="form-group float-label-control">
                       <div class='file-input'>
-                        <input name="avatar" type='file'>
+                        <input name="avatar" type='file' id="fileinput" accept='image/*' onchange='sendImage(event)'>
                         <span class='button'>Choose</span>
                         </div>
                       </div>

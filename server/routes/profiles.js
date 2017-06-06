@@ -21,4 +21,7 @@ router.route('/updateProfile')
 // router.route('/update/:id')
 // 	.put(ProfileController.updateProfileById)
 
+router.route('/updatePicture/:id')
+  .put(ProfileController.updatePicture)
+
 module.exports = router;
