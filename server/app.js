@@ -15,8 +15,8 @@ const io = require('socket.io')(http)
 
 app.use(middleware.morgan('dev'));
 app.use(middleware.cookieParser());
-app.use(middleware.bodyParser.urlencoded({extended: false}));
-app.use(middleware.bodyParser.json());
+app.use(middleware.bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(middleware.bodyParser.json({limit: '50mb'}));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -105,5 +105,42 @@ io.on('connection', (socket) => {
   console.log('a user connected');
 })
 
+// Start of S3 stuff
+var AWS = require('aws-sdk');
+AWS.config.loadFromPath('./config/aws.config.json');
+const fs = require('fs');
+
+var s3 = new AWS.S3();
+
+var s3Bucket = new AWS.S3({
+  params: {Bucket: 'talentedtoasters/profilepictures'} 
+});
+
+// Test upload:
+// var data = {
+//   Key: 'The princess!',
+//   Body: fs.readFileSync('./princess.jpeg'),
+//   ACL:'public-read'
+// };
+
+// s3Bucket.upload(data, function(error, data) {
+//   if (error) {
+//     console.log('Error uploading image to S3: ', error);
+//   } else {
+//     console.log('succesfully uploaded a image to S3 data: ', data.Location);
+//   }
+// });
+
+
+// Test get:
+// var urlParams = {Bucket: 'talentedtoasters/profilepictures', Key: 'The princess!'};
+// s3Bucket.getSignedUrl('getObject', urlParams, function(error, url) {
+//   if (error) {
+//     console.log('There was an error in getting the image!', error);
+//   }
+//   console.log('the url of the image is', url);
+// });
+
+// End of S3 stuff
 
 module.exports = app;

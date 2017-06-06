@@ -1,5 +1,6 @@
 const models = require('../../db/models');
-const Bookshelf = require('../../db/Bookshelf.js')
+const Bookshelf = require('../../db/Bookshelf.js');
+const saveImageToS3 = require('../middleware/images.js').uploadProfilePic;
 
 module.exports.getAll = (req, res) => {
   models.Profile.fetchAll()
@@ -103,3 +104,31 @@ module.exports.updateProfile = (req, res) => {
 //     console.log('The users profile where updated, ' + result);
 //   });
 // };
+
+module.exports.updatePicture = (req, res) => {
+  saveImageToS3(req.body.data, req.params.id, function(S3error, imageURL) {
+    if (S3error) {
+      console.log(S3error);
+    }
+    console.log(imageURL)
+    models.Profile.where({ id: req.params.id }).fetch()
+    .then(profile => {
+      console.log('the profile! ', profile)
+      if (!profile) {
+        console.log('Error with finding profile');
+      }
+      return profile.save({
+        avatar: imageURL.Location
+      }, { method: 'update' });
+    })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .error(err => {
+      res.status(500).send(err);
+    })
+    .catch(() => {
+      res.sendStatus(404);
+    });
+  });
+};
