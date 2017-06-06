@@ -15,8 +15,8 @@ const io = require('socket.io')(http)
 
 app.use(middleware.morgan('dev'));
 app.use(middleware.cookieParser());
-app.use(middleware.bodyParser.urlencoded({extended: false}));
-app.use(middleware.bodyParser.json());
+app.use(middleware.bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(middleware.bodyParser.json({limit: '50mb'}));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 

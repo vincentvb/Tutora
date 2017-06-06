@@ -226,12 +226,8 @@ function sendImage(event) {
   // When image is ready, send a PUT to the server
   reader.onload = function() {
     var dataToBeSent = reader.result.split('base64,')[1];
-    console.log(dataToBeSent);
     $.ajax({
-      url: "/api/profiles/updatePicture",
-      headers: {
-        'userid': userID
-      },
+      url: "/api/profiles/updatePicture/" + userID,
       method: "PUT",
       data: {
         data: dataToBeSent
