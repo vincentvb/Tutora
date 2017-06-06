@@ -115,11 +115,11 @@ var s3Bucket = new AWS.S3({
 });
 
 // Test upload:
-var data = {
-  Key: 'The princess!',
-  Body: fs.readFileSync('./princess.jpeg'),
-  ACL:'public-read'
-};
+// var data = {
+//   Key: 'The princess!',
+//   Body: fs.readFileSync('./princess.jpeg'),
+//   ACL:'public-read'
+// };
 
 // s3Bucket.upload(data, function(error, data) {
 //   if (error) {
