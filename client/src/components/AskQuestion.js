@@ -46,7 +46,7 @@ class AskQuestion extends React.Component {
       title: this.state.questionInput,
       body: this.state.questionDescription,
       userid: this.props.id,
-      image: 'www.placeholder.com'
+      image: null
     };
 
     if (this.state.imageInput !== null) {
