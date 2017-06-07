@@ -4787,7 +4787,7 @@ simple-assign@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/simple-assign/-/simple-assign-0.1.0.tgz#17fd3066a5f3d7738f50321bb0f14ca281cc4baa"
 
-"sip.js@github:twilio/SIP.js#b884c74892836f70ced6010353852ebd9ce5b199":
+sip.js@twilio/SIP.js.git#b884c74892836f70ced6010353852ebd9ce5b199:
   version "0.7.5"
   resolved "https://codeload.github.com/twilio/SIP.js/tar.gz/b884c74892836f70ced6010353852ebd9ce5b199"
   dependencies:

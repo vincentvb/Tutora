@@ -54,6 +54,8 @@ class AskQuestion extends React.Component {
       var reader = new FileReader();
       reader.readAsDataURL(image);
 
+      var refToSocket = this.props.socket;
+      
       reader.onload = function() {
         body.image = reader.result.split('base64,')[1];
         axios.post('/api/questions', body)
@@ -61,7 +63,8 @@ class AskQuestion extends React.Component {
           console.log('Posted question to server. ', response);
         })
         .then(() => {
-          this.props.socket.emit('updateQuestions', () => {
+          console.log('here')
+          refToSocket.emit('updateQuestions', () => {
           })
         })
         .catch(error => {
