@@ -32,9 +32,9 @@ class QuestionPage extends React.Component {
     // console.log(this.props.user.id, "USER ID FROM REDUX ON QP")
 
     // put Profile Skills in Redux if tutor
-    if (this.props.user.type.toLowerCase() === 'tutor'){
+    if (this.props.user.type === 'tutor'){
       this.props.getProfileSkills(this.props.user.id);
-    }
+    } 
 
     this.updateQuestions()
     var usertype = this.props.userinfo.type

@@ -52,6 +52,14 @@ services:
     command: npm run migrateDB
     networks:
       - webnet
+  # jenkins:
+  #   image: jenkins:2.0
+  #   container_name: jenkins
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #   volumes:
+  #     - ./FOR_JENKINS:/var/jenkins_home
 volumes:
   db-data:
 networks:
