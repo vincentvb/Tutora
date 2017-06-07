@@ -3,10 +3,10 @@ const db = require('../');
 const Tags_Question = db.Model.extend({
   tableName: 'tags_questions',
   tags: function() {
-    return this.belongsToMany('Tag');
+    return this.belongsTo('Tag', 'tags_id');
   }, 
   questions: function(){
-    return this.belongsToMany('Question')
+    return this.belongsTo('Question', 'question_id')
   }
 });
 

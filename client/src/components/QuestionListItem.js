@@ -5,6 +5,7 @@ import Toggle from 'material-ui/Toggle';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { setQuestioner, setAnswerer } from '../actionCreators.js';
+import Chip from 'material-ui/Chip';
 
 
 class QuestionListItem extends React.Component {
@@ -16,7 +17,8 @@ class QuestionListItem extends React.Component {
       userInformation: {},
       questionUserName: "",
       questionAvatar: null, 
-      modalIsOpen: false
+      modalIsOpen: false, 
+      tags: []
     }
     this.broadcast = this.broadcast.bind(this);
     this.handleExpandChange = this.handleExpandChange.bind(this);
@@ -28,6 +30,20 @@ class QuestionListItem extends React.Component {
   }
 
 componentDidMount() {
+
+  // console.log(this.props.question.user.question.id, "QUESTION ID FROM QITEM")
+
+  axios
+  .get(`/api/tags/question/${this.props.question.user.question.id}`)
+  .then(response => {
+    var tagsarr = response.data.map(function(tag, idx){
+      // console.log(tag.category_name, "CAT NAME")
+      return { key: idx, label: tag.category_name }
+    })
+    this.setState({ tags: tagsarr })
+    // console.log(this.state.tags, "TAGS ARR")
+  })
+
   axios
   .get(`/api/profiles/${this.props.question.user.question.profile_id}`)
   .then(response => {
@@ -38,6 +54,7 @@ componentDidMount() {
 }
 
 broadcast() {
+
   axios
   .get(`/api/profiles/${this.props.question.user.question.profile_id}`)
   .then(response => {
@@ -64,6 +81,14 @@ handleReduce () {
   this.setState({expanded: false});
 };
 
+renderChip(data){
+  return (
+    <Chip key={data.key} style={styles.chip}> 
+      {data.label}
+    </Chip>
+  );
+}
+
 
 
 render() {
@@ -73,18 +98,21 @@ render() {
   }
 
 return (
-  <div style={style.card}>
+  <div style={styles.card}>
 
     <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         <CardHeader
-          title={this.state.questionUserName}
-          subtitle={this.props.question.user.question.title}
+          title={this.props.question.user.question.title}
+          subtitleStyle={styles.wrapper}
+          subtitle={this.state.tags.map(this.renderChip, this)}
           avatar={this.state.questionAvatar || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"}
           actAsExpander={true}
           showExpandableButton={true}
         />
+
         <CardText expandable={true}>
-          <p style={{fontSize: "30px;"}}>{this.props.question.user.question.body}</p>
+          <p style={{fontSize: "30px"}}>{this.props.question.user.question.body}</p>
+
         </CardText>
         {this.props.question.user.question.image ? (
           <CardMedia expandable={true}>
@@ -120,9 +148,16 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionListItem)
 
-const style = {
+const styles = {
   card: {
     margin: 10,
     opacity: 0.92
-  }
+  }, 
+  chip: {
+    margin: 2,
+  },
+  wrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
 };

@@ -7,8 +7,12 @@ router.route('/')
   .get(TagsController.getAll)
   ;
 
-router.route('/:profileId')
+router.route('/profile/:profileId')
   .get(TagsController.getAllTagsbyProfile)
+  ;
+
+router.route('/question/:questionId')
+  .get(TagsController.getAllTagsbyQ)
   ;
 
 module.exports = router;

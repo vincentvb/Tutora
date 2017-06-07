@@ -16,7 +16,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import { connect } from 'react-redux';
-import { getTags } from '../actionCreators.js'
+import { getTags } from '../actionCreators.js';
+import Select from 'react-select';
 
 
 class AskQuestion extends React.Component {
@@ -29,7 +30,8 @@ class AskQuestion extends React.Component {
       questionTitle: '',
       questionDescription: '',
       snackBarQuestion: false,
-      imageInput: null
+      imageInput: null,
+      value: ''
     };
     this.postQuestion = this.postQuestion.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -39,18 +41,28 @@ class AskQuestion extends React.Component {
     this.handleDescriptionInput = this.handleDescriptionInput.bind(this);
     this.handleSnackBarQuestionClose = this.handleSnackBarQuestionClose.bind(this);
     this.imageInput = this.imageInput.bind(this);
+    this.handleSelectTagsChange = this.handleSelectTagsChange.bind(this);
   }
 
   componentWillMount(){
     this.props.getTags()
   }
 
+  handleSelectTagsChange(value){
+    // console.log("Selected: ", value)
+    this.setState({ value: value })
+  }
+
   postQuestion() {
+    var tagsarr = this.state.value.split(",");
+
     var body = {
       title: this.state.questionInput,
       body: this.state.questionDescription,
       userid: this.props.id,
-      image: null
+      image: null,
+      image: 'www.placeholder.com', 
+      tags: tagsarr
     };
 
     if (this.state.imageInput !== null) {
@@ -88,8 +100,10 @@ class AskQuestion extends React.Component {
         console.log('Error while posting to the server, ', error);
       });
     }
+    
 
     this.setState({snackBarQuestion: true})
+
     this.closeModal();
   }
 
@@ -131,17 +145,25 @@ class AskQuestion extends React.Component {
 
   render() {
 
-    console.log(this.state.imageInput);
-   console.log(this.props.tags, "TAGS FROM REDUX")
+
+    // console.log(this.state.imageInput);
+
+   // console.log(this.props.tags, "TAGS FROM REDUX")
+    var options = this.props.tags.map(function(tag){
+      return { value: tag, label: tag }
+    })
+
 
    const actions = [
-   <FlatButton
-     label="Submit"
-     primary={true}
-     keyboardFocused={true}
-     onTouchTap={this.postQuestion}
-   />,
- ];
+     <FlatButton
+       label="Submit"
+       primary={true}
+       keyboardFocused={true}
+       onTouchTap={this.postQuestion}
+     />,
+   ];
+
+
     return (
       <div>
         <Snackbar
@@ -179,6 +201,7 @@ class AskQuestion extends React.Component {
             rows={4}
             floatingLabelText="Question Body"
           />
+
           <RaisedButton
             containerElement='label'
             label='Upload a picture'>
@@ -189,6 +212,18 @@ class AskQuestion extends React.Component {
                 accept='image/*'
               />
           </RaisedButton>
+          <div style={{marginBottom: 10}}></div>
+          <Select
+            multi
+            simpleValue 
+            value={this.state.value}
+            placeholder="Add tags to your question"
+            name="tag-questions"
+            options={options}
+            onChange={this.handleSelectTagsChange}
+          />
+
+          <div className="paddingSkills"></div>
         </Dialog>
       </div>
     )

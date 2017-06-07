@@ -22,11 +22,9 @@ class TutorSkills extends React.Component {
 
   componentDidMount(){
 
-    // console.log(this.props.skills, "SKILLS IN TUTOR SKILLS")
-
     if (this.props.user.type.toLowerCase() === 'tutor'){
       axios
-      .get('/api/tags/'+this.props.user.id)
+      .get('/api/tags/profile/'+this.props.user.id)
       .then(skills => {
         var skillsarr = skills.data.map(skill => skill.tags.value);
         if (skillsarr.length === 0){
@@ -78,7 +76,7 @@ class TutorSkills extends React.Component {
 
     return ( 
       <div>
-        Tutor Skills
+      
       <Dialog
           title="Choose your skills"
           titleStyle = {{textAlign: "center"}}
@@ -88,6 +86,7 @@ class TutorSkills extends React.Component {
           onRequestClose={this.closeModal}
           style={{height: 400}}
           >
+      <div className="skillsText"> Add areas of expertise to your profile. We'll show you questions that best match your skills. </div>   
 
       <Select
         multi

@@ -31,3 +31,22 @@ module.exports.getAllTagsbyProfile = (req, res) => {
     console.log(err)
   })
 }
+
+module.exports.getAllTagsbyQ = (req, res) => {
+  models.Tags_Question.where( { question_id: req.params.questionId }).fetchAll({ 
+    withRelated: [
+    {
+      'tags': function(qb){
+        qb.select()
+      }
+    }
+    ]
+  })
+  .then(result => {
+    // console.log(result)
+    res.status(200).send(result)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}

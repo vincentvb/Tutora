@@ -100,7 +100,7 @@ class QuestionPage extends React.Component {
           var id = array[i].id
           if (!obj[id]) {
             obj[id] = 0
-            console.log(obj);
+            // console.log(obj);
             this.setState({questionId: obj})
           }
         }

@@ -363,6 +363,14 @@
 			"settings":
 			{
 				"buffer_size": 2658,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/agnes/Documents/hackreactor/hrsf75-toy-problems/treeBFSelect/treeBFSelect.js",
+			"settings":
+			{
+				"buffer_size": 2694,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -422,10 +430,11 @@
 	[
 		"/Users/agnes/Documents/hackreactor/hrsf75-toy-problems",
 		"/Users/agnes/Documents/hackreactor/hrsf75-toy-problems/binaryHeap",
+		"/Users/agnes/Documents/hackreactor/hrsf75-toy-problems/characterFrequency",
 		"/Users/agnes/Documents/hackreactor/hrsf75-toy-problems/commonAncestor",
 		"/Users/agnes/Documents/hackreactor/hrsf75-toy-problems/linkedList",
-		"/Users/agnes/Documents/hackreactor/hrsf75-toy-problems/treeDFSelect",
-		"/Users/agnes/Documents/hackreactor/hrsf75-toy-problems/treeMap"
+		"/Users/agnes/Documents/hackreactor/hrsf75-toy-problems/treeBFSelect",
+		"/Users/agnes/Documents/hackreactor/hrsf75-toy-problems/treeDFSelect"
 	],
 	"file_history":
 	[
@@ -611,7 +620,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -639,6 +648,36 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 684.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/agnes/Documents/hackreactor/hrsf75-toy-problems/treeBFSelect/treeBFSelect.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2694,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								796,
+								796
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 223.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
