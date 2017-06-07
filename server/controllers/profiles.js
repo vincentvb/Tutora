@@ -65,23 +65,26 @@ module.exports.updateProfile = (req, res) => {
 };
 
 module.exports.updateProfileSkills = (req, res) => {
-  models.Tag.where({ value: req.body.tag }).fetch({columns:['id']})
-    .then(model => {
-      console.log(model.id, "ID FROM SKILL")
-       models.Tags_Profile.forge({
-         profile_id: req.body.profileId,
-         tags_id: model.id
-       }).save()
+  // this should be refactored for multiple inserts
 
-       res.status(200).send('')
-    })
-    .error(err => {
-      res.status(500).send(err)
-    })
-    .catch(e => {
-      console.log(e, "from catch")
-      res.sendStatus(404)
-    })
+  req.body.tags.forEach(function(tag){
+    models.Tag.where({ value: tag }).fetch({columns:['id']})
+      .then(model => {
+        console.log(model.id, "ID FROM SKILL")
+         models.Tags_Profile.forge({
+           profile_id: req.body.profileId,
+           tags_id: model.id
+         }).save()
+      })
+      .error(err => {
+        res.status(500).send(err)
+      })
+      .catch(e => {
+        console.log(e, "from catch")
+        res.sendStatus(404)
+      })
+    res.status(200).send('');    
+  }) 
 }
 
 

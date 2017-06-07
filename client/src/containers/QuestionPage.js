@@ -19,15 +19,13 @@ class QuestionPage extends React.Component {
       questionId: {
 
       },
-      redirectToReg: false, 
-      modalIsOpen: false
+      redirectToReg: false
     }
 
     this.getUserQuest = this.getUserQuest.bind(this);
     this.getAllQuest = this.getAllQuest.bind(this);
     this.updateQuestions = this.updateQuestions.bind(this);
     this.updateState = this.updateState.bind(this);
-    this.registerSkills = this.registerSkills.bind(this);
   }
 
   componentDidMount() {
@@ -36,18 +34,6 @@ class QuestionPage extends React.Component {
     // put Profile Skills in Redux if tutor
     if (this.props.user.type.toLowerCase() === 'tutor'){
       this.props.getProfileSkills(this.props.user.id);
-      axios
-      .get('/api/tags/'+this.props.user.id)
-      .then(skills => {
-        var skillsarr = skills.data.map(skill => skill.tags.value);
-        if (skillsarr.length === 0){
-          this.setState({ modalIsOpen: true })
-        }
-
-      })
-      .catch(error => {
-        console.error('axios error', error)
-      });
     }
 
     this.updateQuestions()
@@ -127,38 +113,12 @@ class QuestionPage extends React.Component {
       });
   }
 
-  registerSkills(){
-    console.log("Regiser Skills")
-  }
-
   render(){
-
-    const actions = [
-   <FlatButton
-     label="Submit"
-     primary={true}
-     keyboardFocused={true}
-     onTouchTap={this.registerSkills}
-   />,
- ];
 
     if (this.state.questions.length > 0) {
       return (
         <div className="container">
-          <Dialog
-          title="Choose your skills"
-          titleStyle = {{textAlign: "center"}}
-          actions = {actions}
-          modal={false}
-          open={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          style={{height: 400}}
-          >
-          
           <TutorSkills />
-          <div className="paddingSkills"></div>
-
-          </Dialog>
 
         
           <QuestionList socket = {this.props.socket} userName= {this.props.userinfo.display} questions={this.state.questions} broadcastSocket = {this.props.broadcastSocket} />

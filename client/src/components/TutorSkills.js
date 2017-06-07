@@ -1,41 +1,77 @@
 import React from 'react'
-import Modal from 'react-modal'
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 class TutorSkills extends React.Component {
   constructor(props){
     super(props)
 
-    this.state = { value: '' }
+    this.state = { 
+      value: '',
+      modalIsOpen: false
+    }
 
     this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.registerSkills = this.registerSkills.bind(this);
   
   }
 
   componentDidMount(){
 
+    // console.log(this.props.skills, "SKILLS IN TUTOR SKILLS")
 
+    if (this.props.user.type.toLowerCase() === 'tutor'){
+      axios
+      .get('/api/tags/'+this.props.user.id)
+      .then(skills => {
+        var skillsarr = skills.data.map(skill => skill.tags.value);
+        if (skillsarr.length === 0){
+          this.setState({ modalIsOpen: true })
+        }
 
-    // axios
-    //   .post('/api/profiles/updateProfileSkills', { profileId: 8, tag: "History"} )
-    //   .then(response => {
-    //     console.log('Success', response);
-    //   })
-    //   .catch(error => {
-    //     console.log('Error while updating Skills', error);
-    //   });
+      })
+      .catch(error => {
+        console.error('axios error', error)
+      });
+    }
+
+    
+  }
+
+  registerSkills(){
+    var skillsarr = this.state.value.split(",");
+
+    axios
+      .post('/api/profiles/updateProfileSkills', { profileId: this.props.user.id, tags: skillsarr} )
+      .then(response => {
+        console.log('Success', response);
+      })
+      .catch(error => {
+        console.log('Error while updating Skills', error);
+      });
+
+    this.setState({ modalIsOpen: false })
   }
 
   handleSelectChange(value){
-    console.log("Selected: ", value)
-    this.setState({ value })
+    // console.log("Selected: ", value)
+    this.setState({ value: value })
   }
 
   render(){
-    
+    const actions = [
+     <FlatButton
+       label="Submit"
+       primary={true}
+       keyboardFocused={true}
+       onTouchTap={this.registerSkills}
+     />,
+    ];
+
     var options = this.props.tags.map(function(tag){
       return { value: tag, label: tag }
     })
@@ -43,6 +79,15 @@ class TutorSkills extends React.Component {
     return ( 
       <div>
         Tutor Skills
+      <Dialog
+          title="Choose your skills"
+          titleStyle = {{textAlign: "center"}}
+          actions = {actions}
+          modal={false}
+          open={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={{height: 400}}
+          >
 
       <Select
         multi
@@ -54,16 +99,19 @@ class TutorSkills extends React.Component {
         onChange={this.handleSelectChange}
       />
 
-      
+      <div className="paddingSkills"></div>
+      </Dialog>
 
       </div>
-      )
+    
+    )
   }
 }
 
 const mapStateToProps = (state) => ({
   user: state.userid,
-  tags: state.tags
+  tags: state.tags, 
+  skills: state.skills
 });
 
 export default connect(mapStateToProps, null)(TutorSkills);
