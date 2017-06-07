@@ -28,7 +28,8 @@ class AskQuestion extends React.Component {
       questionInput: '',
       questionTitle: '',
       questionDescription: '',
-      snackBarQuestion: false
+      snackBarQuestion: false,
+      imageInput: null
     };
     this.postQuestion = this.postQuestion.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -37,6 +38,7 @@ class AskQuestion extends React.Component {
     this.handleQuestionInput = this.handleQuestionInput.bind(this);
     this.handleDescriptionInput = this.handleDescriptionInput.bind(this);
     this.handleSnackBarQuestionClose = this.handleSnackBarQuestionClose.bind(this);
+    this.imageInput = this.imageInput.bind(this);
   }
 
   postQuestion() {
@@ -47,20 +49,40 @@ class AskQuestion extends React.Component {
       image: 'www.placeholder.com'
     };
 
-    axios.post('/api/questions', body)
-    .then(response => {
-      console.log('Posted question to server. ', response);
-    })
-    .then(() => {
-      this.props.socket.emit('updateQuestions', () => {
+    if (this.state.imageInput !== null) {
+      var image = this.state.imageInput.slice();
+      var reader = new FileReader();
+      reader.readAsDataURL(image);
+
+      reader.onload = function() {
+        body.image = reader.result.split('base64,')[1];
+        axios.post('/api/questions', body)
+        .then(response => {
+          console.log('Posted question to server. ', response);
+        })
+        .then(() => {
+          this.props.socket.emit('updateQuestions', () => {
+          })
+        })
+        .catch(error => {
+          console.log('Error while posting to the server, ', error);
+        });
+      }
+    } else {
+      axios.post('/api/questions', body)
+      .then(response => {
+        console.log('Posted question to server. ', response);
       })
-    })
-    .catch(error => {
-      console.log('Error while posting to the server, ', error);
-    });
+      .then(() => {
+        this.props.socket.emit('updateQuestions', () => {
+        })
+      })
+      .catch(error => {
+        console.log('Error while posting to the server, ', error);
+      });
+    }
 
     this.setState({snackBarQuestion: true})
-
     this.closeModal();
   }
 
@@ -94,7 +116,14 @@ class AskQuestion extends React.Component {
     })
   }
 
+  imageInput(event) {
+    this.setState({
+      imageInput: event.target.files[0]
+    });
+  }
+
   render() {
+    console.log(this.state.imageInput);
    const actions = [
    <FlatButton
      label="Submit"
@@ -140,6 +169,16 @@ class AskQuestion extends React.Component {
             rows={4}
             floatingLabelText="Question Body"
           />
+          <RaisedButton
+            containerElement='label'
+            label='Upload a picture'>
+              <input 
+                type="file" 
+                style={{ display: 'none' }} 
+                onChange={this.imageInput}
+                accept='image/*'
+              />
+          </RaisedButton>
         </Dialog>
       </div>
     )
