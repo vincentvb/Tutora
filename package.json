@@ -50,7 +50,8 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "socket.io": "^2.0.1",
-    "style-loader": "^0.18.1"
+    "style-loader": "^0.18.1",
+    "twilio-video": "^1.0.0"
   },
   "devDependencies": {
     "babel-loader": "^7.0.0",
