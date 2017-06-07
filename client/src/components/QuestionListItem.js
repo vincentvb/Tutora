@@ -84,11 +84,15 @@ return (
         <CardText expandable={true}>
           <p style={{fontSize: "30px;"}}>{this.props.question.user.question.body}</p>
         </CardText>
-        <CardMedia expandable={true}>
-          <img 
-            src={this.props.question.user.question.image}
-          />
-        </CardMedia>
+        {this.props.question.user.question.image ? (
+          <CardMedia expandable={true}>
+            <img 
+              src={this.props.question.user.question.image}
+            />
+          </CardMedia>
+          ) : (
+          <div></div>
+        )}
         <CardActions expandable = {true}>
           <FlatButton label={label} primary={true} onTouchTap={this.broadcast} />
         </CardActions>
