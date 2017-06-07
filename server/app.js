@@ -28,9 +28,12 @@ app.use(middleware.flash());
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/api', routes.api);
+app.use('/api/tags', routes.tags);
 app.use('/api/profiles', routes.profiles);
 app.use('/api/questions', routes.questions);
+
 app.use('/', routes.auth);
+
 
 
 client.on('connect', () => {
@@ -51,7 +54,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('roomJoin', (data) => {
-    console.log(data);
+    // console.log(data);
     socket.userId = data.user_id
     socket.join(data.room);
     socket.room = data.room
@@ -69,11 +72,11 @@ io.on('connection', (socket) => {
   })
 
   socket.on('checkOnline', (user) => {
-    console.log("checkONLINEUSER", user);
+    // console.log("checkONLINEUSER", user);
     var id = user.question.profile_id.toString();
-    console.log(id);
+    // console.log(id);
     client.get(id, (err, res) => {
-      console.log(res);
+      // console.log(res);
       if (res === "online") {
       io.to('home').emit('userOnline', {
         user
@@ -96,7 +99,7 @@ io.on('connection', (socket) => {
             client.del(socket.userId)
             io.to('home').emit('delete')
             io.to('home').emit('updateQuestions')
-            console.log("UPDATE QUESTIONS");
+            // console.log("UPDATE QUESTIONS");
           }
         })
       }, 5000)

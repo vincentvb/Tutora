@@ -1,5 +1,6 @@
 const Profile = require('./models/profiles.js');
 const Question = require('./models/questions.js');
+const Tags = require('./models/tags.js');
 
 module.exports = {
 
@@ -81,5 +82,4 @@ module.exports = {
 			callback(error, null);
 		})
 	}
-
-};
+}

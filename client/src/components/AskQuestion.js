@@ -15,8 +15,8 @@ import FontIcon from 'material-ui/FontIcon';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
-
-
+import { connect } from 'react-redux';
+import { getTags } from '../actionCreators.js'
 
 
 class AskQuestion extends React.Component {
@@ -39,6 +39,10 @@ class AskQuestion extends React.Component {
     this.handleDescriptionInput = this.handleDescriptionInput.bind(this);
     this.handleSnackBarQuestionClose = this.handleSnackBarQuestionClose.bind(this);
     this.imageInput = this.imageInput.bind(this);
+  }
+
+  componentWillMount(){
+    this.props.getTags()
   }
 
   postQuestion() {
@@ -126,7 +130,10 @@ class AskQuestion extends React.Component {
   }
 
   render() {
+
     console.log(this.state.imageInput);
+   console.log(this.props.tags, "TAGS FROM REDUX")
+
    const actions = [
    <FlatButton
      label="Submit"
@@ -216,4 +223,13 @@ const customStyles = {
   }
 };
 
-export default AskQuestion
+const mapStateToProps = (state) => ({
+  tags: state.tags
+});
+
+
+const mapDispatchToProps = dispatch => ({
+  getTags: tags => dispatch(getTags())
+})
+  
+export default connect(mapStateToProps, mapDispatchToProps)(AskQuestion)

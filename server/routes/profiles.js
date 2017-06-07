@@ -18,6 +18,9 @@ router.route('/:id')
 router.route('/updateProfile')
   .post(ProfileController.updateProfile)
 
+router.route('/updateProfileSkills')
+  .post(ProfileController.updateProfileSkills)
+
 // router.route('/update/:id')
 // 	.put(ProfileController.updateProfileById)
 

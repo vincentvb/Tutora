@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { setQuestioner, setAnswerer } from '../actionCreators.js'
+import { setQuestioner, setAnswerer } from '../actionCreators.js';
 
 
 class QuestionListItem extends React.Component {
@@ -15,7 +15,8 @@ class QuestionListItem extends React.Component {
       expanded: false,
       userInformation: {},
       questionUserName: "",
-      questionAvatar: null
+      questionAvatar: null, 
+      modalIsOpen: false
     }
     this.broadcast = this.broadcast.bind(this);
     this.handleExpandChange = this.handleExpandChange.bind(this);
@@ -73,6 +74,7 @@ render() {
 
 return (
   <div style={style.card}>
+
     <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         <CardHeader
           title={this.state.questionUserName}
@@ -106,7 +108,8 @@ return (
 
 const mapStateToProps = (state) => ({
   user: state.userid,
-  questioner: state.questioner
+  questioner: state.questioner,
+  skills: state.skills
 });
 
 const mapDispatchToProps = dispatch => ({

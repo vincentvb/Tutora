@@ -110,6 +110,7 @@ class Index extends React.Component {
 
 
   render() {
+
     if (this.state.id !== "") {
         this.socket.emit('userData', {
           room: 'home',
@@ -204,8 +205,7 @@ class Index extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userid: state.userid,
-  questionerid: state.questioner
+  userid: state.userid
 });
 
 const mapDispatchToProps = dispatch => ({

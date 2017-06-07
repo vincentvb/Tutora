@@ -10,6 +10,7 @@ import { getUserInfo } from '../actionCreators.js';
 import Classroom from '../containers/Classroom.js'
 import Nav from './Nav.js'
 import QuestionPage from '../containers/QuestionPage.js'
+import TutorSkills from './TutorSkills.js'
 
 class App extends React.Component {
   constructor(props){
@@ -31,6 +32,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path='/' component={Index} />
             <Route path='/classroom' component={Classroom} />
+            <Route path='/tutorskills' component={TutorSkills} />
             <Route exact path='/askquestion' component={AskQuestion} />
           </Switch>
         </BrowserRouter>
