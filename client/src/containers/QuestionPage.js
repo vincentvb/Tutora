@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import QuestionList from '../components/QuestionList.js'
-import { getUserQuestions } from '../actionCreators.js';
+import { getUserQuestions, getProfileSkills } from '../actionCreators.js';
+import Modal from 'react-modal';
+import TutorSkills from '../components/TutorSkills.js';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 
 class QuestionPage extends React.Component {
@@ -25,6 +29,12 @@ class QuestionPage extends React.Component {
   }
 
   componentDidMount() {
+    // console.log(this.props.user.id, "USER ID FROM REDUX ON QP")
+
+    // put Profile Skills in Redux if tutor
+    if (this.props.user.type.toLowerCase() === 'tutor'){
+      this.props.getProfileSkills(this.props.user.id);
+    }
 
     this.updateQuestions()
     var usertype = this.props.userinfo.type
@@ -34,25 +44,24 @@ class QuestionPage extends React.Component {
      })
    }
 
-updateQuestions() {
-  var usertype = this.props.userinfo.type;
-  if (usertype === 'tutor'){
-    this.getAllQuest();
-  } else if (usertype === 'student'){
-    console.log("IN HERE");
-    this.getUserQuest();
-  } else {
-    axios
-    .get('/redirectsignup')
-    .then(response => {
-      console.log("redirected", response)
-    })
-    .catch(error => {
-      console.error('error redirect', error)
-    })
-
- }
-}
+  updateQuestions() {
+    var usertype = this.props.userinfo.type;
+    if (usertype == null){
+      axios
+      .get('/redirectsignup')
+      .then(response => {
+        console.log("redirected", response)
+      })
+      .catch(error => {
+        console.error('error redirect', error)
+      })
+    } else if (usertype.toLowerCase() === 'tutor'){
+      this.getAllQuest();
+    } else if (usertype.toLowerCase() === 'student'){
+      console.log("IN HERE");
+      this.getUserQuest();
+    } 
+  }
 
   getUserQuest(){
     axios
@@ -91,7 +100,7 @@ updateQuestions() {
           var id = array[i].id
           if (!obj[id]) {
             obj[id] = 0
-            console.log(obj);
+            // console.log(obj);
             this.setState({questionId: obj})
           }
         }
@@ -106,15 +115,12 @@ updateQuestions() {
 
   render(){
 
-    console.log(this.state.questions, "QUESTION PAGE");
-
-    // console.log(this.props.userq, "User Questions")
-    // console.log(this.props.user, "Question userid")
-    // console.log(this.state.questions, "QUESTIONS")
     if (this.state.questions.length > 0) {
       return (
-
         <div className="container">
+          <TutorSkills />
+
+        
           <QuestionList socket = {this.props.socket} userName= {this.props.userinfo.display} questions={this.state.questions} broadcastSocket = {this.props.broadcastSocket} />
         </div>
       )
@@ -129,11 +135,13 @@ updateQuestions() {
 
 const mapStateToProps = (state) => ({
   user: state.userid,
-  userq: state.userquestions
+  userq: state.userquestions, 
+  skills: state.skills
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUserQ: questions => dispatch(getUserQuestions())
+  getUserQ: questions => dispatch(getUserQuestions()), 
+  getProfileSkills: profileid => dispatch(getProfileSkills(profileid))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionPage);

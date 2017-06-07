@@ -11,6 +11,33 @@ var setUserQ = function (userquestions){
   return { type: 'SET_USER_Q', userquestions }
 }
 
+var setTags = function (tags){
+  return { type: 'SET_Q_TAGS', tags }
+}
+
+var setProfileSkills = function (skills){
+  return { type: 'SET_PROFILE_SKILLS', skills }
+}
+
+export function getProfileSkills(profileid){
+  return dispatch => {
+    console.log(profileid, "PROFILE ID")
+    
+    axios
+      .get('/api/tags/'+profileid)
+      .then(skills => {
+        var skillsarr = skills.data.map(skill => skill.tags.value)
+
+        console.log(skillsarr, "SKILLS ARR")
+
+        dispatch(setProfileSkills(skillsarr))
+      })
+      .catch(error => {
+        console.error('axios error', error)
+      });
+  };
+}
+
 export function getUserInfo (){
   return dispatch => {
     axios
@@ -21,6 +48,22 @@ export function getUserInfo (){
       })
       .catch(error => {
         console.error('axios error', error)
+      });
+    
+  };
+}
+
+export function getTags(){
+  return dispatch => {
+    axios
+      .get('/api/tags')
+      .then(tags => {
+        var tagsarr = tags.data.map(tag => tag.value)
+        // console.log(tagsarr, "TAGS")
+        dispatch(setTags(tagsarr))
+      })
+      .catch(error => {
+        console.log('Error while retrieving tags', error)
       });
     
   };

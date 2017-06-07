@@ -16,4 +16,7 @@ router.route('/user/:id')
   .get(QuestionController.getUserQ)
   ;
 
-module.exports = router;
+router.route('/addTagstoQ')
+  .post(QuestionController.addTagstoQ)
+
+module.exports = router; 

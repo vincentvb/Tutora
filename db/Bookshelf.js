@@ -1,5 +1,7 @@
 const Profile = require('./models/profiles.js');
 const Question = require('./models/questions.js');
+const Tags = require('./models/tags.js');
+const Tags_Question = require('./models/tags_questions.js');
 
 module.exports = {
 
@@ -34,7 +36,7 @@ module.exports = {
 		})
 	},
 
-	saveQuestion : (qTitle, qBody, qId_profiles, qImage, callback) => {
+	saveQuestion : (qTitle, qBody, qId_profiles, qImage, qTags, callback) => {
 		Question.forge({
 			title : qTitle,
 			body : qBody,
@@ -43,7 +45,15 @@ module.exports = {
 		})
 		.save()
 		.then(student => {
-			callback(null, student);
+			qTags.forEach(function(tag){
+				Tags_Question.forge({
+					question_id: student.id,
+					category_name: tag
+				}).save()
+			})
+		})
+		.then(questiontags => {
+			callback(null, questiontags);
 		})
 		.catch(error => {
 			callback(error, null);
@@ -81,5 +91,4 @@ module.exports = {
 			callback(error, null);
 		})
 	}
-
-};
+}
