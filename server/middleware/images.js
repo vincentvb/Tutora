@@ -27,7 +27,7 @@ module.exports.uploadQuestionPic = function(imageData, userID, callback) {
 		var imageBuffer = new Buffer(imageData, 'base64');
 
 		var data = {
-		  Key: 'userid' + userID,
+		  Key: Math.random() + ':userid' + userID,
 		  Body: imageBuffer,
 		  ACL:'public-read'
 		};
