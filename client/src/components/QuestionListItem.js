@@ -22,6 +22,8 @@ class QuestionListItem extends React.Component {
     this.handleToggle = this.handleToggle.bind(this);
     this.handleExpand = this.handleExpand.bind(this);
     this.handleReduce = this.handleReduce.bind(this);
+
+    console.log('THA PROPS', this.props);
   }
 
 componentDidMount() {
@@ -83,6 +85,11 @@ return (
         <CardText expandable={true}>
           <p style={{fontSize: "30px;"}}>{this.props.question.user.question.body}</p>
         </CardText>
+        <CardMedia expandable={true}>
+          <img 
+            src={this.props.question.user.question.image}
+          />
+        </CardMedia>
         <CardActions expandable = {true}>
           <FlatButton label={label} primary={true} onTouchTap={this.broadcast} />
         </CardActions>
