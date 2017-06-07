@@ -58,13 +58,11 @@ class Chat extends React.Component {
         newMessages.push({id: 0, message: userMessage});
         this.setState({messages: newMessages});
         this.refs.a.scrollTop = this.refs.a.scrollHeight;
-        this.setState({userChatInput: ''});
       } else {
         var newMessages = this.state.messages.slice();
         newMessages.push({id: 1, message: userMessage});
         this.setState({messages: newMessages});
         this.refs.a.scrollTop = this.refs.a.scrollHeight;
-        this.setState({userChatInput: ''});
         this.cacheInput(userMessage);
       }
 
