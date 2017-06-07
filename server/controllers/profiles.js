@@ -50,6 +50,12 @@ module.exports.updateProfile = (req, res) => {
       if (!profile) {
         throw profile;
       }
+      if (req.body.type) {
+        req.body.type = req.body.type.toLowerCase()
+      }
+      if (profile.type) {
+        profile.type = profile.type.toLowerCase();
+      }
       return profile.save({
         first: req.body.first || profile.first,
         last: req.body.last || profile.last,
