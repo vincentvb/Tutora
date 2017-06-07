@@ -66,7 +66,6 @@ module.exports.updateProfile = (req, res) => {
 
 module.exports.updateProfileSkills = (req, res) => {
   // this should be refactored for multiple inserts
-
   req.body.tags.forEach(function(tag){
     models.Tag.where({ value: tag }).fetch({columns:['id']})
       .then(model => {
@@ -83,8 +82,8 @@ module.exports.updateProfileSkills = (req, res) => {
         console.log(e, "from catch")
         res.sendStatus(404)
       })
-    res.status(200).send('');    
   }) 
+  res.status(200).send('');
 }
 
 

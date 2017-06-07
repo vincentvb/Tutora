@@ -6,10 +6,7 @@ exports.up = function(knex, Promise) {
       table.increments('id').unsigned().primary();
       table.integer('question_id').references('questions.id').onDelete('CASCADE');
       table.integer('tags_id').references('tags.id').onDelete('CASCADE');
-    }), 
-    knex.schema.table('tags', function(table){
-      table.integer('tags_profiles_id').references('tags_profiles.id').onDelete('CASCADE');
-    }),
+    })
   ]);
 };
 
