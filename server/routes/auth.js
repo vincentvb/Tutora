@@ -1,8 +1,38 @@
 const express = require('express');
 const middleware = require('../middleware');
 const models = require('../../db/Bookshelf.js');
+const AccessToken = require('twilio').jwt.AccessToken;
+const VideoGrant = AccessToken.VideoGrant;
 
 const router = express.Router();
+
+router.route('/apiKey')
+  .get((req, res) => {
+    console.log(req.query);
+    var ACCOUNT_SID = 'AC1c2aab71bacbf1f4c7bed20987f9fc3d';
+    var API_KEY_SID = 'SKe413562b5713ff07fd06ec292a3bb37f';
+    var API_KEY_SECRET = 'lwiKJToOsV3gx0O2XDfoaaBwUxcsdBvx';
+
+    // Create an Access Token
+    var accessToken = new AccessToken(
+      ACCOUNT_SID,
+      API_KEY_SID,
+      API_KEY_SECRET
+    );
+
+    // Set the Identity of this token
+    accessToken.identity = req.query.user;
+
+    // Grant access to Video
+    var grant = new VideoGrant();
+    accessToken.addGrant(grant);
+
+    // Serialize the token as a JWT
+    var jwt = accessToken.toJwt();
+    console.log(jwt);
+    res.send(jwt);
+    
+  })
 
 router.route('/')
   .get(middleware.auth.verify, (req, res) => {

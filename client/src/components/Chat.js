@@ -6,7 +6,6 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {GridList} from 'material-ui/GridList';
 import { connect } from 'react-redux'
-const Video = require('twilio-video');
 
 class Chat extends React.Component {
   constructor(props) {
@@ -70,15 +69,7 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-    var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzQ2ZTE1ODAzZTZiNjAwZjJjYjhkOTM1OTY5ODBjNTJiLTE0OTY4MDEwOTAiLCJpc3MiOiJTSzQ2ZTE1ODAzZTZiNjAwZjJjYjhkOTM1OTY5ODBjNTJiIiwic3ViIjoiQUMxYzJhYWI3MWJhY2JmMWY0YzdiZWQyMDk4N2Y5ZmMzZCIsImV4cCI6MTQ5NjgwNDY5MCwiZ3JhbnRzIjp7ImlkZW50aXR5IjoiaGVsbG8iLCJ2aWRlbyI6eyJyb29tIjoic3VwIn19fQ.k1Uw8ulmlHZCt0qHM4uWnlc2Wk5GK51zrlVOmeafWik"
-    Video.connect(token, {name:'my-new-room'}).then(function(room) {
-    console.log('Successfully joined a Room: ', room);
-    room.on('participantConnected', function(participant) {
-      console.log('A remote Participant connected: ', participant);
-      })
-    }, function(error) {
-      console.error('Unable to connect to Room: ' +  error.message);
-    });
+
     this.refs.a.scrollTop = this.refs.a.scrollHeight;
   }
 

@@ -122,9 +122,12 @@ class Index extends React.Component {
       var roomName = JSON.stringify(this.state.roomName)
       var search = roomName + "&" + this.props.userid.id;
       this.props.setRoomLocation(search)
+      console.log(this.state.roomName, "ROOMNAME");
+      var room = this.state.roomName
       return (
         <Redirect to={{
-          pathname: '/classroom'
+          pathname: '/classroom',
+          state: {room}
         }}/>
       )
     } else if (this.props.userid.id && this.state.id !== "") {
