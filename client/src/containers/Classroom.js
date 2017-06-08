@@ -9,6 +9,12 @@ import Chat from '../components/Chat.js';
 import { connect } from 'react-redux'
 const Video = require('twilio-video');
 
+const imageStyle = {
+  position: "fixed",
+  width: "100%",
+  height: "100%"
+}
+
 
 class Classroom extends React.Component {
   constructor(props) {
@@ -21,10 +27,11 @@ componentDidMount() {
   console.log("PROPS", this.props);
   var location = this.props.location
   console.log("LOCATION", location.state.room);
+  var randomUser = (Math.random() * 99999).toString();
   axios.get('/apiKey', {
   params: {
     location: location.state.room,
-    user: this.props.user.display
+    user: this.props.user.display || randomUser
   }
 })
   .then((response) => {
@@ -60,22 +67,25 @@ componentDidMount() {
   render() {
 
     return (
+     <div>
+     <img src ="https://pixabay.com/get/eb34b70820f0053ed1534705fb0938c9bd22ffd41db817499cf0c971a0/board-2167844_1920.jpg" style={imageStyle} />
       <div className="container">
       
-      <div style={styles.header} className="row">
-        My Classroom
-
-      </div>
-
-      <div className="row">
-        <div style={styles.chat} className="col-md-4 col-xs-4">
-          <Chat />
-        </div>
-        <div id="videoTrack" className="col-md-8 col-xs-8 media-container"></div>
-        <div id="audioTrack" className="col-md-8 col-xs-8 media-container"></div>
+        <div style={styles.header} className="row">
+          My Classroom
 
         </div>
+
+        <div className="row">
+          <div style={styles.chat} className="col-md-4 col-xs-4">
+            <Chat />
+          </div>
+          <div style={styles.video} id="videoTrack" className="col-md-8 col-xs-8 media-container"></div>
+          <div id="audioTrack" className="col-md-8 col-xs-8 media-container"></div>
+
+          </div>
       </div>
+    </div>
     )
   }
 }
@@ -106,10 +116,7 @@ const styles = {
     // borderWidth: 5,
     // borderStyle: 'solid',
     height: 420,
-    backgroundColor: 'gray',
-    color: 'white',
-    verticalAlign: 'middle',
-    position: 'relative'
+
   },
   videotext: {
     position: 'absolute',
