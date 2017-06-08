@@ -18,7 +18,7 @@ import Snackbar from 'material-ui/Snackbar';
 import { connect } from 'react-redux';
 import { getTags } from '../actionCreators.js';
 import Select from 'react-select';
-
+import Toggle from 'material-ui/Toggle';
 
 class AskQuestion extends React.Component {
   constructor(props){
@@ -31,7 +31,8 @@ class AskQuestion extends React.Component {
       questionDescription: '',
       snackBarQuestion: false,
       imageInput: null,
-      value: ''
+      value: '',
+      logged: false
     };
     this.postQuestion = this.postQuestion.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -42,6 +43,7 @@ class AskQuestion extends React.Component {
     this.handleSnackBarQuestionClose = this.handleSnackBarQuestionClose.bind(this);
     this.imageInput = this.imageInput.bind(this);
     this.handleSelectTagsChange = this.handleSelectTagsChange.bind(this);
+    this.handleToggleChange = this.handleToggleChange.bind(this);
   }
 
   componentWillMount(){
@@ -143,27 +145,23 @@ class AskQuestion extends React.Component {
     });
   }
 
+  handleToggleChange(event, logged) {
+    this.setState({logged: logged});
+    this.props.paymentTrigger(true);
+  }
+
   render() {
-
-
-    // console.log(this.state.imageInput);
-
-   // console.log(this.props.tags, "TAGS FROM REDUX")
     var options = this.props.tags.map(function(tag){
       return { value: tag, label: tag }
-    })
-
-
-   const actions = [
+    });
+    const actions = [
      <FlatButton
        label="Submit"
        primary={true}
        keyboardFocused={true}
        onTouchTap={this.postQuestion}
      />,
-   ];
-
-
+    ];
     return (
       <div>
         <Snackbar
@@ -185,6 +183,7 @@ class AskQuestion extends React.Component {
           open={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
         >
+
           <TextField
             className="questionTitle"
             fullWidth = {true}
@@ -221,8 +220,16 @@ class AskQuestion extends React.Component {
             name="tag-questions"
             options={options}
             onChange={this.handleSelectTagsChange}
+            style={{marginBottom: 20, marginTop: 20}}
           />
-
+          Tips from your friends at Tutora: Pay the Tutor $5 to get faster response from saught after tutors!
+          <Toggle
+            label="Payed Question"
+            defaultToggled={false}
+            onToggle={this.handleToggleChange}
+            labelPosition="right"
+            style={{margin: 20}}
+          />
           <div className="paddingSkills"></div>
         </Dialog>
       </div>
