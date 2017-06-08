@@ -15,6 +15,20 @@ const userid = (state= {}, action) => {
   // return state;
 };
 
+const tags = (state=[], action) => {
+  switch(action.type) {
+    case ('SET_Q_TAGS') : return action.tags
+    default : return state
+  }
+}
+
+const skills = (state=[], action) => {
+  switch(action.type) {
+    case ('SET_PROFILE_SKILLS') : return action.skills
+    default : return state
+  }
+}
+
 
 const userq = (state= [], action) => {
   // if (action.type === 'SET_USER_Q'){
@@ -47,7 +61,7 @@ const answerer = (state= '', action) => {
   }
 };
 
-const rootReducer = combineReducers( { userid, userq, location, questioner, answerer } );
+const rootReducer = combineReducers( { userid, userq, location, questioner, answerer, tags, skills } );
 
 
 export default rootReducer

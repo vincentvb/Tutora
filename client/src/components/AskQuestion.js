@@ -15,9 +15,10 @@ import FontIcon from 'material-ui/FontIcon';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
-
-
-
+import { connect } from 'react-redux';
+import { getTags } from '../actionCreators.js';
+import Select from 'react-select';
+import Toggle from 'material-ui/Toggle';
 
 class AskQuestion extends React.Component {
   constructor(props){
@@ -29,7 +30,9 @@ class AskQuestion extends React.Component {
       questionTitle: '',
       questionDescription: '',
       snackBarQuestion: false,
-      imageInput: null
+      imageInput: null,
+      value: '',
+      logged: false
     };
     this.postQuestion = this.postQuestion.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -39,14 +42,29 @@ class AskQuestion extends React.Component {
     this.handleDescriptionInput = this.handleDescriptionInput.bind(this);
     this.handleSnackBarQuestionClose = this.handleSnackBarQuestionClose.bind(this);
     this.imageInput = this.imageInput.bind(this);
+    this.handleSelectTagsChange = this.handleSelectTagsChange.bind(this);
+    this.handleToggleChange = this.handleToggleChange.bind(this);
+  }
+
+  componentWillMount(){
+    this.props.getTags()
+  }
+
+  handleSelectTagsChange(value){
+    // console.log("Selected: ", value)
+    this.setState({ value: value })
   }
 
   postQuestion() {
+    var tagsarr = this.state.value.split(",");
+
     var body = {
       title: this.state.questionInput,
       body: this.state.questionDescription,
       userid: this.props.id,
-      image: null
+      image: null,
+      image: 'www.placeholder.com', 
+      tags: tagsarr
     };
 
     if (this.state.imageInput !== null) {
@@ -54,6 +72,8 @@ class AskQuestion extends React.Component {
       var reader = new FileReader();
       reader.readAsDataURL(image);
 
+      var refToSocket = this.props.socket;
+      
       reader.onload = function() {
         body.image = reader.result.split('base64,')[1];
         axios.post('/api/questions', body)
@@ -61,7 +81,8 @@ class AskQuestion extends React.Component {
           console.log('Posted question to server. ', response);
         })
         .then(() => {
-          this.props.socket.emit('updateQuestions', () => {
+          console.log('here')
+          refToSocket.emit('updateQuestions', () => {
           })
         })
         .catch(error => {
@@ -81,8 +102,10 @@ class AskQuestion extends React.Component {
         console.log('Error while posting to the server, ', error);
       });
     }
+    
 
     this.setState({snackBarQuestion: true})
+
     this.closeModal();
   }
 
@@ -122,16 +145,23 @@ class AskQuestion extends React.Component {
     });
   }
 
+  handleToggleChange(event, logged) {
+    this.setState({logged: logged});
+    this.props.paymentTrigger(true);
+  }
+
   render() {
-    console.log(this.state.imageInput);
-   const actions = [
-   <FlatButton
-     label="Submit"
-     primary={true}
-     keyboardFocused={true}
-     onTouchTap={this.postQuestion}
-   />,
- ];
+    var options = this.props.tags.map(function(tag){
+      return { value: tag, label: tag }
+    });
+    const actions = [
+     <FlatButton
+       label="Submit"
+       primary={true}
+       keyboardFocused={true}
+       onTouchTap={this.postQuestion}
+     />,
+    ];
     return (
       <div>
         <Snackbar
@@ -153,6 +183,7 @@ class AskQuestion extends React.Component {
           open={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
         >
+
           <TextField
             className="questionTitle"
             fullWidth = {true}
@@ -169,6 +200,7 @@ class AskQuestion extends React.Component {
             rows={4}
             floatingLabelText="Question Body"
           />
+
           <RaisedButton
             containerElement='label'
             label='Upload a picture'>
@@ -179,6 +211,26 @@ class AskQuestion extends React.Component {
                 accept='image/*'
               />
           </RaisedButton>
+          <div style={{marginBottom: 10}}></div>
+          <Select
+            multi
+            simpleValue 
+            value={this.state.value}
+            placeholder="Add tags to your question"
+            name="tag-questions"
+            options={options}
+            onChange={this.handleSelectTagsChange}
+            style={{marginBottom: 20, marginTop: 20}}
+          />
+          Tips from your friends at Tutora: Pay the Tutor $5 to get faster response from saught after tutors!
+          <Toggle
+            label="Payed Question"
+            defaultToggled={false}
+            onToggle={this.handleToggleChange}
+            labelPosition="right"
+            style={{margin: 20}}
+          />
+          <div className="paddingSkills"></div>
         </Dialog>
       </div>
     )
@@ -213,4 +265,13 @@ const customStyles = {
   }
 };
 
-export default AskQuestion
+const mapStateToProps = (state) => ({
+  tags: state.tags
+});
+
+
+const mapDispatchToProps = dispatch => ({
+  getTags: tags => dispatch(getTags())
+})
+  
+export default connect(mapStateToProps, mapDispatchToProps)(AskQuestion)

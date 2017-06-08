@@ -13,20 +13,6 @@ module.exports.getAll = (req, res) => {
     });
 };
 
-// module.exports.create = (req, res) => {
-//   models.Profile.forge({ username: req.body.username, password: req.body.password })
-//     .save()
-//     .then(result => {
-//       res.status(201).send(result.omit('password'));
-//     })
-//     .catch(err => {
-//       if (err.constraint === 'users_username_unique') {
-//         return res.status(403);
-//       }
-//       res.status(500).send(err);
-//     });
-// };
-
 module.exports.getOne = (req, res) => {
   models.Profile.where({ id: req.params.id }).fetch()
     .then(profile => {
@@ -64,7 +50,7 @@ module.exports.updateProfile = (req, res) => {
         phone: req.body.phone || profile.phone,
         type: req.body.type || profile.type,
         description: req.body.description || profile.description,
-        avatar: req.body.avatar || profile.avatar
+        avatar: req.body.avatar || profile.avatar, 
       }, { method: 'update' });
     })
     .then(() => {
@@ -77,6 +63,44 @@ module.exports.updateProfile = (req, res) => {
       res.sendStatus(404);
     });
 };
+
+module.exports.updateProfileSkills = (req, res) => {
+  // this should be refactored for multiple inserts
+  req.body.tags.forEach(function(tag){
+    models.Tag.where({ value: tag }).fetch({columns:['id']})
+      .then(model => {
+        console.log(model.id, "ID FROM SKILL")
+         models.Tags_Profile.forge({
+           profile_id: req.body.profileId,
+           tags_id: model.id
+         }).save()
+      })
+      .error(err => {
+        res.status(500).send(err)
+      })
+      .catch(e => {
+        console.log(e, "from catch")
+        res.sendStatus(404)
+      })
+  }) 
+  res.status(200).send('');
+}
+
+
+
+// module.exports.create = (req, res) => {
+//   models.Profile.forge({ username: req.body.username, password: req.body.password })
+//     .save()
+//     .then(result => {
+//       res.status(201).send(result.omit('password'));
+//     })
+//     .catch(err => {
+//       if (err.constraint === 'users_username_unique') {
+//         return res.status(403);
+//       }
+//       res.status(500).send(err);
+//     });
+// };
 
 // module.exports.deleteOne = (req, res) => {
 //   models.Profile.where({ id: req.params.id }).fetch()

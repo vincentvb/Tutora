@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom'
 import AskQuestion from './AskQuestion.js';
 import Classroom from '../containers/Classroom.js'
+import PaymentModal from './PaymentModal.js'
 import Nav from './Nav.js'
 import QuestionPage from '../containers/QuestionPage.js'
 import Dialog from 'material-ui/Dialog';
@@ -13,12 +14,9 @@ import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
 import { setRoomLocation } from '../actionCreators.js'
 
-
 const backgroundStyles = {
   backgroundImage: "url('../public/assets/Questionmark.jpeg')"
-  // backgroundImage: "url(https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg)"
 }
-
 
 class Index extends React.Component {
   constructor(props) {
@@ -28,7 +26,8 @@ class Index extends React.Component {
     	id: "",
       open: false,
       snackBar: true,
-      snackBarQuestion: false
+      snackBarQuestion: false,
+      triggeredPayment: false
     };
     this.redirect = this.redirect.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
@@ -36,10 +35,8 @@ class Index extends React.Component {
     this.getUserInfo = this.getUserInfo.bind(this);
     this.broadcastSocket = this.broadcastSocket.bind(this);
     this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
+    this.paymentTrigger = this.paymentTrigger.bind(this);
   }
-
-
-
 
   broadcastSocket (userId) {
     console.log(this.props.questionerid, "QUESTIONER ID")
@@ -108,6 +105,9 @@ class Index extends React.Component {
     this.setState({redirect: true})
   }
 
+  paymentTrigger(bol) {
+    this.setState({paymentTrigger: bol});
+  }
 
   render() {
     if (this.state.id !== "") {
@@ -117,9 +117,6 @@ class Index extends React.Component {
           user_id: this.state.id
         });
       };
-    // console.log(this.props.userid)
-
-    // console.log(this.props.userid, "USER INFO FROM REDUX")
 
     if (this.state.redirect) {
       var roomName = JSON.stringify(this.state.roomName)
@@ -133,14 +130,12 @@ class Index extends React.Component {
           state: {room}
         }}/>
       )
-    }
-    else if (this.props.userid.id && this.state.id !== "") {
-    const buttonStyle = {
-      position: "absolute",
-      top: "0px",
-      right: "0px",
-      color: "white"
-
+    } else if (this.props.userid.id && this.state.id !== "") {
+      const buttonStyle = {
+        position: "absolute",
+        top: "0px",
+        right: "0px",
+        color: "white"
     }
     const snackBarStyle = {
       top: 0,
@@ -179,14 +174,10 @@ class Index extends React.Component {
           onActionTouchTap={this.handleSnackBarClose}
           />
         <a href="/logout"> <FlatButton style = {buttonStyle} label="Logout" /> </a>
-
         <Nav user={this.props.userid}/>
         <div style={{marginLeft: "5%"}}>
         <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
-
-		    <AskQuestion socket = {this.socket} id={this.state.id}/>
-
-
+		    <AskQuestion socket = {this.socket} id={this.state.id} paymentTrigger={this.paymentTrigger}/>
         <Dialog
           title="We found a tutor for your question!"
           actions={actions}
@@ -195,6 +186,11 @@ class Index extends React.Component {
         >
           Accept and go to the classroom or wait.
         </Dialog>
+        {this.state.triggeredPayment ? (
+          <PaymentModal />
+          ) : (
+          <div></div>
+        )}
       </div>
 		  </div>
 		)
@@ -207,8 +203,7 @@ class Index extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userid: state.userid,
-  questionerid: state.questioner
+  userid: state.userid
 });
 
 const mapDispatchToProps = dispatch => ({

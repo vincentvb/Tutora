@@ -73,7 +73,6 @@ router.route('/signup2')
     res.redirect('/')
   });
 
-
 router.route('/getuserinfo')
   .get(middleware.auth.verify, (req, res) => {
     res.send(JSON.stringify(req.user))

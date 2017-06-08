@@ -6,3 +6,13 @@
     transform: translateY(-50%);
     font-family: 'Roboto', sans-serif;
 }
+
+.paddingSkills {
+  margin: 200px;
+}
+
+.skillsText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  margin: 20px;
+}
