@@ -7,6 +7,9 @@ const Tag = db.Model.extend({
   },
   profiles: function(){
     return this.hasMany('Profile').through('tags_profiles')
+  }, 
+  taglets: function(){
+    return this.hasMany('Taglet')
   }
 });
 

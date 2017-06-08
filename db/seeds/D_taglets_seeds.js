@@ -5,6 +5,11 @@ const db = require('bookshelf')(knex);
 exports.seed = function(knex, Promise) {
   return knex('taglets').del()
   .then(function() {
+    // return knex('taglets').insert([{
+  //     value: "Calculus", 
+  //     tag_id: 1
+  //   }]);
+  // })
     return knex('taglets').insert([
       { value: "Calculus",  tag_id: 1},
       { value: "Algebra", tag_id: 1},
@@ -50,7 +55,56 @@ exports.seed = function(knex, Promise) {
       { value: "Prime numbers", tag_id: 1},
       { value: "Rational numbers", tag_id: 1},
       { value: "Addition", tag_id: 1},
-      { value: "Multiplication", tag_id: 1}
+      { value: "Multiplication", tag_id: 1}, 
+      { value: "Mechanics", tag_id: 5},
+      { value: "Kinematics", tag_id: 5},
+      { value: "Fluid Mechanics", tag_id: 5},
+      { value: "Thermodynamics", tag_id: 5},
+      { value: "Electricity", tag_id: 5},
+      { value: "Magnetism", tag_id: 5},
+      { value: "Oscillations and Waves", tag_id: 5},
+      { value: "Particle Physics", tag_id: 5},
+      { value: "Atomic Physics", tag_id: 5},
+      { value: "Nuclear Physics", tag_id: 5},
+      { value: "Gauss's law", tag_id: 5},
+      { value: "Quantum Mechanics", tag_id: 5},
+      { value: "Newton's Laws", tag_id: 5},
+      { value: "Homeostasis", tag_id: 9},
+      { value: "Cell", tag_id: 9},
+      { value: "Virology", tag_id: 9},
+      { value: "Immunology", tag_id: 9},
+      { value: "Evolution", tag_id: 9},
+      { value: "Taxonomy", tag_id: 9},
+      { value: "Botany", tag_id: 9},
+      { value: "Zoology", tag_id: 9},
+      { value: "Ecology", tag_id: 9},
+      { value: "Diffusion and Osmosistop", tag_id: 9},
+      { value: "World History", tag_id: 3},
+      { value: "US History", tag_id: 3},
+      { value: "Presidents", tag_id: 3},
+      { value: "American Revolution", tag_id: 3},
+      { value: "Cold War", tag_id: 3},
+      { value: "Acids and Bases", tag_id: 6},
+      { value: "Elements", tag_id: 6},
+      { value: "Compounds", tag_id: 6},
+      { value: "Measurement", tag_id: 6},
+      { value: "Gases", tag_id: 6},
+      { value: "Periodic Table", tag_id: 6},
+      { value: "Covalent Bond", tag_id: 6},
+      { value: "Metals", tag_id: 6},
+      { value: "Oxidation-Reduction", tag_id: 6},
+      { value: "Conjunctions", tag_id: 8},
+      { value: "Punctuation", tag_id: 8},
+      { value: "Articles/Determiners", tag_id: 8},
+      { value: "Prepositions", tag_id: 8},
+      { value: "Causatives", tag_id: 8},
+      { value: "Conditionals", tag_id: 8},
+      { value: "Adverbs", tag_id: 8},
+      { value: "Nouns", tag_id: 8},
+      { value: "Verbs", tag_id: 8}
+
+
+
 
     ]);
   })
