@@ -51,7 +51,7 @@ client.on('connect', () => {
 // })
 
 var server = https.createServer(options, app).listen(3000, function(){
-  console.log("listening on 3000 (or 80 if you are running me Docker)");
+  console.log("listening on 3000");
 });
 
 const io = require('socket.io')(server);
