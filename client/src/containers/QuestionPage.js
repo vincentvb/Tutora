@@ -41,6 +41,7 @@ class QuestionPage extends React.Component {
     this.props.socket.on('updateQuestions', () => {
       console.log("UPDATING QUESTIONS");
       this.updateQuestions()
+      this.props.test('www');
      })
    }
 
@@ -60,7 +61,7 @@ class QuestionPage extends React.Component {
     } else if (usertype.toLowerCase() === 'student'){
       console.log("IN HERE");
       this.getUserQuest();
-    } 
+    }
   }
 
   getUserQuest(){

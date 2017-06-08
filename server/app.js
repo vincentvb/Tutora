@@ -9,9 +9,14 @@ const client = redis.createClient({
 });
 
 const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http)
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
 
+var options = {
+  key: fs.readFileSync('./server/client-key.pem'),
+  cert: fs.readFileSync('./server/client-cert.pem')
+};
 
 
 app.use(middleware.morgan('dev'));
@@ -41,9 +46,15 @@ client.on('connect', () => {
   console.log("redis connected");
 })
 
-http.listen(3000, () => {
-  console.log("listening on 3000 (or 80 if you are running me Docker)")
-})
+// http.listen(3000, () => {
+//   console.log("listening on 3000 (or 80 if you are running me Docker)")
+// })
+
+var server = https.createServer(options, app).listen(3000, function(){
+  console.log("listening on 3000 (or 80 if you are running me Docker)");
+});
+
+const io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
   socket.on('userData', (data) => {
