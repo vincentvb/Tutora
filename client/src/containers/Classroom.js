@@ -7,14 +7,54 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {GridList} from 'material-ui/GridList';
 import Chat from '../components/Chat.js';
 import { connect } from 'react-redux'
+const Video = require('twilio-video');
+
 
 class Classroom extends React.Component {
   constructor(props) {
     super(props);
 
-    
+
   }
 
+componentDidMount() {
+  console.log("PROPS", this.props);
+  var location = this.props.location
+  console.log("LOCATION", location.state.room);
+  axios.get('/apiKey', {
+  params: {
+    location: location.state.room,
+    user: this.props.user.display
+  }
+})
+  .then((response) => {
+    console.log("DATA", response.data)
+    var room
+    Video.connect(response.data, {name: location.state.room}).then((room) => {
+     var room = room
+     console.log('Successfully joined a Room: ', room);
+     var tracks = Array.from(room.localParticipant.tracks.values())
+      document.getElementById('videoTrack').appendChild(tracks[1].attach())
+      // tracks[1].attach(this.refs.remoteMedia)
+     room.on('trackAdded', function(track, participant) {
+      var tracks = Array.from(participant.tracks.values())
+      console.log("TRACKS", tracks)
+      if (tracks[1]) {
+      var id1 = document.getElementById('videoTrack')
+      var id2 = document.getElementById('audioTrack');
+      id1.removeChild(id1.childNodes[0]);
+      id1.appendChild(tracks[1].attach());
+      id2.removeChild(id2.childNodes[0]);
+      id2.appendChild(tracks[0].attach());
+     }
+    })
+  }, function(error) {
+      console.error('Unable to connect to Room: ' +  error.message);
+  });
+  })
+
+
+}
 
 
   render() {
@@ -31,10 +71,10 @@ class Classroom extends React.Component {
         <div style={styles.chat} className="col-md-4 col-xs-4">
           <Chat />
         </div>
-        <div style={styles.video} className="col-md-8 col-xs-8">
-          <h1 className="videotext" style={styles.videotext} >Video Placeholder </h1>
+        <div id="videoTrack" className="col-md-8 col-xs-8 media-container"></div>
+        <div id="audioTrack" className="col-md-8 col-xs-8 media-container"></div>
+
         </div>
-      </div>
       </div>
     )
   }
