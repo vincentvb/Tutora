@@ -27,7 +27,8 @@ class Index extends React.Component {
       open: false,
       snackBar: true,
       snackBarQuestion: false,
-      triggeredPayment: false
+      triggeredPayment: false,
+      test: ''
     };
     this.redirect = this.redirect.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
@@ -36,6 +37,9 @@ class Index extends React.Component {
     this.broadcastSocket = this.broadcastSocket.bind(this);
     this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
     this.paymentTrigger = this.paymentTrigger.bind(this);
+
+    this.test = this.test.bind(this);
+
   }
 
   broadcastSocket (userId) {
@@ -74,9 +78,7 @@ class Index extends React.Component {
   };
 
   handleClose() {
-    // also reset the Answerer to null
     this.setState({open: false});
-
   };
 
   componentWillMount() {
@@ -107,6 +109,10 @@ class Index extends React.Component {
 
   paymentTrigger(bol) {
     this.setState({paymentTrigger: bol});
+  }
+
+  test(string) {
+    this.setState({test: string});
   }
 
   render() {
@@ -176,8 +182,8 @@ class Index extends React.Component {
         <a href="/logout"> <FlatButton style = {buttonStyle} label="Logout" /> </a>
         <Nav user={this.props.userid}/>
         <div style={{marginLeft: "5%"}}>
-        <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
-		    <AskQuestion socket = {this.socket} id={this.state.id} paymentTrigger={this.paymentTrigger}/>
+        <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} test = {this.test} />
+		    <AskQuestion socket = {this.socket} id={this.state.id} paymentTrigger={this.paymentTrigger} />
         <Dialog
           title="We found a tutor for your question!"
           actions={actions}

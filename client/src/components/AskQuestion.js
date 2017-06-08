@@ -224,7 +224,7 @@ class AskQuestion extends React.Component {
           />
           Tips from your friends at Tutora: Pay the Tutor $5 to get faster response from saught after tutors!
           <Toggle
-            label="Payed Question"
+            label="Paid Question"
             defaultToggled={false}
             onToggle={this.handleToggleChange}
             labelPosition="right"
