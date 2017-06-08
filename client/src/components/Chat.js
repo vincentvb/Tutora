@@ -143,7 +143,7 @@ class Chat extends React.Component {
 const styles = {
 
   chat: {
-    height:200,
+    height:263,
     overflow: "scroll"
   },
   bubbleStyles: {
