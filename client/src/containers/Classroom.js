@@ -4,9 +4,13 @@ import {Card, CardHeader} from 'material-ui/Card';
 import { ChatFeed, Message } from 'react-chat-ui'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import {GridList} from 'material-ui/GridList';
 import Chat from '../components/Chat.js';
 import { connect } from 'react-redux'
+import Dialog from 'material-ui/Dialog';
+import { Redirect } from 'react-router-dom'
+
 const Video = require('twilio-video');
 
 const imageStyle = {
@@ -16,11 +20,33 @@ const imageStyle = {
 }
 
 
+
 class Classroom extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      open: false,
+      redirect: false
+    }
+
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.redirect = this.redirect.bind(this);
+  }
 
 
+
+
+
+  handleOpen() {
+    this.setState({open: true});
+  };
+
+  handleClose() {
+    this.setState({open: false});
+  };
+  redirect() {
+    this.setState({redirect: true})
   }
 
 componentDidMount() {
@@ -55,6 +81,10 @@ componentDidMount() {
       id2.appendChild(tracks[0].attach());
      }
     })
+     room.on('participantDisconnected', (participant) => {
+      this.handleOpen();
+
+     })
   }, function(error) {
       console.error('Unable to connect to Room: ' +  error.message);
   });
@@ -65,10 +95,38 @@ componentDidMount() {
 
 
   render() {
+  const buttonStyle = {
+        position: "absolute",
+        top: "0px",
+        right: "0px",
+        color: "white"
+  }
+  const buttonActions = [
+    <FlatButton
+          label="Stay Here"
+          primary={true}
+          onTouchTap={this.handleClose}
+    />,
+    <FlatButton
+        label="Leave"
+        primary={true}
+        onTouchTap={this.redirect}
+        />
+    ]
+
+    if (this.state.redirect) {
+      return (
+         <Redirect to={{
+          pathname: '/'
+        }}/>
+      )
+    }
 
     return (
      <div>
-     <img src ="https://pixabay.com/get/eb34b70820f0053ed1534705fb0938c9bd22ffd41db817499cf0c971a0/board-2167844_1920.jpg" style={imageStyle} />
+     <img src ="https://pixabay.com/get/e835b60d2bf2073ed1534705fb0938c9bd22ffd41db8174891f9c078a2/black-1072366_1920.jpg" style={imageStyle} />
+      <FlatButton onTouchTap = {this.redirect} style = {buttonStyle} label="Return To Home" />
+
       <div className="container">
       
         <div style={styles.header} className="row">
@@ -85,6 +143,13 @@ componentDidMount() {
 
           </div>
       </div>
+        <Dialog
+          title="Your partner has left! Leave or stay?"
+          actions={buttonActions}
+          modal={true}
+          open={this.state.open}
+        >
+        </Dialog>
     </div>
     )
   }
