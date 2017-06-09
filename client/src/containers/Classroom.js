@@ -36,15 +36,24 @@ class Classroom extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.openFeedback = this.openFeedback.bind(this);
     this.redirect = this.redirect.bind(this);
-    this.handleFeedbackClose = this.handleFeedbackClose.bind(this);
+    this.handleFeedbackQuestionClose = this.handleFeedbackQuestionClose.bind(this);
+    this.handleFeedbackNoQuestionClose = this.handleFeedbackNoQuestionClose.bind(this);
   }
 
 
 
-handleFeedbackClose() {
+handleFeedbackQuestionClose() {
+  axios.post(`/api/questions/user/${this.props.location.state.questionId}`, {rating: this.state.rating, questionId: this.props.location.state.questionId})
   this.redirect();
   this.setState({feedback: false})
 }
+
+handleFeedbackNoQuestionClose() {
+  axios.post(`/api/questions/user/${this.props.location.state.questionId}`, {rating: this.state.rating, questionId: this.props.location.state.questionId, questionAnswered: true})
+  this.redirect();
+  this.setState({feedback: false})
+}
+
 
   handleOpen() {
     this.setState({open: true});
@@ -123,14 +132,14 @@ componentDidMount() {
     <FlatButton
           label="Close My Question"
           primary={true}
-          onTouchTap={this.handleFeedbackClose}
+          onTouchTap={this.handleFeedbackNoQuestionClose}
           style={{textAlign: "center"}}
 
     />,
     <FlatButton
         label="Keep My Question Open"
         primary={true}
-        onTouchTap={this.handleFeedbackClose}
+        onTouchTap={this.handleFeedbackQuestionClose}
         style={{textAlign: "center"}}
 
         />
