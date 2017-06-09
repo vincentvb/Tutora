@@ -7,9 +7,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import {GridList} from 'material-ui/GridList';
 import Chat from '../components/Chat.js';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+import { Rating } from 'material-ui-rating'
 
 const Video = require('twilio-video');
 
@@ -26,17 +27,24 @@ class Classroom extends React.Component {
     super(props);
     this.state = {
       open: false,
-      redirect: false
+      redirect: false,
+      feedback: false,
+      rating: 3
     }
 
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.openFeedback = this.openFeedback.bind(this);
     this.redirect = this.redirect.bind(this);
+    this.handleFeedbackClose = this.handleFeedbackClose.bind(this);
   }
 
 
 
-
+handleFeedbackClose() {
+  this.redirect();
+  this.setState({feedback: false})
+}
 
   handleOpen() {
     this.setState({open: true});
@@ -45,6 +53,16 @@ class Classroom extends React.Component {
   handleClose() {
     this.setState({open: false});
   };
+
+  openFeedback() {
+    if (this.props.location.state.userType === "tutor") {
+      this.redirect();
+    }
+    else {
+    this.setState({feedback: true})
+   }
+  }
+
   redirect() {
     this.setState({redirect: true})
   }
@@ -101,6 +119,22 @@ componentDidMount() {
         right: "0px",
         color: "white"
   }
+  const feedbackActions = [
+    <FlatButton
+          label="Close My Question"
+          primary={true}
+          onTouchTap={this.handleFeedbackClose}
+          style={{textAlign: "center"}}
+
+    />,
+    <FlatButton
+        label="Keep My Question Open"
+        primary={true}
+        onTouchTap={this.handleFeedbackClose}
+        style={{textAlign: "center"}}
+
+        />
+    ]
   const buttonActions = [
     <FlatButton
           label="Stay Here"
@@ -110,22 +144,22 @@ componentDidMount() {
     <FlatButton
         label="Leave"
         primary={true}
-        onTouchTap={this.redirect}
-        />
+        onTouchTap={this.openFeedback}
+      />
     ]
 
     if (this.state.redirect) {
       return (
          <Redirect to={{
-          pathname: '/'
+          pathname: '/',
         }}/>
       )
     }
 
     return (
      <div>
-     <img src ="https://pixabay.com/get/e835b60d2bf2073ed1534705fb0938c9bd22ffd41db8174891f9c078a2/black-1072366_1920.jpg" style={imageStyle} />
-      <FlatButton onTouchTap = {this.redirect} style = {buttonStyle} label="Return To Home" />
+     <img src ="https://pixabay.com/get/e835b60d2bf2073ed1534705fb0938c9bd22ffd41db8174890f9c67ea6/black-1072366_1920.jpg" style={imageStyle} />
+      <FlatButton onTouchTap = {this.openFeedback} style = {buttonStyle} label="Return To Home" />
 
       <div className="container">
       
@@ -149,6 +183,19 @@ componentDidMount() {
           modal={true}
           open={this.state.open}
         >
+        </Dialog>
+        <Dialog
+          actions={feedbackActions}
+          modal={true}
+          open={this.state.feedback}
+        >
+        <p style={{textAlign: "center"}}>Were you satisfied with your tutor? Give him or her a rating!</p>
+        <Rating
+          value={this.state.rating}
+          max={5}
+          onChange={(value) => this.setState({rating: value})}
+          style={{textAlign: "center"}}
+        />
         </Dialog>
     </div>
     )
@@ -189,3 +236,4 @@ const styles = {
     transform: "translateY('-50%')"
   }
 }
+
