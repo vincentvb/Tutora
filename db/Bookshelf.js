@@ -55,11 +55,9 @@ module.exports = {
 			return firstletter+taglet.slice(1)	
 		}
 
-		console.log(qTag, "WHAT IS QTAG")
 
 		// when there is no category Id, save only the taglets
 		if (!qTag){
-			console.log("NULL STATUS")
 			Question.forge({
 					title : qTitle,
 					body : qBody,
@@ -73,7 +71,6 @@ module.exports = {
 
 						Taglets.where({ value: propercaseTaglet }).fetch({columns: ['id']})
 						.then(tagletinfo => {
-							console.log(tagletinfo, "TAGLET INFO WHERE NO CAT")
 
 							if (tagletinfo === null){
 								return Taglets.forge({
@@ -123,7 +120,6 @@ module.exports = {
 
 						Taglets.where({ value: propercaseTaglet }).fetch({columns: ['id']})
 						.then(tagletinfo => {
-							console.log(tagletinfo, "TAGLET INFO WHERE NO CAT")
 
 							if (tagletinfo === null){
 								return Taglets.forge({
