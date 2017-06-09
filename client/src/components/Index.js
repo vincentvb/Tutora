@@ -118,7 +118,7 @@ class Index extends React.Component {
       return (
         <Redirect to={{
           pathname: '/classroom',
-          state: {room}
+          state: {room, userType: this.props.userid.type}
         }}/>
       )
     } else if (this.props.userid.id && this.state.id !== "") {
