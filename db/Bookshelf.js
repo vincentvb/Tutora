@@ -50,58 +50,106 @@ module.exports = {
 	},
 
 	saveQuestion : (qTitle, qBody, qId_profiles, qImage, qTag, qTaglets, callback) => {
-		// select tag id
-		// for each taglet, get taglet ids 
-		// create new taglets 
-		// insert into taglet_questions table 
+		var toProperCase = function(taglet){
+			var firstletter = taglet.slice(0,1).toUpperCase()
+			return firstletter+taglet.slice(1)	
+		}
 
-		Tags.where({ value: qTag }).fetch({ columns: ['id'] })
-		.then(tagid => {
+		console.log(qTag, "WHAT IS QTAG")
+
+		// when there is no category Id, save only the taglets
+		if (!qTag){
+			console.log("NULL STATUS")
 			Question.forge({
-				title : qTitle,
-				body : qBody,
-				profile_id : qId_profiles,
-				image : qImage, 
-				tag_id: tagid.id,
-				tag_name: qTag
-			})
-			.save()
-			.then(question => {
-				qTaglets.forEach(function(taglet){
-					var toProperCase = function(taglet){
-						var firstletter = taglet.slice(0,1).toUpperCase()
-						return firstletter+taglet.slice(1)	
-					}
-
-					var propercaseTaglet = toProperCase(taglet)
-
-					Taglets.where({ value: propercaseTaglet }).fetch({columns: ['id']})
-					.then(tagletinfo => {
-						if (tagletinfo === null){
-							return Taglets.forge({
-								value: propercaseTaglet, 
-								tag_id: question.attributes.tag_id
-							}).save()
-						} else {
-							return tagletinfo
-						}
-					})
-					.then(tagletinfo => {
-						Taglets_Question.forge({ 
-							taglet_id: tagletinfo.id, 
-							question_id: question.id
-						}).save()
-					})
+					title : qTitle,
+					body : qBody,
+					profile_id : qId_profiles,
+					image : qImage
 				})
+				.save()
+				.then(question => {
+					qTaglets.forEach(function(taglet){
+						var propercaseTaglet = toProperCase(taglet)
 
-				callback(null, question)
+						Taglets.where({ value: propercaseTaglet }).fetch({columns: ['id']})
+						.then(tagletinfo => {
+							console.log(tagletinfo, "TAGLET INFO WHERE NO CAT")
+
+							if (tagletinfo === null){
+								return Taglets.forge({
+									value: propercaseTaglet, 
+									tag_id: question.attributes.tag_id
+								}).save()
+							} else {
+								return tagletinfo
+							}
+						})
+						.then(tagletinfo => {
+							Taglets_Question.forge({ 
+								taglet_id: tagletinfo.id, 
+								question_id: question.id
+							}).save()
+						})
+					})
+
+					callback(null, question)
+				})
+			.catch(error => {
+				callback(error, null)
 			})
-		})
-		.catch(error => {
-			callback(error, null)
-		})
+		}
 
-		
+		else {
+			// when Tag ID exists 
+			// select tag id
+			// for each taglet, get taglet ids 
+			// create new taglets 
+			// insert into taglet_questions table 		
+			Tags.where({ value: qTag }).fetch({ columns: ['id'] })
+			.then(tagid => {
+				Question.forge({
+					title : qTitle,
+					body : qBody,
+					profile_id : qId_profiles,
+					image : qImage, 
+					tag_id: tagid.id,
+					tag_name: qTag
+				})
+				.save()
+				.then(question => {
+					qTaglets.forEach(function(taglet){
+
+						var propercaseTaglet = toProperCase(taglet)
+
+						Taglets.where({ value: propercaseTaglet }).fetch({columns: ['id']})
+						.then(tagletinfo => {
+							console.log(tagletinfo, "TAGLET INFO WHERE NO CAT")
+
+							if (tagletinfo === null){
+								return Taglets.forge({
+									value: propercaseTaglet, 
+									tag_id: question.attributes.tag_id
+								}).save()
+							} else {
+								return tagletinfo
+							}
+						})
+						.then(tagletinfo => {
+							Taglets_Question.forge({ 
+								taglet_id: tagletinfo.id, 
+								question_id: question.id
+							}).save()
+						})
+					})
+
+					callback(null, question)
+				})
+			})
+			.catch(error => {
+				callback(error, null)
+			})
+
+		}		
 
 	},
 

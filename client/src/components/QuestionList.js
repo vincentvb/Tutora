@@ -42,7 +42,7 @@ componentDidMount () {
   var context = this
   this.props.socket.on('userOnline', (response) => {
   if (this.state.questionId[response.user.question.id] === 0) {
-    console.log("IN HERE");
+    // console.log("IN HERE");
     let variable = context.state.questions
     variable.push(response);
     this.setState({questions: variable})
@@ -64,7 +64,6 @@ componentWillReceiveProps(newProps) {
 
 
 render() {
-  console.log(this.state.questions, "")
  if (this.state.questions.length > 0) {
  return (
   <div>
