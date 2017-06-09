@@ -60,7 +60,7 @@ broadcast() {
   .then(response => {
     this.props.setQuestioner(response.data.display);
   })
-  this.state.broadcastSocket(this.props.question.user.question.profile_id);
+  this.state.broadcastSocket(this.props.question.user.question.profile_id, this.props.question.user.question.id);
   this.props.setAnswerer(this.props.user.display)
 
 }

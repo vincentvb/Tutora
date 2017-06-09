@@ -37,6 +37,18 @@ module.exports = {
 		})
 	},
 
+	updateQuestion : (rating, questionId, questionAnswered) => {
+		Question
+		.where({ id: questionId})
+		.save({
+			feedback_rating: rating,
+			status: questionAnswered
+		}, {method : 'update' })
+		.then(response => {
+			console.log("SUCCESSFUL update of question", response);
+		})
+	},
+
 	saveQuestion : (qTitle, qBody, qId_profiles, qImage, qTag, qTaglets, callback) => {
 		// select tag id
 		// for each taglet, get taglet ids 

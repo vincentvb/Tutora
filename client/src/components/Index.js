@@ -35,14 +35,15 @@ class Index extends React.Component {
     this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
   }
 
-  broadcastSocket (userId) {
-    console.log(this.props.questionerid, "QUESTIONER ID")
+  broadcastSocket (userId, questionId) {
+    console.log(questionId, "QUESTION ID")
     console.log(userId, "STATE QUESTIONER ID")
 
     this.socket.emit('connectionRequest', {
       receivingUser: userId,
       requestUser: this.state.id,
-      roomName: this.state.roomName
+      roomName: this.state.roomName,
+      questionId: questionId
    })
    this.setState({redirect: true})
 }
@@ -84,6 +85,7 @@ class Index extends React.Component {
 
     this.socket.on('alertMessage', (alert) => {
       console.log(alert);
+      this.setState({questionId: alert.questionId})
       this.setState({roomName: alert.roomName})
       if (alert.receivingUser === this.state.id) {
         this.setState({open: true})
@@ -115,10 +117,11 @@ class Index extends React.Component {
       this.props.setRoomLocation(search)
       console.log(this.state.roomName, "ROOMNAME");
       var room = this.state.roomName
+      var questionId = this.state.questionId
       return (
         <Redirect to={{
           pathname: '/classroom',
-          state: {room, userType: this.props.userid.type}
+          state: {room, questionId, userType: this.props.userid.type}
         }}/>
       )
     } else if (this.props.userid.id && this.state.id !== "") {

@@ -14,6 +14,7 @@ router.route('/:id')
 
 router.route('/user/:id')
   .get(QuestionController.getUserQ)
+  .post(QuestionController.updateUserQ)
   ;
 
 router.route('/addTagstoQ')
