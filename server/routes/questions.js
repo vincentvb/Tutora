@@ -19,4 +19,8 @@ router.route('/user/:id')
 router.route('/addTagstoQ')
   .post(QuestionController.addTagstoQ)
 
+router.route('/addTagletstoQ')
+  .post(QuestionController.addTagletstoQ)
+
+
 module.exports = router; 

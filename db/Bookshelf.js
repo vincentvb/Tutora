@@ -1,7 +1,8 @@
 const Profile = require('./models/profiles.js');
 const Question = require('./models/questions.js');
 const Tags = require('./models/tags.js');
-const Tags_Question = require('./models/tags_questions.js');
+const Taglets = require('./models/taglets.js');
+const Taglets_Question = require('./models/taglets_questions.js');
 
 module.exports = {
 
@@ -36,28 +37,60 @@ module.exports = {
 		})
 	},
 
-	saveQuestion : (qTitle, qBody, qId_profiles, qImage, qTags, callback) => {
-		Question.forge({
-			title : qTitle,
-			body : qBody,
-			profile_id : qId_profiles,
-			image : qImage
-		})
-		.save()
-		.then(student => {
-			qTags.forEach(function(tag){
-				Tags_Question.forge({
-					question_id: student.id,
-					category_name: tag
-				}).save()
+	saveQuestion : (qTitle, qBody, qId_profiles, qImage, qTag, qTaglets, callback) => {
+		// select tag id
+		// for each taglet, get taglet ids 
+		// create new taglets 
+		// insert into taglet_questions table 
+
+		Tags.where({ value: qTag }).fetch({ columns: ['id'] })
+		.then(tagid => {
+			Question.forge({
+				title : qTitle,
+				body : qBody,
+				profile_id : qId_profiles,
+				image : qImage, 
+				tag_id: tagid.id,
+				tag_name: qTag
+			})
+			.save()
+			.then(question => {
+				qTaglets.forEach(function(taglet){
+					var toProperCase = function(taglet){
+						var firstletter = taglet.slice(0,1).toUpperCase()
+						return firstletter+taglet.slice(1)	
+					}
+
+					var propercaseTaglet = toProperCase(taglet)
+
+					Taglets.where({ value: propercaseTaglet }).fetch({columns: ['id']})
+					.then(tagletinfo => {
+						if (tagletinfo === null){
+							return Taglets.forge({
+								value: propercaseTaglet, 
+								tag_id: question.attributes.tag_id
+							}).save()
+						} else {
+							return tagletinfo
+						}
+					})
+					.then(tagletinfo => {
+						Taglets_Question.forge({ 
+							taglet_id: tagletinfo.id, 
+							question_id: question.id
+						}).save()
+					})
+				})
+
+				callback(null, question)
 			})
 		})
-		.then(questiontags => {
-			callback(null, questiontags);
-		})
 		.catch(error => {
-			callback(error, null);
+			callback(error, null)
 		})
+
+		
+
 	},
 
 	getAllQuestions : (callback) => {

@@ -11,8 +11,13 @@ var setUserQ = function (userquestions){
   return { type: 'SET_USER_Q', userquestions }
 }
 
+// tags are the same as categories and skills
 var setTags = function (tags){
-  return { type: 'SET_Q_TAGS', tags }
+  return { type: 'SET_Q_CATEGORIES', tags }
+}
+
+var setTaglets = function (taglets){
+  return { type: 'SET_Q_TAGLETS', taglets }
 }
 
 var setProfileSkills = function (skills){
@@ -24,7 +29,7 @@ export function getProfileSkills(profileid){
     console.log(profileid, "PROFILE ID")
     
     axios
-      .get('/api/tags/'+profileid)
+      .get('/api/tags/profile/'+profileid)
       .then(skills => {
         var skillsarr = skills.data.map(skill => skill.tags.value)
 
@@ -58,12 +63,27 @@ export function getTags(){
     axios
       .get('/api/tags')
       .then(tags => {
-        var tagsarr = tags.data.map(tag => tag.value)
-        // console.log(tagsarr, "TAGS")
-        dispatch(setTags(tagsarr))
+        // var tagsarr = tags.data.map(tag => tag.value)
+        dispatch(setTags(tags.data))
       })
       .catch(error => {
         console.log('Error while retrieving tags', error)
+      });
+    
+  };
+}
+
+export function getTaglets(){
+  return dispatch => {
+    axios
+      .get('/api/tags/taglets')
+      .then(taglets => {
+        var tagletsarr = taglets.data.map(taglet => taglet.value)
+        // console.log(tagsarr, "TAGS")
+        dispatch(setTaglets(tagletsarr))
+      })
+      .catch(error => {
+        console.log('Error while retrieving taglets', error)
       });
     
   };

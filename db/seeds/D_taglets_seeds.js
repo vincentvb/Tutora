@@ -101,7 +101,11 @@ exports.seed = function(knex, Promise) {
       { value: "Conditionals", tag_id: 8},
       { value: "Adverbs", tag_id: 8},
       { value: "Nouns", tag_id: 8},
-      { value: "Verbs", tag_id: 8}
+      { value: "Verbs", tag_id: 8}, 
+      { value: "Farming", tag_id: 2},
+      { value: "Ecosystems", tag_id: 2},
+      { value: "Agriculture", tag_id: 2},
+      { value: "Rivers", tag_id: 2}
 
 
 

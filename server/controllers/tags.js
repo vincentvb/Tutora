@@ -4,7 +4,7 @@ const Bookshelf = require('../../db/Bookshelf.js')
 // updateProfileSkills is located on Profiles controller
 
 module.exports.getAll = (req, res) => {
-  models.Tag.fetchAll({columns: ['value']})
+  models.Tag.fetchAll()
   .then(tags => {
     res.status(200).send(tags)
   })
@@ -48,5 +48,25 @@ module.exports.getAllTagsbyQ = (req, res) => {
   })
   .catch(err => {
     console.log(err)
+  })
+}
+
+module.exports.getAllTaglets = (req, res) => {
+  models.Taglet.fetchAll({columns: ['value']})
+  .then(taglets => {
+    res.status(200).send(taglets)
+  })
+  .catch(err => {
+    res.status(503).send(err)
+  })
+}
+
+module.exports.getAllTagletsByTag = (req, res) => {
+  models.Taglet.where({ tag_id: req.params.tagId }).fetchAll()
+  .then(taglets => {
+    res.status(200).send(taglets)
+  })
+  .catch(err => {
+    res.status(503).send(err)
   })
 }
