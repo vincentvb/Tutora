@@ -6,7 +6,7 @@ const Question = db.Model.extend({
 		return this.belongsToMany(profiles);
 	}, 
   tags: () => {
-    return this.hasMany(tags)
+    return this.hasOne(tags)
   }, 
   tags_questions: () => {
     return this.hasMany(tags_questions)

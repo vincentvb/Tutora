@@ -33,6 +33,7 @@ app.use(middleware.flash());
 
 app.use(express.static(path.join(__dirname, '../public')));
 
+// please note, and I realize that this is super confusing, that tags = categories and taglets = tags on the UI
 app.use('/api', routes.api);
 app.use('/api/tags', routes.tags);
 app.use('/api/profiles', routes.profiles);

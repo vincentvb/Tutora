@@ -71,7 +71,7 @@ class TutorSkills extends React.Component {
     ];
 
     var options = this.props.tags.map(function(tag){
-      return { value: tag, label: tag }
+      return { value: tag.value, label: tag.value }
     })
 
     return ( 

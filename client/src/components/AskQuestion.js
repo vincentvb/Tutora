@@ -16,9 +16,12 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import { connect } from 'react-redux';
-import { getTags } from '../actionCreators.js';
+import { getTags, getTaglets } from '../actionCreators.js';
 import Select from 'react-select';
 import Toggle from 'material-ui/Toggle';
+import MenuItem from 'material-ui/MenuItem';
+import SelectField from 'material-ui/SelectField';
+import Taglets from './Taglets.js'
 
 class AskQuestion extends React.Component {
   constructor(props){
@@ -31,8 +34,11 @@ class AskQuestion extends React.Component {
       questionDescription: '',
       snackBarQuestion: false,
       imageInput: null,
-      value: '',
-      logged: false
+      tagValue: '',
+      tagId: '',
+      tagletsValue: [],
+      logged: false, 
+      options: []
     };
     this.postQuestion = this.postQuestion.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -42,21 +48,23 @@ class AskQuestion extends React.Component {
     this.handleDescriptionInput = this.handleDescriptionInput.bind(this);
     this.handleSnackBarQuestionClose = this.handleSnackBarQuestionClose.bind(this);
     this.imageInput = this.imageInput.bind(this);
-    this.handleSelectTagsChange = this.handleSelectTagsChange.bind(this);
+    this.handleTagletsChange = this.handleTagletsChange.bind(this);
     this.handleToggleChange = this.handleToggleChange.bind(this);
+    this.handleTagChange = this.handleTagChange.bind(this);
+    this.updateTagletsValue = this.updateTagletsValue.bind(this);
   }
 
   componentWillMount(){
-    this.props.getTags()
+    this.props.getTags();
+    this.props.getTaglets();
   }
 
-  handleSelectTagsChange(value){
-    // console.log("Selected: ", value)
-    this.setState({ value: value })
+  updateTagletsValue(value){
+    this.setState({ tagletsValue : value })
   }
 
   postQuestion() {
-    var tagsarr = this.state.value.split(",");
+    // console.log(this.state.tagletsValue, "TAGLETS VALUE");
 
     var body = {
       title: this.state.questionInput,
@@ -64,9 +72,11 @@ class AskQuestion extends React.Component {
       userid: this.props.id,
       image: null,
       image: 'www.placeholder.com', 
-      tags: tagsarr
+      tags: this.state.tagValue, 
+      taglets: this.state.tagletsValue
     };
 
+    // console.log(body, "BODY OF PUT REQUEST")
     if (this.state.imageInput !== null) {
       var image = this.state.imageInput.slice();
       var reader = new FileReader();
@@ -109,50 +119,84 @@ class AskQuestion extends React.Component {
     this.closeModal();
   }
 
-  openModal() {
-    this.setState({modalIsOpen: true});
-  }
+    openModal() {
+      this.setState({modalIsOpen: true});
+    }
 
-  afterOpenModal() {
-    this.subtitle.style.color = 'black';
-  }
+    afterOpenModal() {
+      this.subtitle.style.color = 'black';
+    }
 
-  closeModal() {
-    this.setState({modalIsOpen: false});
-  }
+    closeModal() {
+      this.setState({modalIsOpen: false});
+    }
 
-  handleQuestionInput(event) {
-    this.setState({
-      questionInput: event.target.value
-    });
-  }
+    handleQuestionInput(event) {
+      this.setState({
+        questionInput: event.target.value
+      });
+    }
 
-  handleDescriptionInput(event) {
-    this.setState({
-      questionDescription: event.target.value
-    });
-  }
+    handleDescriptionInput(event) {
+      this.setState({
+        questionDescription: event.target.value
+      });
+    }
 
-  handleSnackBarQuestionClose () {
-    this.setState({
-      snackBarQuestion: false
-    })
-  }
+    handleSnackBarQuestionClose () {
+      this.setState({
+        snackBarQuestion: false
+      })
+    }
 
-  imageInput(event) {
-    this.setState({
-      imageInput: event.target.files[0]
-    });
-  }
+    imageInput(event) {
+      this.setState({
+        imageInput: event.target.files[0]
+      });
+    }
 
   handleToggleChange(event, logged) {
     this.setState({logged: logged});
   }
 
+  handleTagChange(event, index, value){
+
+    var tagId = "";
+
+    this.props.tags.forEach(function(tag){
+      if (tag.value === value){
+        tagId = tag.id
+      }
+    })
+
+
+    axios
+    .get('/api/tags/taglets/'+tagId)
+    .then(taglets => {
+      var options = taglets.data.map(function(taglet){
+        return { value: taglet.value, label: taglet.value }
+      });
+      console.log(options, "TAGLET OPTIONS");
+      this.setState({ options: options });
+    })
+    .catch(error => {
+      console.error('error redirect', error)
+    })
+
+    this.setState({ tagValue: value })
+  }
+
+  handleTagletsChange(value){
+    // console.log("Selected: ", value)
+    this.setState({ tagletsValue: value })
+
+  }
+
   render() {
-    var options = this.props.tags.map(function(tag){
+    var options = this.props.taglets.map(function(tag){
       return { value: tag, label: tag }
     });
+
     const actions = [
      <FlatButton
        label="Submit"
@@ -187,40 +231,51 @@ class AskQuestion extends React.Component {
             className="questionTitle"
             fullWidth = {true}
             onChange={this.handleQuestionInput}
-            floatingLabelText="Question Description"
+            floatingLabelText="Description"
             id="title"
           />
-          <TextField
-            className="questionBody"
-            onChange={this.handleDescriptionInput}
-            id="description"
-            fullWidth= {true}
-            multiLine={true}
-            rows={4}
-            floatingLabelText="Question Body"
-          />
 
-          <RaisedButton
-            containerElement='label'
-            label='Upload a picture'>
-              <input 
-                type="file" 
-                style={{ display: 'none' }} 
-                onChange={this.imageInput}
-                accept='image/*'
-              />
-          </RaisedButton>
+        {/* note: On the UI form, tags are "Category" and taglets are "Question Tags" */}
+          <SelectField 
+            floatingLabelText="Category"
+            value={this.state.tagValue}
+            onChange={this.handleTagChange}
+          >
+
+           {this.props.tags.map((tag) => 
+             <MenuItem value={tag.value} primaryText={tag.value} /> 
+            )}
+
+        
+          </SelectField>
+
+            <TextField
+              className="questionBody"
+              onChange={this.handleDescriptionInput}
+              id="description"
+              fullWidth= {true}
+              multiLine={true}
+              rows={4}
+              floatingLabelText="Body"
+            />
+
+            <RaisedButton
+              containerElement='label'
+              label='Upload a picture'>
+                <input 
+                  type="file" 
+                  style={{ display: 'none' }} 
+                  onChange={this.imageInput}
+                  accept='image/*'
+                />
+            </RaisedButton>
+
+          
           <div style={{marginBottom: 10}}></div>
-          <Select
-            multi
-            simpleValue 
-            value={this.state.value}
-            placeholder="Add tags to your question"
-            name="tag-questions"
-            options={options}
-            onChange={this.handleSelectTagsChange}
-            style={{marginBottom: 20, marginTop: 20}}
-          />
+
+          
+          <Taglets options={this.state.options} tagletsValue={this.state.tagletsValue} updateTagletsValue={this.updateTagletsValue} />
+
           Tips from your friends at Tutora: Pay the Tutor $5 to get faster response from saught after tutors!
           <Toggle
             label="Paid Question"
@@ -265,12 +320,16 @@ const customStyles = {
 };
 
 const mapStateToProps = (state) => ({
-  tags: state.tags
+  tags: state.tags, 
+  taglets: state.taglets
 });
 
 
 const mapDispatchToProps = dispatch => ({
-  getTags: tags => dispatch(getTags())
+  getTags: tags => dispatch(getTags()), 
+  getTaglets: taglets => dispatch(getTaglets())
 })
   
 export default connect(mapStateToProps, mapDispatchToProps)(AskQuestion)
+
+
