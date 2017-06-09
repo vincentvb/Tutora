@@ -29,9 +29,6 @@ class QuestionPage extends React.Component {
   }
 
   componentDidMount() {
-    // console.log(this.props.user.id, "USER ID FROM REDUX ON QP")
-
-    // put Profile Skills in Redux if tutor
     if (this.props.user.type === 'tutor'){
       this.props.getProfileSkills(this.props.user.id);
     } 
@@ -41,7 +38,6 @@ class QuestionPage extends React.Component {
     this.props.socket.on('updateQuestions', () => {
       console.log("UPDATING QUESTIONS");
       this.updateQuestions()
-      this.props.test('www');
      })
    }
 

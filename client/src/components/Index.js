@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom'
 import AskQuestion from './AskQuestion.js';
 import Classroom from '../containers/Classroom.js'
-import PaymentModal from './PaymentModal.js'
 import Nav from './Nav.js'
 import QuestionPage from '../containers/QuestionPage.js'
 import Dialog from 'material-ui/Dialog';
@@ -26,9 +25,7 @@ class Index extends React.Component {
     	id: "",
       open: false,
       snackBar: true,
-      snackBarQuestion: false,
-      triggeredPayment: false,
-      test: ''
+      snackBarQuestion: false
     };
     this.redirect = this.redirect.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
@@ -36,10 +33,6 @@ class Index extends React.Component {
     this.getUserInfo = this.getUserInfo.bind(this);
     this.broadcastSocket = this.broadcastSocket.bind(this);
     this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
-    this.paymentTrigger = this.paymentTrigger.bind(this);
-
-    this.test = this.test.bind(this);
-
   }
 
   broadcastSocket (userId) {
@@ -105,14 +98,6 @@ class Index extends React.Component {
   redirect() {
     console.log("IN REDIRECT");
     this.setState({redirect: true})
-  }
-
-  paymentTrigger(bol) {
-    this.setState({paymentTrigger: bol});
-  }
-
-  test(string) {
-    this.setState({test: string});
   }
 
   render() {
@@ -182,8 +167,8 @@ class Index extends React.Component {
         <a href="/logout"> <FlatButton style = {buttonStyle} label="Logout" /> </a>
         <Nav user={this.props.userid}/>
         <div style={{marginLeft: "5%"}}>
-        <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} test = {this.test} />
-		    <AskQuestion socket = {this.socket} id={this.state.id} paymentTrigger={this.paymentTrigger} />
+        <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
+		    <AskQuestion socket = {this.socket} id={this.state.id} />
         <Dialog
           title="We found a tutor for your question!"
           actions={actions}
@@ -192,11 +177,6 @@ class Index extends React.Component {
         >
           Accept and go to the classroom or wait.
         </Dialog>
-        {this.state.triggeredPayment ? (
-          <PaymentModal />
-          ) : (
-          <div></div>
-        )}
       </div>
 		  </div>
 		)

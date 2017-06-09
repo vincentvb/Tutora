@@ -147,7 +147,6 @@ class AskQuestion extends React.Component {
 
   handleToggleChange(event, logged) {
     this.setState({logged: logged});
-    this.props.paymentTrigger(true);
   }
 
   render() {
