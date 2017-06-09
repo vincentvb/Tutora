@@ -1,0 +1,21 @@
+{
+  "name": "payments_microservice",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "nodemon server"
+  },
+  "author": "Talented Toasters",
+  "license": "MIT",
+  "dependencies": {
+    "config": "^1.26.1",
+    "express": "^4.15.2",
+    "body-parser": "^1.17.1",
+    "bookshelf": "^0.10.3",
+    "config": "^1.26.1",
+    "connect-flash": "^0.1.1",
+    "connect-redis": "^3.2.0",
+    "knex": "^0.12.9",
+    "pg": "^6.1.5",
+    "redis": "^2.7.1"
+  }
+}
