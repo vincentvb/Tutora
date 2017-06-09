@@ -37,11 +37,12 @@ module.exports = {
 		})
 	},
 
-	updateQuestion : (rating, questionId, questionAnswered) => {
+	updateQuestion : (rating, questionId, answererId, questionAnswered) => {
 		Question
 		.where({ id: questionId})
 		.save({
 			feedback_rating: rating,
+			answerer_id: answererId,
 			status: questionAnswered
 		}, {method : 'update' })
 		.then(response => {
