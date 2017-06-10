@@ -33,7 +33,7 @@ module.exports.getUserQ = (req, res) => {
 };
 
 module.exports.updateUserQ = (req, res) => {
-	Bookshelf.updateQuestion(req.body.rating, req.body.questionId, req.body.questionAnswered)
+	Bookshelf.updateQuestion(req.body.rating, req.body.questionId, req.body.answererId, req.body.questionAnswered)
 }
 
 module.exports.postQuestion = (req, res) => {

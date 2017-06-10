@@ -9,7 +9,8 @@ exports.seed = function(knex, Promise) {
       title: 'American History',
       body: 'Who was the founding fathers? Why no founding mothers? I need some clarification.',
       profile_id: 10,
-      image: 'www.testimage.com'
+      image: 'www.testimage.com',
+      status: false
     }]);
   })
   .then(function() {
@@ -17,7 +18,8 @@ exports.seed = function(knex, Promise) {
       title: '5th grade algebra',
       body: 'I really need some help actually. I am going crazy.',
       profile_id: 10,
-      image: 'www.testimage.com'
+      image: 'www.testimage.com',
+      status: false
     }]);
   })
   .then(function() {
@@ -25,7 +27,8 @@ exports.seed = function(knex, Promise) {
       title: 'Super interested in the Swedish Era of Great Power',
       body: 'What is it about this world nation that makes it so powerfull? Any smart Swedes that can lecture me?',
       profile_id: 10,
-      image: 'www.testimage.com'
+      image: 'www.testimage.com',
+      status: false
     }]);
   })
   .then(function() {
@@ -33,7 +36,8 @@ exports.seed = function(knex, Promise) {
       title: 'What is rat?',
       body: 'I hear someone mention it. Biologi 101.',
       profile_id: 10,
-      image: 'www.testimage.com'
+      image: 'www.testimage.com',
+      status: false
     }]);
   })
   .catch((error) => {

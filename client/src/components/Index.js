@@ -84,6 +84,7 @@ class Index extends React.Component {
       console.log(alert);
       this.setState({questionId: alert.questionId})
       this.setState({roomName: alert.roomName})
+      this.setState({requestUser: alert.requestUser})
       if (alert.receivingUser === this.state.id) {
         this.setState({open: true})
       }
@@ -115,10 +116,12 @@ class Index extends React.Component {
       console.log(this.state.roomName, "ROOMNAME");
       var room = this.state.roomName
       var questionId = this.state.questionId
+      var requestUser = this.state.requestUser
+      console.log("REQUEST USER", requestUser)
       return (
         <Redirect to={{
           pathname: '/classroom',
-          state: {room, questionId, userType: this.props.userid.type}
+          state: {room, questionId, userType: this.props.userid.type, requestUser}
         }}/>
       )
     } else if (this.props.userid.id && this.state.id !== "") {
@@ -156,6 +159,7 @@ class Index extends React.Component {
 
   	return (
 		  <div className="indexpage">
+       <img src ="https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg" style = {imageStyle} />
         <Snackbar
           open={this.state.snackBar}
           message={this.props.userid.type === "tutor" ? "Browse Student Questions and Engage!" : "Post a Question and Get the Answers You Need!"}
