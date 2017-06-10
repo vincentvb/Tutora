@@ -26,7 +26,6 @@ class QuestionListItem extends React.Component {
     this.handleExpand = this.handleExpand.bind(this);
     this.handleReduce = this.handleReduce.bind(this);
 
-    console.log('THA PROPS', this.props);
   }
 
 componentDidMount() {
@@ -38,11 +37,13 @@ componentDidMount() {
   .then(response => {
     var tagsarr = response.data.map(function(tag, idx){
       // console.log(tag.category_name, "CAT NAME")
-      return { key: idx, label: tag.category_name }
+      return { key: idx, label: tag.tag_name }
     })
     this.setState({ tags: tagsarr })
     // console.log(this.state.tags, "TAGS ARR")
   })
+
+  
 
   axios
   .get(`/api/profiles/${this.props.question.user.question.profile_id}`)

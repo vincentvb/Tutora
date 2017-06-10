@@ -13,9 +13,6 @@ import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
 import { setRoomLocation } from '../actionCreators.js'
 
-const backgroundStyles = {
-  backgroundImage: "url('../public/assets/Questionmark.jpeg')"
-}
 
 class Index extends React.Component {
   constructor(props) {
@@ -99,7 +96,7 @@ class Index extends React.Component {
   }
 
   redirect() {
-    console.log("IN REDIRECT");
+    // console.log("IN REDIRECT");
     this.setState({redirect: true})
   }
 
@@ -161,8 +158,7 @@ class Index extends React.Component {
     ];
 
   	return (
-		  <div>
-        <img src ="https://t3.ftcdn.net/jpg/00/64/89/08/240_F_64890876_Uic74iHzuIk2PiGDLcSKAc5e4N08lUg6.jpg" style = {imageStyle} />
+		  <div className="indexpage">
         <Snackbar
           open={this.state.snackBar}
           message={this.props.userid.type === "tutor" ? "Browse Student Questions and Engage!" : "Post a Question and Get the Answers You Need!"}
@@ -173,6 +169,10 @@ class Index extends React.Component {
         <a href="/logout"> <FlatButton style = {buttonStyle} label="Logout" /> </a>
         <Nav user={this.props.userid}/>
         <div style={{marginLeft: "5%"}}>
+        
+        <div> HELLO </div>
+
+
         <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
 		    <AskQuestion socket = {this.socket} id={this.state.id} />
         <Dialog

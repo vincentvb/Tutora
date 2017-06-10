@@ -33,15 +33,7 @@ module.exports.getAllTagsbyProfile = (req, res) => {
 }
 
 module.exports.getAllTagsbyQ = (req, res) => {
-  models.Tags_Question.where( { question_id: req.params.questionId }).fetchAll({ 
-    withRelated: [
-    {
-      'tags': function(qb){
-        qb.select()
-      }
-    }
-    ]
-  })
+  models.Question.where({ id: req.params.questionId} ).fetchAll({ columns: ['tag_name']})
   .then(result => {
     // console.log(result)
     res.status(200).send(result)
@@ -70,3 +62,13 @@ module.exports.getAllTagletsByTag = (req, res) => {
     res.status(503).send(err)
   })
 }
+
+// models.Tags_Question.where( { question_id: req.params.questionId }).fetchAll({ 
+//     withRelated: [
+//     {
+//       'tags': function(qb){
+//         qb.select()
+//       }
+//     }
+//     ]
+//   })
