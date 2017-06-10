@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import QuestionList from '../components/QuestionList.js'
-import { getUserQuestions, getProfileSkills, setQ } from '../actionCreators.js';
+import { getUserQuestions, getProfileSkills } from '../actionCreators.js';
 import Modal from 'react-modal';
 import TutorSkills from '../components/TutorSkills.js';
 import Dialog from 'material-ui/Dialog';
@@ -16,16 +16,16 @@ class QuestionPage extends React.Component {
 
     this.state = {
       questions: [],
-      questionId: {
+      // questionId: {
 
-      },
+      // },
       redirectToReg: false
     }
 
     this.getUserQuest = this.getUserQuest.bind(this);
     this.getAllQuest = this.getAllQuest.bind(this);
     this.updateQuestions = this.updateQuestions.bind(this);
-    this.updateState = this.updateState.bind(this);
+    // this.updateState = this.updateState.bind(this);
   }
 
   componentDidMount() {
@@ -52,9 +52,9 @@ class QuestionPage extends React.Component {
       .catch(error => {
         console.error('error redirect', error)
       })
-    } else if (usertype === 'tutor'){
+    } else if (usertype.toLowerCase() === 'tutor'){
       this.getAllQuest();
-    } else if (usertype === 'student'){
+    } else if (usertype.toLowerCase() === 'student'){
       console.log("IN HERE");
       this.getUserQuest();
     }
@@ -66,63 +66,59 @@ class QuestionPage extends React.Component {
       .then(response => {
         this.setState({ questions: response.data})
       })
-      .then(response => {
-        this.updateState();
-      })
+      // .then(response => {
+      //   this.updateState();
+      // })
       .catch(error => {
         console.error('axios error', error)
       });
   }
 
-  updateState() {
-    var array = this.state.questions
-    for (var i = 0; i < array.length; i++) {
-      if (this.state.questionId[array[i]] = 0) {
-        this.state.questionId[array[i]] = 1
-      }
-      else if (this.state.questionId[array[i]] === 1) {
-        array.splice(i, 1);
-      }
-    }
-  }
+  // updateState() {
+  //   var array = this.state.questions
+  //   for (var i = 0; i < array.length; i++) {
+  //     if (this.state.questionId[array[i]] = 0) {
+  //       this.state.questionId[array[i]] = 1
+  //     }
+  //     else if (this.state.questionId[array[i]] === 1) {
+  //       array.splice(i, 1);
+  //     }
+  //   }
+  // }
 
   getAllQuest(){
     axios
       .get('/api/questions/')
       .then(response => {
-        // this.setState({questions: response.data});
-        this.props.setQ(response.data);
-
-        var obj = this.state.questionId
-        var array = response.data
-        for (var i = 0; i < array.length; i++) {
-          var id = array[i].id
-          if (!obj[id]) {
-            obj[id] = 0
-            // console.log(obj);
-            this.setState({questionId: obj})
-          }
-        }
+        this.setState({questions: response.data})
+        // var obj = this.state.questionId
+        // var array = response.data
+        // for (var i = 0; i < array.length; i++) {
+        //   var id = array[i].id
+        //   if (!obj[id]) {
+        //     obj[id] = 0
+        //     // console.log(obj);
+        //     this.setState({questionId: obj})
+        //   }
+        // }
       })
-      .then(response => {
-        this.updateState();
-      })
+      // .then(response => {
+      //   this.updateState();
+      // })
       .catch(error => {
         console.error('axios error', error)
       });
   }
 
   render(){
-    console.log(this.props.questionlist, "QUESTION LIST FROM QP")
 
-    if (this.props.questionlist.length > 0) {
-      console.log(this.props.questionlist, "RERENDERING??")
+    if (this.state.questions.length > 0) {
       return (
         <div className="container">
           <TutorSkills />
 
         
-          <QuestionList socket = {this.props.socket} userName= {this.props.userinfo.display} questions={this.props.questionlist} broadcastSocket = {this.props.broadcastSocket} />
+          <QuestionList socket = {this.props.socket} userName= {this.props.userinfo.display} questions={this.state.questions} broadcastSocket = {this.props.broadcastSocket} />
         </div>
       )
     } else {
@@ -137,15 +133,12 @@ class QuestionPage extends React.Component {
 const mapStateToProps = (state) => ({
   user: state.userid,
   userq: state.userquestions, 
-  skills: state.skills, 
-  filter: state.filter, 
-  questionlist: state.questionlist
+  skills: state.skills
 });
 
 const mapDispatchToProps = dispatch => ({
   getUserQ: questions => dispatch(getUserQuestions()), 
-  getProfileSkills: profileid => dispatch(getProfileSkills(profileid)), 
-  setQ: questions => dispatch(setQ(questions))
+  getProfileSkills: profileid => dispatch(getProfileSkills(profileid))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionPage);

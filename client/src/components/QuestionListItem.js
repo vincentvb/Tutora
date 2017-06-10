@@ -48,7 +48,8 @@ componentDidMount() {
   axios
   .get(`/api/profiles/${this.props.question.user.question.profile_id}`)
   .then(response => {
-    this.setState({ questionUserName: response.data.display })
+    this.props.setQuestioner(response.data);
+    this.setState({ questionUserName: response.data.display || response.data.first+' '+response.data.last})
     this.setState({ questionAvatar: response.data.avatar })
   })
 
@@ -59,7 +60,7 @@ broadcast() {
   axios
   .get(`/api/profiles/${this.props.question.user.question.profile_id}`)
   .then(response => {
-    this.props.setQuestioner(response.data.display);
+    console.log(response);
   })
   this.state.broadcastSocket(this.props.question.user.question.profile_id, this.props.question.user.question.id);
   this.props.setAnswerer(this.props.user.display)
@@ -103,7 +104,7 @@ return (
 
     <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         <CardHeader
-          title={this.props.question.user.question.title}
+          title={this.props.question.user.question.title+' asked by '+this.state.questionUserName}
           subtitleStyle={styles.wrapper}
           subtitle={this.state.tags.map(this.renderChip, this)}
           avatar={this.state.questionAvatar || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"}
