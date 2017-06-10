@@ -89,7 +89,8 @@ module.exports = {
 					title : qTitle,
 					body : qBody,
 					profile_id : qId_profiles,
-					image : qImage
+					image : qImage,
+					status: false
 				})
 				.save()
 				.then(question => {
@@ -114,7 +115,8 @@ module.exports = {
 					profile_id : qId_profiles,
 					image : qImage, 
 					tag_id: tagid.id,
-					tag_name: qTag
+					tag_name: qTag,
+					status: false
 				})
 				.save()
 				.then(question => {
@@ -130,7 +132,7 @@ module.exports = {
 	},
 
 	getAllQuestions : (callback) => {
-		Question.fetchAll()
+		Question.where( {status : false} ).fetchAll()
 		.then(questions => {
 			callback(null, questions);
 		})
@@ -151,7 +153,7 @@ module.exports = {
 	},
 
 	getUserQuestions : (userID, callback) => {
-		Question.where({ profile_id : userID }).fetchAll()
+		Question.where({ profile_id : userID , status: false}).fetchAll()
 		.then(questions => {
 			// console.log(questions, "QUESTIONS FROM GET")
 			callback(null, questions);

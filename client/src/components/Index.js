@@ -159,6 +159,7 @@ class Index extends React.Component {
 
   	return (
 		  <div className="indexpage">
+       <img src ="https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg" style = {imageStyle} />
         <Snackbar
           open={this.state.snackBar}
           message={this.props.userid.type === "tutor" ? "Browse Student Questions and Engage!" : "Post a Question and Get the Answers You Need!"}
