@@ -4,7 +4,7 @@ if (process.env.DOCKER === 'isTrue') {
 	module.exports = {
     "client": "postgresql",
     "connection": {
-      "database": "thesis",
+      "database": "payments",
       "user": "postgres",
       "password": "postgres",
       "host": "paymentsdb",
