@@ -21,7 +21,18 @@ services:
       POSTGRES_DB: thesis
     volumes: 
       - db-data:/var/lib/postgresql/data
-    # It actually need to be on the same fucking network:
+    networks:
+      - webnet
+  paymentsdb:
+    image: postgres
+    ports:
+      - "5433:5433"
+    expose:
+      - 5433
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: payments
     networks:
       - webnet
   web:
@@ -41,8 +52,6 @@ services:
       - "3000:3000"
     networks:
      - webnet
-    # volumes:
-    #  - .:/usr/src/app
     depends_on:
       - redis
     environment:
@@ -52,14 +61,17 @@ services:
     command: npm run migrateDB
     networks:
       - webnet
-  # jenkins:
-  #   image: jenkins:2.0
-  #   container_name: jenkins
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
-  #   volumes:
-  #     - ./FOR_JENKINS:/var/jenkins_home
+  payments:
+    build: payments_micro
+    links:
+      - paymentsdb
+    ports:
+      - 1337:1337
+    networks:
+      - webnet
+    environment:
+      - DOCKER=isTrue
+    command: npm run migrateDB
 volumes:
   db-data:
 networks:
