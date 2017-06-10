@@ -236,7 +236,7 @@ class AskQuestion extends React.Component {
           />
 
         {/* note: On the UI form, tags are "Category" and taglets are "Question Tags" */}
-          <SelectField 
+          <SelectField required
             floatingLabelText="Category"
             value={this.state.tagValue}
             onChange={this.handleTagChange}
