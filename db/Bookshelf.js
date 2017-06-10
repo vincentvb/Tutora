@@ -55,18 +55,8 @@ module.exports = {
 			return firstletter+taglet.slice(1)	
 		}
 
-
-		// when there is no category Id, save only the taglets
-		if (!qTag){
-			Question.forge({
-					title : qTitle,
-					body : qBody,
-					profile_id : qId_profiles,
-					image : qImage
-				})
-				.save()
-				.then(question => {
-					qTaglets.forEach(function(taglet){
+		var insertTaglets = function(question){
+			qTaglets.forEach(function(taglet){
 						var propercaseTaglet = toProperCase(taglet)
 
 						Taglets.where({ value: propercaseTaglet }).fetch({columns: ['id']})
@@ -90,6 +80,19 @@ module.exports = {
 					})
 
 					callback(null, question)
+		}
+
+		// when there is no category Id, save only the taglets
+		if (!qTag){
+			Question.forge({
+					title : qTitle,
+					body : qBody,
+					profile_id : qId_profiles,
+					image : qImage
+				})
+				.save()
+				.then(question => {
+					insertTaglets(question)
 				})
 			.catch(error => {
 				callback(error, null)
@@ -114,31 +117,7 @@ module.exports = {
 				})
 				.save()
 				.then(question => {
-					qTaglets.forEach(function(taglet){
-
-						var propercaseTaglet = toProperCase(taglet)
-
-						Taglets.where({ value: propercaseTaglet }).fetch({columns: ['id']})
-						.then(tagletinfo => {
-
-							if (tagletinfo === null){
-								return Taglets.forge({
-									value: propercaseTaglet, 
-									tag_id: question.attributes.tag_id
-								}).save()
-							} else {
-								return tagletinfo
-							}
-						})
-						.then(tagletinfo => {
-							Taglets_Question.forge({ 
-								taglet_id: tagletinfo.id, 
-								question_id: question.id
-							}).save()
-						})
-					})
-
-					callback(null, question)
+					insertTaglets(question)
 				})
 			})
 			.catch(error => {
