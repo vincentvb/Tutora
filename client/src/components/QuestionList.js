@@ -44,16 +44,21 @@ componentDidMount () {
   var context = this
   this.props.socket.on('userOnline', (response) => {
   if (this.state.questionId[response.user.question.id] === 0) {
-    // console.log("IN HERE");
-    let variable = context.state.questions
+    console.log("IN HERE");
+
+    let variable = this.props.questionlist
+    // let variable = context.state.questions
     variable.push(response);
-    this.setState({questions: variable})
+
+    this.props.setQ(variable)
+    // this.setState({questions: variable})
+
     this.state.questionId[response.user.question.id] = 1
   }
 })
  this.props.socket.on('delete', (response) => {
-    var questions = this.state.questions
-    this.state.questions = []
+    var questions = this.props.questionlist
+    // this.state.questions = []
     this.state.questionId = {}
     console.log(questions, "QUESTIONS MAPPED");
     this.mapQuestions(questions, "deleteStatus")
@@ -67,11 +72,11 @@ componentWillReceiveProps(newProps) {
 
 
 render() {
-  console.log(this.state.questions, "QUESTIONS FROM QUESTION LIST")
- if (this.state.questions.length > 0) {
+  console.log(this.props.questionlist, "QUESTIONS FROM QUESTION LIST")
+ if (this.props.questionlist.length > 0) {
  return (
   <div>
-  {this.state.questions.map(question =>
+  {this.props.questionlist.map(question =>
     <QuestionListItem userName = {this.props.userName} key={question.id} question={question} broadcastSocket = {this.props.broadcastSocket} />
 
   )}
