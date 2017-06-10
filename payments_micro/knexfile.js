@@ -7,8 +7,8 @@ if (process.env.DOCKER === 'isTrue') {
       "database": "thesis",
       "user": "postgres",
       "password": "postgres",
-      "host": "db",
-      "port": 5432
+      "host": "dbpayments",
+      "port": 5433
     },
     "pool": {
       "min": 1,
