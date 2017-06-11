@@ -7,7 +7,6 @@ ADD . /code
 RUN apk add --no-cache git
 RUN npm install -g yarn
 RUN npm install -g nodemon
-RUN npm install webpack -g
 RUN npm install babel -g
 RUN npm install knex -g
 

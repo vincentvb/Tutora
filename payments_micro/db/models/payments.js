@@ -1,7 +1,7 @@
 const db = require('../');
 
-const Payments = db.Model.extend({
-	tableName: 'payments'
+const Balances = db.Model.extend({
+	tableName: 'balances'
 });
 
-module.exports = db.model('Payments', Payments);
+module.exports = db.model('Balances', Balances);

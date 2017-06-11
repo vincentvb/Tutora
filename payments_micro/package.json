@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "scripts": {
     "start": "nodemon server",
-    "migrateDB" : "knex migrate:latest && nodemon server"
+    "migrateDB": "knex migrate:latest && nodemon server"
   },
   "author": "Talented Toasters",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "bookshelf": "^0.10.3",
     "config": "^1.26.1",

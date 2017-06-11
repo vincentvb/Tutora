@@ -4,11 +4,11 @@ if (process.env.DOCKER === 'isTrue') {
 	module.exports = {
     "client": "postgresql",
     "connection": {
-      "database": "payments",
+      "database": "thesis",
       "user": "postgres",
       "password": "postgres",
-      "host": "paymentsdb",
-      "port": 5433
+      "host": "db",
+      "port": 5432
     },
     "pool": {
       "min": 1,

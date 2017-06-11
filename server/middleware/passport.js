@@ -6,6 +6,15 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
 const config = require('config')['passport'];
 const models = require('../../db/models');
+const axios = require('axios');
+
+var payService = undefined;
+
+if (process.env.DOCKER) {
+  payService = 'http://payments:1337/api';
+} else {
+  payService = 'http://localhost:1337/api';
+}
 
 passport.serializeUser((profile, done) => {
   done(null, profile.id);
@@ -52,7 +61,7 @@ passport.use('local-signup', new LocalStrategy({
             phone: req.body.phone,
             type: req.body.type
            })
-            .save();
+            .save(); 
         }
         // throw if local auth account already exists
         if (profile.related('auths').at(0)) {
@@ -72,6 +81,8 @@ passport.use('local-signup', new LocalStrategy({
       .then(profile => {
         // serialize profile for session
         done(null, profile.serialize());
+        // create a record in payments of the newly created user
+        axios.post(payService + '/' + profile.attributes.id)
       })
       .error(error => {
         console.log(error);
@@ -177,6 +188,8 @@ const getOrCreateOAuthProfile = (type, oauthProfile, done) => {
       return models.Profile.forge(profileInfo).save();
     })
     .tap(profile => {
+      // create a record in payments of the newly created user
+      axios.post(payService + '/' + profile.get('id'));
       return models.Auth.forge({
         type,
         profile_id: profile.get('id'),

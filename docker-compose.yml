@@ -23,6 +23,19 @@ services:
       - db-data:/var/lib/postgresql/data
     networks:
       - webnet
+  # paymentsdb:
+  #   image: postgres
+  #   container_name: paymentsdb
+  #   ports:
+  #     - "5433:5432"
+  #   expose:
+  #     - 5433
+  #   environment:
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: payments
+  #   networks:
+  #     - webnet
   web:
     build: .
     # image: tutora
@@ -36,6 +49,7 @@ services:
     #       memory: 50M
     links:
       - db
+      - payments
     ports:
       - "3000:3000"
     networks:
@@ -49,29 +63,18 @@ services:
     command: npm run migrateDB
     networks:
       - webnet
-  paymentsdb:
-    image: postgres
-    ports:
-      - "5433:5432"
-    expose:
-      - 5433
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: payments
-    networks:
-      - webnet
   payments:
     build: payments_micro
     links:
-      - paymentsdb
+      # - paymentsdb
+      - db
     ports:
       - 1337:1337
     networks:
       - webnet
     environment:
       - DOCKER=isTrue
-    command: npm run migrateDB
+    # command: npm run migrateDB
 volumes:
   db-data:
 networks:

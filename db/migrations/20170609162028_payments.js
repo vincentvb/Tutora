@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
   		table.increments('id').unsigned().primary();
   		table.string('user_id').nullable();
   		table.integer('funds').nullable();
+      table.timestamps(true, true);
   	})
 	]);
 };
