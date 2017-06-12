@@ -1,4 +1,5 @@
 const Balances = require('../../db/models/payments.js');
+const stripe = require("stripe")(require('../../config/stripe.json')['secretKey']);
 const Promise = require("bluebird");
 
 module.exports.getAll = (req, res) => {
@@ -17,16 +18,16 @@ module.exports.transferPayment = (req, res) => {
   let options = {
     amount: req.body.amount,
     currency: 'usd',
-    source: req.body.token.id
+    source: req.body.source
   };
-
   return stripeCharge(options)
   .then(() => {
-  	Balances.where({user_id: req.params.userrID}).fetch()
+  	console.log('Payment succeeded for user_id: ', req.body.userID, ' and amount: $', req.body.amount);
+  	return Balances.where({user_id: req.body.userID}).fetch()
   })
   .then((paymentRecord) => {
   	paymentRecord.save({
-  		funds: funds += req.body.amount
+  		funds: paymentRecord.attributes.funds += Number(req.body.amount)
   	}, {method : 'update'})
   })
   .then(() => {
