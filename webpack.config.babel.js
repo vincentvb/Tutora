@@ -12,6 +12,18 @@ const config = {
   },
   module: {
     rules: [
+      { test: /\.scss$/,
+      use: [{
+                loader: "style-loader"
+            }, {
+                loader: "css-loader"
+            }, {
+                loader: "sass-loader",
+                options: {
+                    includePaths: ["absolute/path/a", "absolute/path/b"]
+                }
+            }]
+      },
       { test: /\.(js|jsx)$/,
         include: path.join(__dirname, 'client/src'),
         exclude: ['node_modules'],
@@ -25,16 +37,7 @@ const config = {
       },
       { test: /\.css$/,
         loader: 'style-loader!css-loader'
-      }
-      // {
-      //   test: /\.css?/, 
-      //   use: [
-      //     {
-      //       loader: 'style-loader!css-loader'
-      //     }
-      //   ]
-      // }
-    ]
+      }]
   }
 };
 
