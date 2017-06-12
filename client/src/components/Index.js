@@ -181,7 +181,7 @@ class Index extends React.Component {
 
 
         <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
-		    <AskQuestion socket = {this.socket} id={this.state.id} />
+		    <AskQuestion socket = {this.socket} id={this.state.id} funds={this.state.funds} />
         <Dialog
           title="We found a tutor for your question!"
           actions={actions}
