@@ -21,28 +21,27 @@ services:
       POSTGRES_DB: thesis
     volumes: 
       - db-data:/var/lib/postgresql/data
-    # It actually need to be on the same fucking network:
     networks:
       - webnet
   web:
     build: .
-    # image: tutora
-    # deploy:
-    #   replicas: 5
-    #   restart_policy:
-    #     condition: on-failure
-    #   resources:
-    #     limits:
-    #       cpus: "0.1"
-    #       memory: 50M
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      replicas: 10
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
     links:
       - db
+      - payments
     ports:
       - "3000:3000"
     networks:
      - webnet
-    # volumes:
-    #  - .:/usr/src/app
     depends_on:
       - redis
     environment:
@@ -50,16 +49,26 @@ services:
       - COMPOSE_PROJECT_NAME=tutora
       - DOCKER=isTrue
     command: npm run migrateDB
+  payments:
+    build: payments_micro
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+    links:
+      - db
+    ports:
+      - 1337:1337
     networks:
       - webnet
-  # jenkins:
-  #   image: jenkins:2.0
-  #   container_name: jenkins
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
-  #   volumes:
-  #     - ./FOR_JENKINS:/var/jenkins_home
+    environment:
+      - DOCKER=isTrue
 volumes:
   db-data:
 networks:

@@ -22,7 +22,8 @@ class Index extends React.Component {
     	id: "",
       open: false,
       snackBar: true,
-      snackBarQuestion: false
+      snackBarQuestion: false,
+      funds: 0
     };
     this.redirect = this.redirect.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
@@ -51,9 +52,14 @@ class Index extends React.Component {
     .get('/getuserinfo')
       .then(response => {
         context.setState({id: response.data.id})
+        axios
+        .get('/api/payments/' + response.data.id)
+        .then(paymentsRespons => {
+          context.setState({funds: paymentsRespons.data.funds})
+        })
       })
-      .then(response => {
-
+      .catch(error => {
+        console.log(error);
       })
   }
 
@@ -181,7 +187,7 @@ class Index extends React.Component {
 
 
         <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
-		    <AskQuestion socket = {this.socket} id={this.state.id} />
+		    <AskQuestion socket = {this.socket} id={this.state.id} funds={this.state.funds} />
         <Dialog
           title="We found a tutor for your question!"
           actions={actions}
