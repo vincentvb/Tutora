@@ -23,30 +23,17 @@ services:
       - db-data:/var/lib/postgresql/data
     networks:
       - webnet
-  # paymentsdb:
-  #   image: postgres
-  #   container_name: paymentsdb
-  #   ports:
-  #     - "5433:5432"
-  #   expose:
-  #     - 5433
-  #   environment:
-  #     POSTGRES_PASSWORD: postgres
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_DB: payments
-  #   networks:
-  #     - webnet
   web:
     build: .
-    # image: tutora
-    # deploy:
-    #   replicas: 5
-    #   restart_policy:
-    #     condition: on-failure
-    #   resources:
-    #     limits:
-    #       cpus: "0.1"
-    #       memory: 50M
+    image: tutora
+    deploy:
+      replicas: 10
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
     links:
       - db
       - payments
@@ -65,8 +52,14 @@ services:
       - webnet
   payments:
     build: payments_micro
-    links:
-      # - paymentsdb
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
       - db
     ports:
       - 1337:1337
@@ -74,7 +67,6 @@ services:
       - webnet
     environment:
       - DOCKER=isTrue
-    # command: npm run migrateDB
 volumes:
   db-data:
 networks:
