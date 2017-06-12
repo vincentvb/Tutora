@@ -269,21 +269,24 @@ class AskQuestion extends React.Component {
                   accept='image/*'
                 />
             </RaisedButton>
-
-          
           <div style={{marginBottom: 10}}></div>
-
-          
           <Taglets options={this.state.options} tagletsValue={this.state.tagletsValue} updateTagletsValue={this.updateTagletsValue} />
-
-          Tips from your friends at Tutora: Pay the Tutor $5 to get faster response from saught after tutors!
-          <Toggle
-            label="Paid Question"
-            defaultToggled={false}
-            onToggle={this.handleToggleChange}
-            labelPosition="right"
-            style={{margin: 20}}
-          />
+          {this.props.funds >= 5 ? (
+            <div>
+              Tips from your friends at Tutora: Pay the Tutor $5 to get faster response from saught after tutors!
+              <Toggle
+                label="Paid Question"
+                defaultToggled={false}
+                onToggle={this.handleToggleChange}
+                labelPosition="right"
+                style={{margin: 20}}
+              />
+            </div>
+          ) : (
+            <div>
+              Add money to your Tutora to be able to get paid help!
+            </div>
+          )}
           <div className="paddingSkills"></div>
         </Dialog>
       </div>
