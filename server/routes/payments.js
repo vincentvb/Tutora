@@ -25,6 +25,38 @@ router.route('/')
 	  		})
   	}
 	)
-  ;
+	.post(
+		function (req, res) {
+			var options = {
+				amount: req.body.amount,
+				source: req.body.token.id,
+				userID: req.body.userID
+			};
+			axios.post(payService + '/')
+				.then((response) => {
+					console.log('A POST on web for /api/payments');
+					res.status(201);
+				})
+				.catch((error) => {
+					console.log('Error with posting payment to payment microservice: ', error);
+					res.sendStatus(404).send(error);
+				})
+		}
+	)
+
+router.route('/:userID')
+	.get(
+		function (req, res) {
+	  	axios.get(payService + '/' + req.params.userID)
+	  		.then((response) => {
+	  			console.log('A GET for user on web for /api/payments', req.params.userID);
+	  			res.status(200).send(response.data)
+	  		})
+	  		.catch((error) => {
+	  			console.log(error);
+	  			res.sendStatus(404)
+	  		})
+		}
+	)
 
 module.exports = router;

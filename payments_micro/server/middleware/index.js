@@ -22,7 +22,7 @@ module.exports.transferPayment = (req, res) => {
 
   return stripeCharge(options)
   .then(() => {
-  	Balances.where({user_id: req.body.userID}).fetch()
+  	Balances.where({user_id: req.params.userrID}).fetch()
   })
   .then((paymentRecord) => {
   	paymentRecord.save({
@@ -41,7 +41,7 @@ module.exports.transferPayment = (req, res) => {
 module.exports.getBalance = (req, res) => {
 	Balances.where({user_id: req.params.userID}).fetch()
 	.then((paymentData) => {
-		res.status(200).send(paymentData.funds);
+		res.status(200).send(paymentData);
 	})
 	.error((error) => {
 		console.log(error)
