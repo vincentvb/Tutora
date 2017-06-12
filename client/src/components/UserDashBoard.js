@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 import { Rating } from 'material-ui-rating'
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, PieChart, Pie, Sector, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
-
+import PaymentButton from './PaymentButton.js'
 
 
 
@@ -117,11 +117,12 @@ const data02 = [
           <PolarAngleAxis dataKey="subject" />
           <PolarRadiusAxis/>
         </RadarChart>
-	</div>
-	</div>
+  </div>
+  </div>
     </CardText>
     <CardActions>
     </CardActions>
+    <PaymentButton data = {this.props}/>
   </Card>
   </div>
   </div>
