@@ -131,6 +131,12 @@ class Index extends React.Component {
         right: "0px",
         color: "white"
     }
+     const buttonStyle2  = {
+        position: "absolute",
+        top: "0px",
+        left: "0px",
+        color: "white"
+     }
     const snackBarStyle = {
       top: 0,
       bottom: 'auto',
@@ -168,7 +174,7 @@ class Index extends React.Component {
           onActionTouchTap={this.handleSnackBarClose}
           />
         <a href="/logout"> <FlatButton style = {buttonStyle} label="Logout" /> </a>
-        <Nav user={this.props.userid}/>
+        <Link to ={{pathname: '/dashboard', state: {user: this.props.userid}}} > <FlatButton style = {buttonStyle2} label="DashBoard" /> </Link>
         <div style={{marginLeft: "5%"}}>
         
         <div> HELLO </div>
