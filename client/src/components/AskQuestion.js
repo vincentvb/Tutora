@@ -239,7 +239,7 @@ class AskQuestion extends React.Component {
           >
 
            {this.props.tags.map((tag) => 
-             <MenuItem value={tag.value} primaryText={tag.value} /> 
+             <MenuItem value={tag.value} primaryText={tag.value} key={tag.id} /> 
             )}
 
         
