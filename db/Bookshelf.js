@@ -15,6 +15,45 @@ module.exports = {
 		})
 	},
 
+	getAllQbyTag : (tagname, callback) => {
+		Question.where({ tag_name: tagname }).fetchAll()
+		.then(question => {
+			callback(null, question);
+		})
+		.catch(error => {
+			callback(error, null);
+		})
+	},
+
+	getAllQbyTaglet : (tagletid, callback) => {
+		Taglets_Question.where({ taglet_id: tagletid }).fetchAll({
+			withRelated: [
+			{
+				'questions': function(qb){
+					qb.select()
+				}
+			}
+			]
+		})
+		.then(question => {
+			callback(null, question);
+		})
+		.catch(error => {
+			callback(error, null);
+		})
+	},
+
+	// models.Tags_Question.where( { question_id: req.params.questionId }).fetchAll({ 
+//     withRelated: [
+//     {
+//       'tags': function(qb){
+//         qb.select()
+//       }
+//     }
+//     ]
+//   })
+
+
 	updateProfile : (userID, userDescription, userAvatar, userType, userFirstName, userLastName, userPhone, callback) => {
 		console.log(userID, userDescription, userAvatar, userType, userFirstName, userLastName, userPhone)
 		Profile

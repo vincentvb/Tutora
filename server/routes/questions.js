@@ -12,6 +12,12 @@ router.route('/:id')
   .get(QuestionController.getOne)
   ;
 
+router.route('/tag/:tagname')
+  .get(QuestionController.getAllQbyTag)
+
+router.route('/taglet/:tagletid')
+  .get(QuestionController.getAllQbyTaglet)
+
 router.route('/user/:id')
   .get(QuestionController.getUserQ)
   .post(QuestionController.updateUserQ)

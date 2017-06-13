@@ -32,6 +32,28 @@ module.exports.getUserQ = (req, res) => {
 	});
 };
 
+module.exports.getAllQbyTag = (req, res) => {
+  console.log(req.params.tagname, "TAG NAME")
+  Bookshelf.getAllQbyTag(req.params.tagname, function(error, result){
+    if (error) {
+      console.log(error);
+      return res.sendStatus(500);
+    }
+    return res.send(result);
+  })
+}
+
+module.exports.getAllQbyTaglet = (req, res) => {
+  Bookshelf.getAllQbyTaglet(req.params.tagletid, function(error, result){
+    if (error) {
+      console.log(error);
+      return res.sendStatus(500);
+    }
+    return res.send(result);
+  })
+}
+
+
 module.exports.updateUserQ = (req, res) => {
 	Bookshelf.updateQuestion(req.body.rating, req.body.questionId, req.body.answererId, req.body.questionAnswered)
 }

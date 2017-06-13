@@ -48,7 +48,7 @@ componentDidMount() {
   axios
   .get(`/api/profiles/${this.props.question.user.question.profile_id}`)
   .then(response => {
-    this.props.setQuestioner(response.data);
+    // this.props.setQuestioner(response.data);
     this.setState({ questionUserName: response.data.display || response.data.first+' '+response.data.last})
     this.setState({ questionAvatar: response.data.avatar })
   })

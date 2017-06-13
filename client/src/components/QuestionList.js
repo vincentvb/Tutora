@@ -1,5 +1,6 @@
 import React from 'react';
 import QuestionListItem from './QuestionListItem.js'
+import uniqBy from 'lodash/uniqBy'
 
 class QuestionList extends React.Component {
   constructor(props) {
@@ -14,6 +15,11 @@ class QuestionList extends React.Component {
   }
 
   mapQuestions(questions, deleteStatus) {
+
+
+    console.log(uniqBy(test, 'id'), "UNIQ TEST VALUE");
+
+
   if (deleteStatus === "deleteStatus" && questions.length > 0) {
     questions.map(question => {
       console.log("QUESTION WITH DELETE STATUS", question.user);
@@ -27,6 +33,10 @@ class QuestionList extends React.Component {
   }
   else {
   questions.map(question => {
+
+    console.log("ARE YOU GETTING HERE?")
+    console.log(this.state.questionId[question.id], "WHAT IS THE Q ID?")
+
     if (!this.state.questionId[question.id] && questions.length > 0) {
       console.log("MAP QUESTION WITHOUT DELETE STATUS")
       var obj = this.state.questionId;
@@ -42,6 +52,9 @@ componentDidMount () {
   this.mapQuestions(this.props.questions);
   var context = this
   this.props.socket.on('userOnline', (response) => {
+
+    console.log("WHICH QUESTIONS ARE ONLIINE?", response)
+
   if (this.state.questionId[response.user.question.id] === 0) {
     // console.log("IN HERE");
     let variable = context.state.questions
@@ -61,11 +74,15 @@ componentDidMount () {
 }
 
 componentWillReceiveProps(newProps) {
+  console.log(newProps.questions, "NEW PROPS QUESTIONS")
   this.mapQuestions(newProps.questions);
 }
 
 
 render() {
+
+  console.log(this.state.questions, "QL QUESTIONS ON RENDER")
+
  if (this.state.questions.length > 0) {
  return (
   <div>

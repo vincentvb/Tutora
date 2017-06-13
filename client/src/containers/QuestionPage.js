@@ -16,16 +16,12 @@ class QuestionPage extends React.Component {
 
     this.state = {
       questions: [],
-      // questionId: {
-
-      // },
       redirectToReg: false
     }
 
     this.getUserQuest = this.getUserQuest.bind(this);
     this.getAllQuest = this.getAllQuest.bind(this);
     this.updateQuestions = this.updateQuestions.bind(this);
-    // this.updateState = this.updateState.bind(this);
   }
 
   componentDidMount() {
@@ -66,45 +62,17 @@ class QuestionPage extends React.Component {
       .then(response => {
         this.setState({ questions: response.data})
       })
-      // .then(response => {
-      //   this.updateState();
-      // })
       .catch(error => {
         console.error('axios error', error)
       });
   }
-
-  // updateState() {
-  //   var array = this.state.questions
-  //   for (var i = 0; i < array.length; i++) {
-  //     if (this.state.questionId[array[i]] = 0) {
-  //       this.state.questionId[array[i]] = 1
-  //     }
-  //     else if (this.state.questionId[array[i]] === 1) {
-  //       array.splice(i, 1);
-  //     }
-  //   }
-  // }
 
   getAllQuest(){
     axios
       .get('/api/questions/')
       .then(response => {
         this.setState({questions: response.data})
-        // var obj = this.state.questionId
-        // var array = response.data
-        // for (var i = 0; i < array.length; i++) {
-        //   var id = array[i].id
-        //   if (!obj[id]) {
-        //     obj[id] = 0
-        //     // console.log(obj);
-        //     this.setState({questionId: obj})
-        //   }
-        // }
       })
-      // .then(response => {
-      //   this.updateState();
-      // })
       .catch(error => {
         console.error('axios error', error)
       });
@@ -112,13 +80,13 @@ class QuestionPage extends React.Component {
 
   render(){
 
-    if (this.state.questions.length > 0) {
+    if (this.props.questionlist.length > 0) {
       return (
         <div className="container">
           <TutorSkills />
 
         
-          <QuestionList socket = {this.props.socket} userName= {this.props.userinfo.display} questions={this.state.questions} broadcastSocket = {this.props.broadcastSocket} />
+          <QuestionList socket = {this.props.socket} userName= {this.props.userinfo.display} questions={this.props.questionlist} broadcastSocket = {this.props.broadcastSocket} />
         </div>
       )
     } else {
@@ -133,7 +101,8 @@ class QuestionPage extends React.Component {
 const mapStateToProps = (state) => ({
   user: state.userid,
   userq: state.userquestions, 
-  skills: state.skills
+  skills: state.skills, 
+  questionlist: state.questionlist
 });
 
 const mapDispatchToProps = dispatch => ({
