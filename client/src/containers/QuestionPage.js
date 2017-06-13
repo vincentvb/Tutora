@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import QuestionList from '../components/QuestionList.js'
-import { getUserQuestions, getProfileSkills } from '../actionCreators.js';
+import { getUserQuestions, getProfileSkills, setQ } from '../actionCreators.js';
 import Modal from 'react-modal';
 import TutorSkills from '../components/TutorSkills.js';
 import Dialog from 'material-ui/Dialog';
@@ -52,9 +52,9 @@ class QuestionPage extends React.Component {
       .catch(error => {
         console.error('error redirect', error)
       })
-    } else if (usertype.toLowerCase() === 'tutor'){
+    } else if (usertype === 'tutor'){
       this.getAllQuest();
-    } else if (usertype.toLowerCase() === 'student'){
+    } else if (usertype === 'student'){
       console.log("IN HERE");
       this.getUserQuest();
     }
@@ -90,7 +90,9 @@ class QuestionPage extends React.Component {
     axios
       .get('/api/questions/')
       .then(response => {
-        this.setState({questions: response.data})
+        // this.setState({questions: response.data});
+        this.props.setQ(response.data);
+
         var obj = this.state.questionId
         var array = response.data
         for (var i = 0; i < array.length; i++) {
@@ -111,14 +113,16 @@ class QuestionPage extends React.Component {
   }
 
   render(){
+    console.log(this.props.questionlist, "QUESTION LIST FROM QP")
 
-    if (this.state.questions.length > 0) {
+    if (this.props.questionlist.length > 0) {
+      console.log(this.props.questionlist, "RERENDERING??")
       return (
         <div className="container">
           <TutorSkills />
 
         
-          <QuestionList socket = {this.props.socket} userName= {this.props.userinfo.display} questions={this.state.questions} broadcastSocket = {this.props.broadcastSocket} />
+          <QuestionList socket = {this.props.socket} userName= {this.props.userinfo.display} questions={this.props.questionlist} broadcastSocket = {this.props.broadcastSocket} />
         </div>
       )
     } else {
@@ -133,12 +137,15 @@ class QuestionPage extends React.Component {
 const mapStateToProps = (state) => ({
   user: state.userid,
   userq: state.userquestions, 
-  skills: state.skills
+  skills: state.skills, 
+  filter: state.filter, 
+  questionlist: state.questionlist
 });
 
 const mapDispatchToProps = dispatch => ({
   getUserQ: questions => dispatch(getUserQuestions()), 
-  getProfileSkills: profileid => dispatch(getProfileSkills(profileid))
+  getProfileSkills: profileid => dispatch(getProfileSkills(profileid)), 
+  setQ: questions => dispatch(setQ(questions))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionPage);

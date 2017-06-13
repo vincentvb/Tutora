@@ -13,6 +13,8 @@ import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
 import { setRoomLocation } from '../actionCreators.js';
 import UserDashBoard from './UserDashBoard.js';
+import FilterQuestion from './FilterQuestion.js';
+
 
 
 class Index extends React.Component {
@@ -32,6 +34,8 @@ class Index extends React.Component {
     this.getUserInfo = this.getUserInfo.bind(this);
     this.broadcastSocket = this.broadcastSocket.bind(this);
     this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
+    this.handleFilterQuestion = this.handleFilterQuestion.bind(this);
+
   }
 
   broadcastSocket (userId, questionId) {
@@ -78,6 +82,10 @@ class Index extends React.Component {
   handleClose() {
     this.setState({open: false});
   };
+
+  handleFilterQuestion(){
+    this.setState({ filter: value })
+  } 
 
   componentWillMount() {
 
@@ -185,8 +193,13 @@ class Index extends React.Component {
         <Link to ={{pathname: '/dashboard', state: {user: this.props.userid}}} > <FlatButton style = {buttonStyle2} label="DashBoard" /> </Link>
         <div style={{marginLeft: "5%"}}>
         
-        <div> HELLO </div>
+        <div className="container"> 
+          <div className="indextext"> Welcome, {this.props.userid.display}! </div>
 
+        <div className="filter"> 
+          {this.props.userid.type === "tutor" ? <FilterQuestion filter={this.state.filter} handleFilterQuestion={this.handleFilterQuestion} /> : null}
+
+        </div>
 
         <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
         <AskQuestion socket = {this.socket} id={this.state.id} funds={this.state.funds} />
@@ -201,6 +214,8 @@ class Index extends React.Component {
           <UserDashBoard user = {this.state.requestUser} modal = {true} />
           Accept and go to the classroom or wait.
         </Dialog>
+
+        </div>
       </div>
       </div>
     )

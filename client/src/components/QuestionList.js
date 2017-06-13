@@ -1,5 +1,7 @@
 import React from 'react';
-import QuestionListItem from './QuestionListItem.js'
+import QuestionListItem from './QuestionListItem.js';
+import { connect } from 'react-redux';
+import { setQ } from '../actionCreators.js'
 
 class QuestionList extends React.Component {
   constructor(props) {
@@ -59,11 +61,13 @@ componentDidMount () {
 }
 
 componentWillReceiveProps(newProps) {
+  console.log(newProps, "NEW PROPS RECEIVED")
   this.mapQuestions(newProps.questions);
 }
 
 
 render() {
+  console.log(this.state.questions, "QUESTIONS FROM QUESTION LIST")
  if (this.state.questions.length > 0) {
  return (
   <div>
@@ -82,4 +86,14 @@ render() {
 }
 }
 
-export default QuestionList;
+const mapStateToProps = (state) => ({
+  questionlist: state.questionlist
+})
+
+const mapDispatchToProps = dispatch => ({
+  getUserQ: questions => dispatch(getUserQuestions()), 
+  getProfileSkills: profileid => dispatch(getProfileSkills(profileid)), 
+  setQ: questions => dispatch(setQ(questions))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionList);

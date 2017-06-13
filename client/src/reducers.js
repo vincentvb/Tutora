@@ -36,6 +36,20 @@ const skills = (state=[], action) => {
   }
 }
 
+const filter = (state='', action) => {
+  switch(action.type) {
+    case ('SET_FILTER') : return action.filter
+    default : return state
+  }
+}
+
+const questionlist = (state=[], action) => {
+  switch(action.type){
+    case ('SET_QUESTION_LIST') : return action.questionlist
+    default : return state
+  }
+}
+
 
 const userq = (state= [], action) => {
   // if (action.type === 'SET_USER_Q'){
@@ -68,7 +82,7 @@ const answerer = (state= '', action) => {
   }
 };
 
-const rootReducer = combineReducers( { userid, userq, location, questioner, answerer, tags, skills, taglets } );
+const rootReducer = combineReducers( { userid, userq, location, questioner, answerer, tags, skills, taglets, filter, questionlist } );
 
 
 export default rootReducer
