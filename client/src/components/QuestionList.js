@@ -26,10 +26,10 @@ class QuestionList extends React.Component {
     // var questions = this.props.questionlist;
     // console.log(this.props.questionlist, "QL QUESTIONS ON RENDER")
 
-    if (this.props.questionlist.length > 0) {
+    if (this.props.questions.length > 0) {
       return (
         <div>
-        {this.props.questionlist.map(question =>
+        {this.props.questions.map(question =>
           <QuestionListItem userName = {this.props.userName} key={question.id} question={question} broadcastSocket = {this.props.broadcastSocket} />
 
         )}

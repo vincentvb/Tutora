@@ -4,11 +4,12 @@ const path = require('path');
 const Promise = require('bluebird');
 const middleware = require('./middleware');
 const routes = require('./routes');
-const redis = require('redis');
-Promise.promisifyAll(require('redis'));
-const client = redis.createClient({
-  host: process.env.REDIS_HOST || '127.0.0.1'
-});
+const client = require('./redis.js')
+// const redis = require('redis');
+// Promise.promisifyAll(require('redis'));
+// const client = redis.createClient({
+//   host: process.env.REDIS_HOST || '127.0.0.1'
+// });
 
 const app = express();
 const http = require('http');
@@ -46,9 +47,6 @@ app.use('/', routes.auth);
 
 
 
-client.on('connect', () => {
-  console.log("redis connected");
-})
 
 // http.listen(3000, () => {
 //   console.log("listening on 3000 (or 80 if you are running me Docker)")
@@ -66,7 +64,7 @@ io.on('connection', (socket) => {
     socket.userId = data.user_id
     socket.room = data.room;
     client.set(socket.userId, "online");
-    io.to('home').emit('newonlineuser');
+    io.to('home').emit('newonlineuser', socket.userId );
 
 
   })
@@ -92,7 +90,7 @@ io.on('connection', (socket) => {
   })
 
 
-  //  maybe refactor to be a route instead of a socket trigger 
+  //  maybe refactor to a reverse index 
   socket.on('checkOnline', (user) => {
     console.log(user, "CHECK ONLINE QUESTION")
 

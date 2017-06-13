@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import TutorSkills from '../components/TutorSkills.js';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { getAllQ, getUserQ, getQbyTag } from '../network.js';
+import { getAllQ, getUserQ, getQbyTag, getOnlineQ } from '../network.js';
 
 
 class QuestionPage extends React.Component {
@@ -33,19 +33,28 @@ class QuestionPage extends React.Component {
       getAllQ(questions => {
         var context = this;
         getOnlineQ(questions, context, onlineall => {
-          this.filterTutorQ(onlineall)
+          this.filterTutorQ(this.props.filter, onlineall, filteredq => {
+            context.setState({ questions: filteredq })
+          })
         })
       })
 
     })
 
     // when a user comes online
-    this.props.socket.on('newonlineuser', () => {
+    var context = this;
+    this.props.socket.on('newonlineuser', userid => {
       // check if newuser's questions match the filters 
       // if so, render it.
 
       // get all of user questions and pass through the filterTutorQ
-      getUserQ
+      getUserQ(userid, questions => {
+        this.filterTutorQ(this.props.filter, questions, filteredq => {
+          var allfilteredqs = this.state.questions.concat(filteredq)
+
+          context.setState({ questions: allfilteredqs })
+        })
+      })
 
     })
   }
@@ -57,10 +66,19 @@ class QuestionPage extends React.Component {
     } else if (this.props.user.type === 'tutor'){
       this.props.getProfileSkills(this.props.user.id);
 
-      console.log(this.props.questions, "ARE ONLINE Qs BEING PASSED TO QP?")
 
-      // this.props.questions = all online questions (retrieved by Indexpage)
-      this.filterTutorQ(this.props.questions)
+      // get all Qs, find the online ones and then pass to the filter
+      var context = this;
+
+      getAllQ(questions => {
+        getOnlineQ(questions, context, onlinequestions => {
+          this.filterTutorQ(undefined, onlinequestions, filteredq => {
+            context.setState({ questions: filteredq })
+          });
+            
+        })
+      })
+
 
     } else if (this.props.user.type === 'student'){
       getUserQ(this.props.userinfo.id, questions => this.setState({ questions }))
@@ -71,28 +89,42 @@ class QuestionPage extends React.Component {
    }
 
    // re-usable for one question or for many questions 
-  filterTutorQ(qs) {
+  filterTutorQ(filter, qs=this.state.questions, cb) {
     // note: Because of the following reasons, the questionlist is being stored in state vs. Redux:
     // 1) Anti-pattern to mutate Redux props (I believe)
     // 2) Redux prop doesn't get updated until the render, so it's useless in this function
     // 3) Because componentWillReceiveProps calls this function, it's an infinite loop
 
 
-    if (!this.props.filter || this.props.filter[0] === 0){
-      console.log("ARE YOU SETTING THE Q?")
-      this.setState({ questions: qs })
+    // console.log(qs, "WHAT Qs are BEING PASSED TO FILTER?")
+    // console.log(filter, "WHAT IS THE CURRENT FILTER?")
 
-    } else if (this.props.filter[0] === 3 || this.props.filter[0] === 4){
+    if (!filter || !filter[1]){
+      // console.log("ARE YOU SETTING THE Q?")
+      
+      cb(qs)
+      // this.setState({ questions: qs })
+
+    } else if (filter[0] === 3 || filter[0] === 4){
       
       var filteredtagonlineq = [];
       
+      // console.log("AM I ON FILTER 3?")
+
       qs.map(onlineq => {
-        if (onlineq.tag_name === this.props.filter[1]){
+
+        // console.log(onlineq.tag_name, "ONLINE TAG NAME")
+        // console.log(filter[1], "WHAT IS THE MATCHING FILTER?")
+
+        if (onlineq.tag_name === filter[1]){
+          // console.log(onlineq, "WHAT AM I PUSHING INTO FILTEREDTAG")
           filteredtagonlineq.push(onlineq)
+          // console.log(filteredtagonlineq, "WHAT AM I SETTING THE STATE TO?")
         }
       })
 
-      this.setState({ questions: filteredtagonlineq })
+      cb(filteredtagonlineq)
+      // this.setState({ questions: filteredtagonlineq })
 
     }
 
@@ -109,7 +141,11 @@ class QuestionPage extends React.Component {
   componentWillReceiveProps(newProps){
     // will receive filter 
     console.log(newProps, "WHAT IS NEW PROP IS BEING RECEIVED?")
-    this.filterTutorQ(newProps.filter)
+
+    var context = this;
+    this.filterTutorQ(newProps.filter, undefined, filteredq => {
+      context.setState({ questions: filteredq })
+    })
   }
 
   
