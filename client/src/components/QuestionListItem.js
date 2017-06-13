@@ -29,43 +29,17 @@ class QuestionListItem extends React.Component {
   }
 
   componentDidMount() {
-
-    // console.log(this.props.question, "QUESTION FROM QITEM")
-
-    // refactor for taglets 
-    // axios
-    // .get(`/api/tags/question/${this.props.question.user.question.id}`)
-    // .then(response => {
-    //   var tagsarr = response.data.map(function(tag, idx){
-    //     // console.log(tag.category_name, "CAT NAME")
-    //     return { key: idx, label: tag.tag_name }
-    //   })
-    //   this.setState({ tags: tagsarr })
-    //   // console.log(this.state.tags, "TAGS ARR")
-    // })
-
-    
-
     axios
     .get(`/api/profiles/${this.props.question.profile_id}`)
     .then(response => {
-      // this.props.setQuestioner(response.data);
       this.setState({ questionUserName: response.data.display || response.data.first+' '+response.data.last})
       this.setState({ questionAvatar: response.data.avatar })
     })
-
   }
 
   broadcast() {
-
-    axios
-    .get(`/api/profiles/${this.props.question.profile_id}`)
-    .then(response => {
-      console.log(response);
-    })
     this.state.broadcastSocket(this.props.question.profile_id, this.props.question.id);
     this.props.setAnswerer(this.props.user.display)
-
   }
 
   handleExpandChange (expanded) {
@@ -150,9 +124,6 @@ const mapDispatchToProps = dispatch => ({
   setAnswerer: answerername => dispatch(setAnswerer(answerername))
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(QuestionListItem)
-
 const styles = {
   card: {
     margin: 10,
@@ -167,4 +138,4 @@ const styles = {
   },
 };
 
-// this.state.tags.map(this.renderChip, this)
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionListItem)

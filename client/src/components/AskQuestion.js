@@ -69,7 +69,6 @@ class AskQuestion extends React.Component {
       body: this.state.questionDescription,
       userid: this.props.id,
       image: null,
-      image: 'www.placeholder.com', 
       tags: this.state.tagValue, 
       taglets: this.state.tagletsValue
     };
