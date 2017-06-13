@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import TutorSkills from '../components/TutorSkills.js';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { getAllQ, getUserQ, getQbyTag, getOnlineQ } from '../network.js';
+import { getAllQ, getUserQ, getQbyTag, getOnlineQ, getQbyTaglet } from '../network.js';
 
 
 class QuestionPage extends React.Component {
@@ -105,7 +105,7 @@ class QuestionPage extends React.Component {
       cb(qs)
       // this.setState({ questions: qs })
 
-    } else if (filter[0] === 3 || filter[0] === 4){
+    } else if (filter[0] === 3){
       
       var filteredtagonlineq = [];
       
@@ -126,6 +126,19 @@ class QuestionPage extends React.Component {
       cb(filteredtagonlineq)
       // this.setState({ questions: filteredtagonlineq })
 
+    } else if (filter[0] === 4){
+      // find the union between array of all questions by taglet and all online questions
+      var filteredtaglets = []
+      getQbyTaglet(filter[1], tagletquestions => {
+        tagletquestions.forEach(question => {
+          qs.map(onlineq => {
+            if (question.question_id === onlineq.id){
+              filteredtaglets.push(onlineq)
+            }
+          })
+        })
+        cb(filteredtaglets)  
+      })
     }
 
         // console.log(filteredquestions, "WHAT IS PUT INTO STATE?")

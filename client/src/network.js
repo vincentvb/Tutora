@@ -37,9 +37,9 @@ const getQbyTag = (tag, cb) => {
   });
 }
 
-const getQbyTaglet = (cb) => {
+const getQbyTaglet = (tagletid, cb) => {
   axios
-  .get('/api/questions/')
+  .get('/api/questions/taglet/'+tagletid)
   .then(response => {
     cb(response.data)
   })
@@ -62,6 +62,7 @@ export {
   getAllQ, 
   getQbyTag, 
   getUserQ, 
-  getOnlineQ
+  getOnlineQ,
+  getQbyTaglet
 
 }

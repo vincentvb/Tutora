@@ -59,7 +59,19 @@ class FilterTaglets extends React.Component {
   }
 
   sendTagValue(e){
-    this.props.setFilter([4, this.state.value])
+    // get the taglet id. this could be refactored to a db call 
+    var tagletid = '';
+    this.props.taglets.forEach(taglet => {
+      if (this.state.value === taglet.value){
+        tagletid = taglet.id
+      }
+    })
+
+
+    this.props.setFilter([4, tagletid])
+
+
+
     // getQbyTag(this.state.value, questions => this.props.setQ(questions));
     console.log(this.state.value, "FINAL STATE")
   }
