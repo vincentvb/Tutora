@@ -11,7 +11,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
-import { setRoomLocation } from '../actionCreators.js'
+import { setRoomLocation } from '../actionCreators.js';
+import UserDashBoard from './UserDashBoard.js';
 
 
 class Index extends React.Component {
@@ -19,7 +20,7 @@ class Index extends React.Component {
     super(props);
     this.state = {
       redirect: false,
-    	id: "",
+      id: "",
       open: false,
       snackBar: true,
       snackBarQuestion: false,
@@ -39,7 +40,7 @@ class Index extends React.Component {
 
     this.socket.emit('connectionRequest', {
       receivingUser: userId,
-      requestUser: this.state.id,
+      requestUser: this.props.userid,
       roomName: this.state.roomName,
       questionId: questionId
    })
@@ -81,7 +82,7 @@ class Index extends React.Component {
   componentWillMount() {
 
     this.getUserInfo();
-	  this.socket = io.connect();
+    this.socket = io.connect();
     var randomRoom = Math.random() * 9999999
     this.setState({roomName: randomRoom})
     console.log(this.socket);
@@ -107,6 +108,7 @@ class Index extends React.Component {
   }
 
   render() {
+    console.log("USER", this.props.userid)
     if (this.state.id !== "") {
         this.socket.emit('userData', {
           room: 'home',
@@ -169,8 +171,8 @@ class Index extends React.Component {
       />
     ];
 
-  	return (
-		  <div className="indexpage">
+    return (
+      <div className="indexpage">
        <img src ="https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg" style = {imageStyle} />
         <Snackbar
           open={this.state.snackBar}
@@ -187,18 +189,21 @@ class Index extends React.Component {
 
 
         <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
-		    <AskQuestion socket = {this.socket} id={this.state.id} funds={this.state.funds} />
+        <AskQuestion socket = {this.socket} id={this.state.id} funds={this.state.funds} />
         <Dialog
           title="We found a tutor for your question!"
           actions={actions}
-          modal={true}
+          modal={false}
           open={this.state.open}
+          autoScrollBodyContent={true}
+          autoDetectWindowHeight = {true}
         >
+          <UserDashBoard user = {this.state.requestUser} modal = {true} />
           Accept and go to the classroom or wait.
         </Dialog>
       </div>
-		  </div>
-		)
+      </div>
+    )
 
    }
  else {

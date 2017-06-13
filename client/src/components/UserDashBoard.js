@@ -6,7 +6,6 @@ import { Rating } from 'material-ui-rating'
 import axios from 'axios';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, PieChart, Pie, Sector, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 var chrono = require('chrono-node');
-import PaymentButton from './PaymentButton.js'
 
 
 
@@ -16,65 +15,78 @@ class UserDashBoard extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-    	totalQuestionsAnswered: 0,
-    	ratingValue: 5,
-    	questionNumbers: {
-    		Math: 0.1,
-    		Geography: 0.1,
-    		History: 0.1,
-    		Art: 0.1,
-    		Physics: 0.1,
-    		Chemistry: 0.1,
-    		Grammar: 0.1,
-    		English: 0.1,
-    		Biology: 0.1
-    	},
-    	questionsByDate: {
-    		"0": 0,
-    		"1": 0,
-    		"2": 0,
-    		"3": 0,
-    		"4": 0,
-    		"5": 0,
-    		"6": 0,
-    		"7": 0
-    	}
+      totalQuestionsAnswered: 0,
+      ratingValue: 5,
+      questionNumbers: {
+        Math: 0.1,
+        Geography: 0.1,
+        History: 0.1,
+        Art: 0.1,
+        Physics: 0.1,
+        Chemistry: 0.1,
+        Grammar: 0.1,
+        English: 0.1,
+        Biology: 0.1
+      },
+      questionsByDate: {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0
+      },
+      user: {
+
+      }
     }
 
   }
 
   componentDidMount() {
-  	var date = new Date()
-  	this.setState({currentDate: date})
-  	axios
-  	.get('/api/dashboard/rating', {params: { user: this.props.location.state.user}})
-  	.then(response => {
-  		console.log(response);
-  		var questions = response.data
-  		var ratingTotal = 0
-  		questions.forEach((question) => {
-  			ratingTotal += question.feedback_rating
-  			this.state.questionNumbers[question.tag_name] += 1
-  			var date = chrono.parseDate(question.created_at).getTime() - this.state.currentDate.getTime();
-  			var date = Math.round(Math.abs(date/(1000*60*60*24)));
-  			if (date <= 7) {
-  				var currentState = this.state.questionsByDate
-  				currentState[date] += 1
-  				this.setState({questionsByDate: currentState})
-  			   }
-  			})
-  		this.setState({ratingValue: Math.floor(ratingTotal / questions.length)})
-  		this.setState({totalQuestionsAnswered: questions.length})
-  		})
-  	}
+    var newUser
+    if (this.props.location) {
+      var newUser = this.props.location.state.user || this.props.user
+    }
+    else {
+      var newUser = this.props.user
+    }
+    this.setState({user: newUser})
+    var date = new Date()
+    this.setState({currentDate: date})
+    console.log("NEW USER", newUser)
+    axios
+    .get('/api/dashboard/rating', {params: { user: newUser}})
+    .then(response => {
+      console.log(response);
+      var questions = response.data
+      var ratingTotal = 0
+      questions.forEach((question) => {
+        ratingTotal += question.feedback_rating
+        this.state.questionNumbers[question.tag_name] += 1
+        var date = chrono.parseDate(question.created_at).getTime() - this.state.currentDate.getTime();
+        var date = Math.round(Math.abs(date/(1000*60*60*24)));
+        if (date <= 7) {
+          var currentState = this.state.questionsByDate
+          currentState[date] += 1
+          this.setState({questionsByDate: currentState})
+           }
+        })
+      this.setState({ratingValue: Math.floor(ratingTotal / questions.length)})
+      this.setState({totalQuestionsAnswered: questions.length})
+      })
+    }
 
 
   render() {
-  	console.log(this.state.questionsByDate);
-  	var user = this.props.location.state.user
+    console.log(this.state.questionsByDate);
+    var user = this.state.user
+    console.log("USER", this.state.user);
     const divStyle = {
-    	backgroundColor: "white",
-    	width: "75%"
+      backgroundColor: "white",
+      width: "75%"
     }
     const imageStyle = {
       position: "fixed",
@@ -91,8 +103,8 @@ class UserDashBoard extends React.Component {
 
     var Header = (props) => (
        <div>
-    	<div><strong>Total Questions Answered:</strong> {this.state.totalQuestionsAnswered}</div>
-    	<div><strong>Summary:</strong> {this.props.location.state.user.description}</div>
+      <div><strong>Total Questions Answered:</strong> {this.state.totalQuestionsAnswered}</div>
+      <div><strong>Summary:</strong> {this.state.user.description}</div>
        </div>
 
         )
@@ -126,23 +138,23 @@ const data02 = [
 
 ]
 
-console.log("NUMS", this.state.questionNumbers.History)
 
  
 
     return (
     <div>
-       <img src ="https://static.pexels.com/photos/226591/pexels-photo-226591.jpeg" style = {imageStyle} />
+      {this.props.modal ? <div></div> : <img src ="https://static.pexels.com/photos/226591/pexels-photo-226591.jpeg" style = {imageStyle} />
+      }
 
     <a href="/"> <FlatButton style = {buttonStyle} label="Home" /> </a>
 
     <div>
     <Card style={{opacity: "0.92", backgroundColor: "white", width: "80%", height:"100%", marginLeft: "auto", marginRight: "auto", marginBottom: "25%"}}>
     <CardHeader
-      title={this.props.location.state.user.display}
-      avatar={this.props.location.state.user.avatar}
+      title={this.state.user.display}
+      avatar={this.state.user.avatar}
       children={[<Rating
-      	  value={this.state.ratingValue}
+          value={this.state.ratingValue}
           max={5}
         />,
         <Header style={{marginLeft: "25%"}} {...this.state.props} />
@@ -155,7 +167,7 @@ console.log("NUMS", this.state.questionNumbers.History)
     <h4 style={{marginLeft: "20%", display: "inlineBlock"}}>Weekly Question History</h4>
     <h4 style = {{marginLeft: "70%", display: "inlineBlock"}}>Question Types Answered</h4>
     <div style = {{display: "flex", flexDirection: "row"}}>
-    	<LineChart width={600} height={300} data={data}
+      <LineChart width={600} height={300} data={data}
             margin={{top: 0, right: 10, left: 20}}>
        <XAxis dataKey="name"/>
        <YAxis/>
@@ -175,11 +187,10 @@ console.log("NUMS", this.state.questionNumbers.History)
     </CardText>
     <CardActions>
     </CardActions>
-    <PaymentButton data = {this.props}/>
   </Card>
   </div>
   </div>
-  	)
+    )
   }
 }
 
