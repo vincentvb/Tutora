@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import TutorSkills from '../components/TutorSkills.js';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { getAllQ, getUserQ, getQbyTag, getOnlineQ, getQbyTaglet } from '../network.js';
+import { getAllQ, getUserQ, getQbyTag, getOnlineQ, getQbyTaglet, getAllOnlineQ } from '../network.js';
 
 
 class QuestionPage extends React.Component {
@@ -29,13 +29,11 @@ class QuestionPage extends React.Component {
       // reset this.props.questionlist to the online qs, based on the current filter 
       // do a fresh call to find all online questions, since this.props.question is old off IndexPage 
         
-      getAllQ(questions => {
-        var context = this;
-        getOnlineQ(questions, context, onlineall => {
-          this.filterTutorQ(this.props.filter, onlineall, filteredq => {
-            context.setState({ questions: filteredq })
-          })
-        })
+      var context = this;
+      getAllOnlineQ(onlinequestions => {
+        this.filterTutorQ(undefined, onlinequestions, filteredq => {
+          context.setState({ questions: filteredq })
+        });
       })
 
     })
@@ -62,19 +60,12 @@ class QuestionPage extends React.Component {
     } else if (this.props.user.type === 'tutor'){
       this.props.getProfileSkills(this.props.user.id);
 
-
-      // get all Qs, find the online ones and then pass to the filter
+      // find online qs and pass to filter
       var context = this;
-
-      getAllQ(questions => {
-        getOnlineQ(questions, context, onlinequestions => {
-          context.setState({ onlinequestions: onlinequestions })
-
-          this.filterTutorQ(undefined, onlinequestions, filteredq => {
-            context.setState({ questions: filteredq })
-          });
-            
-        })
+      getAllOnlineQ(onlinequestions => {
+        this.filterTutorQ(undefined, onlinequestions, filteredq => {
+          context.setState({ questions: filteredq })
+        });
       })
 
 
@@ -99,14 +90,19 @@ class QuestionPage extends React.Component {
       // return all of the questions that match the category of the profile skills
       // console.log(this.props.skills, "DID TUTOR SKILLS GET PASSED?")
       // for each profile skill, return the question from that tag
-      var skillqs = [];
-      this.props.skills.map(skill => {
-        getQbyTag(skill, questions => {
-          skillqs.push(questions)
-        })
-      })
+      
+        var skillqs = [];
 
-      cb(skillqs)
+        this.props.skills.forEach(skill => {
+          getQbyTag(skill, questions => {
+            skillqs.push(questions)
+          })
+        })
+        
+        console.log(skillqs, "WHAT ARE SKILLS Qs?")
+
+        cb(skillqs)
+
 
     } else if (filter[0] === 3){
       
@@ -139,23 +135,15 @@ class QuestionPage extends React.Component {
   }
 
   componentWillReceiveProps(newProps){
-    // will receive filter and retrieve all online qs as a base  
-    var context = this;
-    console.log(newProps.filter, "WHAT IS FILTER BEING RECEIVED?")
+        // will receive filter 
+    console.log(newProps.filter, "WHAT IS NEW FILTER?")
 
-    var onlineqs = []
-    getAllQ(questions => {
-      getOnlineQ(questions, context, allonlineqs => {
-        onlineqs.push(allonlineqs)
-      })
+   var context = this;
+   getAllOnlineQ(onlinequestions => {
+      this.filterTutorQ(newProps.filter, onlinequestions, filteredq => {
+        context.setState({ questions: filteredq })
+      });
     })
-
-    console.log(onlineqs, "WHAT ARE ONLINEQs?")
-
-    this.filterTutorQ(newProps.filter, onlineqs, filteredq => {
-      console.log("WHAT ARE FILTERED Qs?")
-      context.setState({ questions: filteredq })
-    })    
 
   }
 
@@ -164,6 +152,7 @@ class QuestionPage extends React.Component {
   render(){
 
     console.log(this.state.questions, "WHAT IS BEING RENDERED?")
+    console.log("NEW CHANGES")
 
     if (this.state.questions.length > 0) {
       return (

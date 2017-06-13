@@ -1,6 +1,7 @@
 const models = require('../../db/models');
 const Bookshelf = require('../../db/Bookshelf.js');
 const saveImageToS3 = require('../middleware/images.js').uploadProfilePic;
+const client = require('../redis.js')
 
 module.exports.getAll = (req, res) => {
   models.Profile.fetchAll()
@@ -28,6 +29,16 @@ module.exports.getOne = (req, res) => {
       res.sendStatus(404);
     });
 };
+
+module.exports.getOnline = (req, res) => {
+  client.smembers("online", function(err, ids){
+    if (err){
+      throw err; 
+      res.status(500).send(err)
+    }
+    res.status(200).send(ids)
+  })
+}
 
 module.exports.updateProfile = (req, res) => {
   console.log(req.body);

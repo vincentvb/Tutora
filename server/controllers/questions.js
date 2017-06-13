@@ -1,34 +1,27 @@
 const models = require('../../db/models');
 const Bookshelf = require('../../db/Bookshelf.js')
 const saveImageToS3 = require('../middleware/images.js').uploadQuestionPic;
-const Promise = require('bluebird');
-Promise.promisifyAll(require('redis'));
 const client = require('../app.js').client;
+const redisclient = require('../redis.js');
 
 module.exports.getOnlineQ = (req, res) => {
-  console.log("HELLLLOOOO");
-  console.log(req.body.questions, "WHAT IS BEING SENT TO GET ONLINE Q ROUTE?")
-
-  Promise.map(req.body.questions, (question) => {
-    return client.getAsync(question.profile_id)
-    .then(res => {
-      if (res === "online") {
-        return question
-      }
+  redisclient.smembersAsync("online")
+    .then(ids => {
+      models.Question.where('profile_id', 'in', ids).fetchAll()
+      .then(questions => {
+        res.status(200).send(questions)
+      })
+      .error(err => {
+        res.status(500).send(err)
+      })
+      .catch(e => {
+        console.log(e, "from catch")
+        res.sendStatus(404)
+      })
     })
-  })
-  .then(questions => {
-    console.log(questions, "IN CHECK ONLINE");
 
-    questions = questions.filter(function(question){
-      return question !== undefined;
-    });
-
-    res.status(200).send(questions)
-
-  })
-  .catch(err => console.log(err))
 }
+
 
 module.exports.getRecommendedQ = (req, res) => {
   // get profile skills 
@@ -159,8 +152,8 @@ module.exports.addTagletstoQ = (req, res) => {
     res.status(200).send(result)
   })
 	.error(err => {
-        res.status(500).send(err)
-      })
+    res.status(500).send(err)
+  })
   .catch(e => {
     console.log(e, "from catch")
     res.sendStatus(404)

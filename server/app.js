@@ -59,6 +59,7 @@ io.on('connection', (socket) => {
     socket.userId = data.user_id
     socket.room = data.room;
     client.set(socket.userId, "online");
+    client.sadd("online", socket.userId);
     io.to('home').emit('newonlineuser', socket.userId );
 
 
@@ -121,6 +122,7 @@ io.on('connection', (socket) => {
         client.get(socket.userId, (err, reply) => {
           if (reply === "offline") {
             client.del(socket.userId)
+            client.srem("online", socket.userId)
             io.to('home').emit('delete')
             io.to('home').emit('deleteOfflineQs')
             // console.log("UPDATE QUESTIONS");

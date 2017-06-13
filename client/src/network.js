@@ -48,6 +48,18 @@ const getQbyTaglet = (tagletid, cb) => {
   });
 }
 
+const getAllOnlineQ = (cb) => {
+  axios
+  .get('/api/questions/online')
+  .then(response => {
+    cb(response.data)
+  })
+  .catch(error => {
+    console.error('axios error', error)
+  });
+}
+
+// old method of using sockets to retrieve onlineQ
 const getOnlineQ = (questions, context, cb) => {
   // console.log(questions, "QUESTIONS IN FILTER ONLINE")
 
@@ -63,6 +75,7 @@ export {
   getQbyTag, 
   getUserQ, 
   getOnlineQ,
+  getAllOnlineQ,
   getQbyTaglet
 
 }

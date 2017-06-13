@@ -8,6 +8,9 @@ router.route('/')
   .post(QuestionController.postQuestion)
   ;
 
+router.route('/online')
+  .get(QuestionController.getOnlineQ)
+  
 router.route('/:id')
   .get(QuestionController.getOne)
   ;
@@ -23,8 +26,6 @@ router.route('/user/:id')
   .post(QuestionController.updateUserQ)
   ;
 
-router.route('/online')
-  .get(QuestionController.getOnlineQ)
 
 router.route('/recommended/:profileid')
   .get(QuestionController.getRecommendedQ)
