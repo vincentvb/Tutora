@@ -13,13 +13,11 @@ module.exports.verify = (req, res, next) => {
 };
 
 module.exports.update = (req, res, done) => {
-  console.log('fucking update')
   return models.Profile.where({ email: req.user.email }).fetch()
   .then(profile => {
      return profile.save({type: req.body.type}, {method: 'update'});
   })
   .then((res) => {
-    console.log('Inside of res');
     done(null, res);
   })
   .error(err => {

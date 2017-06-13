@@ -70,7 +70,6 @@ router.route('/signup2')
     res.render('signup2.ejs')
   })
   .post((req, res) => {
-    console.log('Inside of auth.js route')
     res.redirect('/');
   });
 
