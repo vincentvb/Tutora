@@ -120,41 +120,46 @@ body h1 {
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
 <script>
 $(function() {
-    $('#login-form-link').click(function(e) {
-        $("#login-form").delay(100).fadeIn(100);
-        $("#register-form").fadeOut(100);
-        $('#register-form-link').removeClass('active');
-        $(this).addClass('active');
-        e.preventDefault();
-    });
-    $('#register-form-link').click(function(e) {
-        $("#register-form").delay(100).fadeIn(100);
-        $("#login-form").fadeOut(100);
-        $('#login-form-link').removeClass('active');
-        $(this).addClass('active');
-        e.preventDefault();
-    });
+  $('#login-form-link').click(function(e) {
+    $("#login-form").delay(100).fadeIn(100);
+    $("#register-form").fadeOut(100);
+    $('#register-form-link').removeClass('active');
+    $(this).addClass('active');
+    e.preventDefault();
+  });
+
+  $('#register-form-link').click(function(e) {
+    $("#register-form").delay(100).fadeIn(100);
+    $("#login-form").fadeOut(100);
+    $('#login-form-link').removeClass('active');
+    $(this).addClass('active');
+    e.preventDefault();
+  });
+
   $('#radioBtn a').on('click', function(){
     var sel = $(this).data('title');
     var tog = $(this).data('toggle');
     $('#'+tog).prop('value', sel);
-
     $('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('active').addClass('notActive');
     $('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notActive').addClass('active');
+  });
+
+  // $('#submitButton').on('click', function() {
+  //   console.log('yalla')
+  //   window.location = "/signup2";
+  // });
+
+  // $('#signup2-form').submit(function(event) {
+  //   console.log('yalla');
+  //   window.location = "/signup2";
+  // });
+
+  console.log('the referrer ', document.referrer)
+  document.getElementById("type").defaultValue = "student";
+
 });
-
-
-document.getElementById("type").defaultValue = "student";
-
-
-
-
-});
-</script>
-
 </script>
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
@@ -181,7 +186,7 @@ document.getElementById("type").defaultValue = "student";
 
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-sm-6 col-sm-offset-3">
+                                <div class="col-sm-6 col-sm-offset-3" id="submitButton">
                                     <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Finish Registering">
                                 </div>
                             </div>
