@@ -86,9 +86,8 @@ export function getTaglets(){
     axios
       .get('/api/tags/taglets')
       .then(taglets => {
-        var tagletsarr = taglets.data.map(taglet => taglet.value)
-        // console.log(tagsarr, "TAGS")
-        dispatch(setTaglets(tagletsarr))
+        // var tagletsarr = taglets.data.map(taglet => taglet.value)
+        dispatch(setTaglets(taglets.data))
       })
       .catch(error => {
         console.log('Error while retrieving taglets', error)

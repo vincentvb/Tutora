@@ -23,11 +23,19 @@ router.route('/user/:id')
   .post(QuestionController.updateUserQ)
   ;
 
+router.route('/online')
+  .get(QuestionController.getOnlineQ)
+
+router.route('/recommended/:profileid')
+  .get(QuestionController.getRecommendedQ)
+
 router.route('/addTagstoQ')
   .post(QuestionController.addTagstoQ)
 
 router.route('/addTagletstoQ')
   .post(QuestionController.addTagletstoQ)
+
+
 
 
 module.exports = router; 

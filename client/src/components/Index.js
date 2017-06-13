@@ -14,6 +14,7 @@ import Snackbar from 'material-ui/Snackbar';
 import { setRoomLocation } from '../actionCreators.js';
 import UserDashBoard from './UserDashBoard.js';
 import FilterQuestion from './FilterQuestion.js';
+import { getOnlineQ , getAllQ} from '../network.js';
 
 
 
@@ -104,6 +105,7 @@ class Index extends React.Component {
         this.setState({open: true})
       }
     });
+
   }
 
   componentWillUnmount() {
@@ -116,7 +118,12 @@ class Index extends React.Component {
   }
 
   render() {
+<<<<<<< d71f6abaac7013c6d56ca6a2e3a0b8a8eea13678
     console.log("USER", this.props.userid)
+=======
+
+
+>>>>>>> merge3
     if (this.state.id !== "") {
         this.socket.emit('userData', {
           room: 'home',
@@ -197,7 +204,7 @@ class Index extends React.Component {
           <div className="indextext"> Welcome, {this.props.userid.display}! </div>
 
         <div className="filter"> 
-          {this.props.userid.type === "tutor" ? <FilterQuestion filter={this.state.filter} handleFilterQuestion={this.handleFilterQuestion} /> : null}
+          {this.props.userid.type === "tutor" ? <FilterQuestion socket={this.socket} filter={this.state.filter} handleFilterQuestion={this.handleFilterQuestion} /> : null}
 
         </div>
 
@@ -228,11 +235,13 @@ class Index extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userid: state.userid
+  userid: state.userid, 
+  questionlist: state.questions
 });
 
 const mapDispatchToProps = dispatch => ({
-  setRoomLocation: location => dispatch(setRoomLocation(location))
+  setRoomLocation: location => dispatch(setRoomLocation(location)), 
+  setQ: questions => dispatch(setQ(questions))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index);

@@ -10,5 +10,4 @@ client.on('connect', () => {
   console.log("redis connected");
 })
 
-
 module.exports = client;

@@ -2,9 +2,10 @@ import React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FilterCategory from './FilterCategory.js';
+import FilterTaglets from './FilterTaglets.js';
 import { connect } from 'react-redux';
-import { setQ } from '../actionCreators.js';
-import { getAllQ, getQbyTag } from '../network.js';
+import { setQ, setFilter } from '../actionCreators.js';
+import { getAllQ, getQbyTag, getOnlineQ } from '../network.js';
 
 
 const styles = {
@@ -18,7 +19,9 @@ class FilterQuestion extends React.Component {
     super(props)
 
     this.state = {
-      showCategory: false
+      showCategory: false,
+      showTaglets: false, 
+      menufilter: ''
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -28,12 +31,30 @@ class FilterQuestion extends React.Component {
   handleChange(event, index, value){
     // this.props.setFilter(value);
     if (value === 1){
-      getAllQ(questions => this.props.setQ(questions));
-    } else if (value === 3 || value === 4){
-      this.setState({ showCategory: true })
-    } 
+      this.props.setFilter([0]);
+      this.setState({ showCategory: false });
+      this.setState({ showTaglets: false });
 
-    console.log()
+      getAllQ(questions => {
+        var context = this;
+        getOnlineQ(questions, context, onlineall => {
+          this.props.setQ(onlineall)
+        })
+      })
+
+    } else if (value === 3){
+      this.props.setFilter([value])
+      this.setState({ menufilter: value})
+      this.setState({ showCategory: true })
+      this.setState({ showTaglets: false })
+    } else if (value === 4){
+      this.setState({ showCategory: false })
+      this.setState({ showTaglets: true })
+    } else if (value === 2){
+      this.setState({ showCategory: false });
+      this.setState({ showTaglets: false });
+    }
+
 
   }
 
@@ -52,7 +73,8 @@ class FilterQuestion extends React.Component {
         </SelectField>
 
         <div>
-          {this.state.showCategory ? <FilterCategory /> : null}
+          {this.state.showCategory ? <FilterCategory socket={this.props.socket} menufilter={this.state.filter} /> : null}
+          {this.state.showTaglets ? <FilterTaglets /> : null }
         </div>
 
       </div>
@@ -65,7 +87,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  setQ: questions => dispatch(setQ(questions))
+  setQ: questions => dispatch(setQ(questions)), 
+  setFilter: filter => dispatch(setFilter(filter))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterQuestion);
