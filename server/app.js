@@ -5,11 +5,6 @@ const Promise = require('bluebird');
 const middleware = require('./middleware');
 const routes = require('./routes');
 const client = require('./redis.js')
-// const redis = require('redis');
-// Promise.promisifyAll(require('redis'));
-// const client = redis.createClient({
-//   host: process.env.REDIS_HOST || '127.0.0.1'
-// });
 
 const app = express();
 const http = require('http');
@@ -64,6 +59,7 @@ io.on('connection', (socket) => {
     socket.userId = data.user_id
     socket.room = data.room;
     client.set(socket.userId, "online");
+    client.sadd("online", socket.userId);
     io.to('home').emit('newonlineuser', socket.userId );
 
 
@@ -126,6 +122,7 @@ io.on('connection', (socket) => {
         client.get(socket.userId, (err, reply) => {
           if (reply === "offline") {
             client.del(socket.userId)
+            client.srem("online", socket.userId)
             io.to('home').emit('delete')
             io.to('home').emit('deleteOfflineQs')
             // console.log("UPDATE QUESTIONS");

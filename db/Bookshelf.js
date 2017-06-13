@@ -25,6 +25,17 @@ module.exports = {
 		})
 	},
 
+	getAllQbyTags : (tagnames, callback) => {
+		Question.where('tag_name', 'in', tagnames).fetchAll()
+		.then(question => {
+			callback(null, question);
+		})
+		.catch(error => {
+			callback(error, null);
+		})
+	},
+	
+
 	getAllQbyTaglet : (tagletid, callback) => {
 		Taglets_Question.where({ taglet_id: tagletid }).fetchAll({
 			withRelated: [

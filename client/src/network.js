@@ -37,6 +37,28 @@ const getQbyTag = (tag, cb) => {
   });
 }
 
+const getQbyTags = (tags, cb) => {
+  let urls = tags.map(skill => {
+    return '/api/questions/tag/'+skill
+  })
+
+  let promises = urls.map(url => axios.get(url))
+
+  axios.all(promises)
+  .then(response => {
+    // console.log(response, "WHAT IS THE RESPONSE?")
+    var skillquestions = response.reduce(function(acc, response){ 
+      return acc.concat(response.data)
+    }, [])
+
+    // console.log(skillquestions)
+    cb(skillquestions)
+  })
+  .catch(error => {
+    console.error('axios error', error)
+  });
+}
+
 const getQbyTaglet = (tagletid, cb) => {
   axios
   .get('/api/questions/taglet/'+tagletid)
@@ -48,6 +70,18 @@ const getQbyTaglet = (tagletid, cb) => {
   });
 }
 
+const getAllOnlineQ = (cb) => {
+  axios
+  .get('/api/questions/online')
+  .then(response => {
+    cb(response.data)
+  })
+  .catch(error => {
+    console.error('axios error', error)
+  });
+}
+
+// old method of using sockets to retrieve onlineQ
 const getOnlineQ = (questions, context, cb) => {
   // console.log(questions, "QUESTIONS IN FILTER ONLINE")
 
@@ -63,6 +97,8 @@ export {
   getQbyTag, 
   getUserQ, 
   getOnlineQ,
-  getQbyTaglet
+  getAllOnlineQ,
+  getQbyTaglet, 
+  getQbyTags
 
 }
