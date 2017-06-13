@@ -44,7 +44,7 @@ module.exports.getAllTagsbyQ = (req, res) => {
 }
 
 module.exports.getAllTaglets = (req, res) => {
-  models.Taglet.fetchAll({columns: ['value']})
+  models.Taglet.fetchAll()
   .then(taglets => {
     res.status(200).send(taglets)
   })

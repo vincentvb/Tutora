@@ -10,8 +10,11 @@ import { getUserInfo } from '../actionCreators.js';
 import Classroom from '../containers/Classroom.js'
 import Nav from './Nav.js'
 import QuestionPage from '../containers/QuestionPage.js'
-import TutorSkills from './TutorSkills.js'
 import UserDashBoard from './UserDashBoard.js'
+import TutorSkills from './TutorSkills.js';
+import { getAllQ } from '../network.js';
+import { setQ } from '../actionCreators.js'
+
 
 class App extends React.Component {
   constructor(props){
@@ -48,7 +51,9 @@ class App extends React.Component {
 
 
 const mapDispatchToProps = dispatch => ({
-  getUserID: userid => dispatch(getUserInfo())
+  getUserID: userid => dispatch(getUserInfo()),
+  setQ: questions => dispatch(setQ(questions))
 })
 
 export default connect(null, mapDispatchToProps)(App);
+

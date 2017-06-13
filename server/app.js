@@ -1,12 +1,15 @@
 'use strict';
 const express = require('express');
 const path = require('path');
+const Promise = require('bluebird');
 const middleware = require('./middleware');
 const routes = require('./routes');
-const redis = require('redis');
-const client = redis.createClient({
-  host: process.env.REDIS_HOST || '127.0.0.1'
-});
+const client = require('./redis.js')
+// const redis = require('redis');
+// Promise.promisifyAll(require('redis'));
+// const client = redis.createClient({
+//   host: process.env.REDIS_HOST || '127.0.0.1'
+// });
 
 const app = express();
 const http = require('http');
@@ -44,9 +47,6 @@ app.use('/', routes.auth);
 
 
 
-client.on('connect', () => {
-  console.log("redis connected");
-})
 
 // http.listen(3000, () => {
 //   console.log("listening on 3000 (or 80 if you are running me Docker)")
@@ -64,6 +64,8 @@ io.on('connection', (socket) => {
     socket.userId = data.user_id
     socket.room = data.room;
     client.set(socket.userId, "online");
+    io.to('home').emit('newonlineuser', socket.userId );
+
 
   })
 
@@ -87,20 +89,31 @@ io.on('connection', (socket) => {
     io.to('home').emit('updateQuestions');
   })
 
-  socket.on('checkOnline', (user) => {
-    // console.log("checkONLINEUSER", user);
-    var id = user.question.profile_id.toString();
-    // console.log(id);
-    client.get(id, (err, res) => {
-      // console.log(res);
-      if (res === "online") {
-      io.to('home').emit('userOnline', {
-        user
-       })
-     }
 
-   })
-  })
+  //  maybe refactor to a reverse index 
+  socket.on('checkOnline', (user) => {
+    console.log(user, "CHECK ONLINE QUESTION")
+
+    Promise.map(user.questions, (question) => {
+      return client.getAsync(question.profile_id)
+      .then(res => {
+        if (res === "online") {
+          return question
+        }
+      })
+    })
+    .then(questions => {
+      // console.log(questions, "IN CHECK ONLINE");
+      questions = questions.filter(function(question){
+        return question !== undefined;
+      });
+
+      console.log(questions, "I FOUND THE ONLINE QUESTIONS")
+      io.to('home').emit('onlineQs', questions )
+    })
+    .catch(err => console.log(err))
+
+  })  
 
   socket.on('chatMessage', (data) => {
     io.to(data.room).emit('newMessage', data.message);
@@ -114,14 +127,15 @@ io.on('connection', (socket) => {
           if (reply === "offline") {
             client.del(socket.userId)
             io.to('home').emit('delete')
-            io.to('home').emit('updateQuestions')
+            io.to('home').emit('deleteOfflineQs')
             // console.log("UPDATE QUESTIONS");
           }
         })
-      }, 5000)
+      }, 1000)
      }
   })
   console.log('a user connected');
 })
 
 module.exports = app;
+module.exports = client;

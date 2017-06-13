@@ -28,110 +28,112 @@ class QuestionListItem extends React.Component {
 
   }
 
-componentDidMount() {
+  componentDidMount() {
 
-  // console.log(this.props.question.user.question.id, "QUESTION ID FROM QITEM")
+    // console.log(this.props.question, "QUESTION FROM QITEM")
 
-  axios
-  .get(`/api/tags/question/${this.props.question.user.question.id}`)
-  .then(response => {
-    var tagsarr = response.data.map(function(tag, idx){
-      // console.log(tag.category_name, "CAT NAME")
-      return { key: idx, label: tag.tag_name }
+    // refactor for taglets 
+    // axios
+    // .get(`/api/tags/question/${this.props.question.user.question.id}`)
+    // .then(response => {
+    //   var tagsarr = response.data.map(function(tag, idx){
+    //     // console.log(tag.category_name, "CAT NAME")
+    //     return { key: idx, label: tag.tag_name }
+    //   })
+    //   this.setState({ tags: tagsarr })
+    //   // console.log(this.state.tags, "TAGS ARR")
+    // })
+
+    
+
+    axios
+    .get(`/api/profiles/${this.props.question.profile_id}`)
+    .then(response => {
+      // this.props.setQuestioner(response.data);
+      this.setState({ questionUserName: response.data.display || response.data.first+' '+response.data.last})
+      this.setState({ questionAvatar: response.data.avatar })
     })
-    this.setState({ tags: tagsarr })
-    // console.log(this.state.tags, "TAGS ARR")
-  })
 
-  
-
-  axios
-  .get(`/api/profiles/${this.props.question.user.question.profile_id}`)
-  .then(response => {
-    this.setState({ questionUserName: response.data.display })
-    this.setState({ questionAvatar: response.data.avatar })
-  })
-
-}
-
-broadcast() {
-
-  axios
-  .get(`/api/profiles/${this.props.question.user.question.profile_id}`)
-  .then(response => {
-    this.props.setQuestioner(response.data.display);
-  })
-  this.state.broadcastSocket(this.props.question.user.question.profile_id, this.props.question.user.question.id);
-  this.props.setAnswerer(this.props.user.display)
-
-}
-
-handleExpandChange (expanded) {
-  this.setState({expanded: expanded});
-};
-
-handleToggle (event, toggle) {
-  this.setState({expanded: toggle});
-};
-
-handleExpand () {
-  this.setState({expanded: true});
-};
-
-handleReduce () {
-  this.setState({expanded: false});
-};
-
-renderChip(data){
-  return (
-    <Chip key={data.key} style={styles.chip}> 
-      {data.label}
-    </Chip>
-  );
-}
-
-
-
-render() {
-  var label = "ANSWER QUESTION"
-  if (this.props.user.type.toLowerCase() === 'student'){
-    label = ""
   }
 
-return (
-  <div style={styles.card}>
+  broadcast() {
 
-    <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
-        <CardHeader
-          title={this.props.question.user.question.title}
-          subtitleStyle={styles.wrapper}
-          subtitle={this.state.tags.map(this.renderChip, this)}
-          avatar={this.state.questionAvatar || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"}
-          actAsExpander={true}
-          showExpandableButton={true}
-        />
+    axios
+    .get(`/api/profiles/${this.props.question.profile_id}`)
+    .then(response => {
+      console.log(response);
+    })
+    this.state.broadcastSocket(this.props.question.profile_id, this.props.question.id);
+    this.props.setAnswerer(this.props.user.display)
 
-        <CardText expandable={true}>
-          <p style={{fontSize: "30px"}}>{this.props.question.user.question.body}</p>
+  }
 
-        </CardText>
-        {this.props.question.user.question.image ? (
-          <CardMedia expandable={true}>
-            <img 
-              src={this.props.question.user.question.image}
+  handleExpandChange (expanded) {
+    this.setState({expanded: expanded});
+  };
+
+  handleToggle (event, toggle) {
+    this.setState({expanded: toggle});
+  };
+
+  handleExpand () {
+    this.setState({expanded: true});
+  };
+
+  handleReduce () {
+    this.setState({expanded: false});
+  };
+
+  renderChip(data){
+    return (
+      <Chip key={data.key} style={styles.chip}> 
+        {data.label}
+      </Chip>
+    );
+  }
+
+
+
+  render() {
+    var label = "ANSWER QUESTION"
+    if (this.props.user.type === 'student'){
+      label = ""
+    }
+
+    return (
+      <div style={styles.card}>
+
+        <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
+            <CardHeader
+              title={this.props.question.title+' asked by '+this.state.questionUserName}
+              subtitleStyle={styles.wrapper}
+              subtitle={this.props.question.tag_name}
+              avatar={this.state.questionAvatar || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"}
+              actAsExpander={true}
+              showExpandableButton={true}
             />
-          </CardMedia>
-          ) : (
-          <div></div>
-        )}
-        <CardActions expandable = {true}>
-          <FlatButton label={label} primary={true} onTouchTap={this.broadcast} />
-        </CardActions>
-      </Card>
-  </div>
 
-)
-}
+            <CardText expandable={true}>
+              <p style={{fontSize: "30px"}}>{this.props.question.body}</p>
+
+            </CardText>
+            {this.props.question.image ? (
+              <CardMedia expandable={true}>
+                <img 
+                  src={this.props.question.image}
+                />
+              </CardMedia>
+              ) : (
+              <div></div>
+            )}
+            <CardActions expandable = {true}>
+              <FlatButton label={label} primary={true} onTouchTap={this.broadcast} />
+            </CardActions>
+          </Card>
+      </div>
+
+    )
+  }
 
 }
 
@@ -162,3 +164,5 @@ const styles = {
     flexWrap: 'wrap',
   },
 };
+
+// this.state.tags.map(this.renderChip, this)

@@ -12,16 +12,30 @@ router.route('/:id')
   .get(QuestionController.getOne)
   ;
 
+router.route('/tag/:tagname')
+  .get(QuestionController.getAllQbyTag)
+
+router.route('/taglet/:tagletid')
+  .get(QuestionController.getAllQbyTaglet)
+
 router.route('/user/:id')
   .get(QuestionController.getUserQ)
   .post(QuestionController.updateUserQ)
   ;
+
+router.route('/online')
+  .get(QuestionController.getOnlineQ)
+
+router.route('/recommended/:profileid')
+  .get(QuestionController.getRecommendedQ)
 
 router.route('/addTagstoQ')
   .post(QuestionController.addTagstoQ)
 
 router.route('/addTagletstoQ')
   .post(QuestionController.addTagletstoQ)
+
+
 
 
 module.exports = router; 

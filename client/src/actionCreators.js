@@ -24,6 +24,14 @@ var setProfileSkills = function (skills){
   return { type: 'SET_PROFILE_SKILLS', skills }
 }
 
+export function setFilter(filter){
+  return { type: 'SET_FILTER', filter }
+}
+
+export function setQ(questionlist){
+  return { type: 'SET_QUESTION_LIST', questionlist }
+}
+
 export function getProfileSkills(profileid){
   return dispatch => {
     console.log(profileid, "PROFILE ID")
@@ -78,9 +86,8 @@ export function getTaglets(){
     axios
       .get('/api/tags/taglets')
       .then(taglets => {
-        var tagletsarr = taglets.data.map(taglet => taglet.value)
-        // console.log(tagsarr, "TAGS")
-        dispatch(setTaglets(tagletsarr))
+        // var tagletsarr = taglets.data.map(taglet => taglet.value)
+        dispatch(setTaglets(taglets.data))
       })
       .catch(error => {
         console.log('Error while retrieving taglets', error)

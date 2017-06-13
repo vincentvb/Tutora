@@ -13,6 +13,9 @@ import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
 import { setRoomLocation } from '../actionCreators.js';
 import UserDashBoard from './UserDashBoard.js';
+import FilterQuestion from './FilterQuestion.js';
+import { getOnlineQ , getAllQ} from '../network.js';
+
 
 
 class Index extends React.Component {
@@ -32,6 +35,8 @@ class Index extends React.Component {
     this.getUserInfo = this.getUserInfo.bind(this);
     this.broadcastSocket = this.broadcastSocket.bind(this);
     this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
+    this.handleFilterQuestion = this.handleFilterQuestion.bind(this);
+
   }
 
   broadcastSocket (userId, questionId) {
@@ -79,6 +84,10 @@ class Index extends React.Component {
     this.setState({open: false});
   };
 
+  handleFilterQuestion(){
+    this.setState({ filter: value })
+  } 
+
   componentWillMount() {
 
     this.getUserInfo();
@@ -96,6 +105,7 @@ class Index extends React.Component {
         this.setState({open: true})
       }
     });
+
   }
 
   componentWillUnmount() {
@@ -109,6 +119,7 @@ class Index extends React.Component {
 
   render() {
     console.log("USER", this.props.userid)
+
     if (this.state.id !== "") {
         this.socket.emit('userData', {
           room: 'home',
@@ -172,8 +183,7 @@ class Index extends React.Component {
     ];
 
     return (
-      <div className="indexpage">
-       <img src ="https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg" style = {imageStyle} />
+		  <div className="indexpage">
         <Snackbar
           open={this.state.snackBar}
           message={this.props.userid.type === "tutor" ? "Browse Student Questions and Engage!" : "Post a Question and Get the Answers You Need!"}
@@ -185,8 +195,13 @@ class Index extends React.Component {
         <Link to ={{pathname: '/dashboard', state: {user: this.props.userid}}} > <FlatButton style = {buttonStyle2} label="DashBoard" /> </Link>
         <div style={{marginLeft: "5%"}}>
         
-        <div> HELLO </div>
+        <div className="container"> 
+          <div className="indextext"> Welcome, {this.props.userid.display}! </div>
 
+        <div className="filter"> 
+          {this.props.userid.type === "tutor" ? <FilterQuestion socket={this.socket} filter={this.state.filter} handleFilterQuestion={this.handleFilterQuestion} /> : null}
+
+        </div>
 
         <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
         <AskQuestion socket = {this.socket} id={this.state.id} funds={this.state.funds} />
@@ -201,6 +216,8 @@ class Index extends React.Component {
           <UserDashBoard user = {this.state.requestUser} modal = {true} />
           Accept and go to the classroom or wait.
         </Dialog>
+
+        </div>
       </div>
       </div>
     )
@@ -213,11 +230,13 @@ class Index extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userid: state.userid
+  userid: state.userid, 
+  questionlist: state.questions
 });
 
 const mapDispatchToProps = dispatch => ({
-  setRoomLocation: location => dispatch(setRoomLocation(location))
+  setRoomLocation: location => dispatch(setRoomLocation(location)), 
+  setQ: questions => dispatch(setQ(questions))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index);

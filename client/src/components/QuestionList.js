@@ -1,85 +1,53 @@
 import React from 'react';
-import QuestionListItem from './QuestionListItem.js'
+import QuestionListItem from './QuestionListItem.js';
+import uniqBy from 'lodash/uniqBy';
+import { connect } from 'react-redux';
+import { setQ } from '../actionCreators.js' 
+
+    // console.log(uniqBy(test, 'id'), "UNIQ TEST VALUE");
 
 class QuestionList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      questions: [],
-      questionId: {
-
-      }
+      questions: []
     }
-    this.mapQuestions = this.mapQuestions.bind(this);
+    
+    // this.filterOnlineQ = this.filterOnlineQ.bind(this);
   }
 
-  mapQuestions(questions, deleteStatus) {
-  if (deleteStatus === "deleteStatus" && questions.length > 0) {
-    questions.map(question => {
-      console.log("QUESTION", question.user);
-      if (!this.state.questionId[question.user.question.id]) {
-        var obj = this.state.questionId;
-        obj[question.user.question.id] = 0
-        this.setState({questionId: obj})
-        this.props.socket.emit('checkOnline', {question: question.user.question})
-      }
-    })
+  componentWillMount() {
+    
+
   }
-  else {
-  questions.map(question => {
-    if (!this.state.questionId[question.id] && questions.length > 0) {
-      var obj = this.state.questionId;
-      obj[question.id] = 0
-      this.setState({questionId: obj})
-      this.props.socket.emit('checkOnline', {question})
-    }
-   })
+  
+
+  render() {
+    // var questions = this.props.questionlist;
+    // console.log(this.props.questionlist, "QL QUESTIONS ON RENDER")
+
+    if (this.props.questions.length > 0) {
+      return (
+        <div>
+        {this.props.questions.map(question =>
+          <QuestionListItem userName = {this.props.userName} key={question.id} question={question} broadcastSocket = {this.props.broadcastSocket} />
+
+        )}
+        </div>
+      )
+    } else {
+     return <div>Hello</div>
+   }
   }
 }
 
-componentDidMount () {
-  this.mapQuestions(this.props.questions);
-  var context = this
-  this.props.socket.on('userOnline', (response) => {
-  if (this.state.questionId[response.user.question.id] === 0) {
-    // console.log("IN HERE");
-    let variable = context.state.questions
-    variable.push(response);
-    this.setState({questions: variable})
-    this.state.questionId[response.user.question.id] = 1
-  }
+const mapStateToProps = (state) => ({
+  questionlist: state.questionlist
+});
+
+const mapDispatchToProps = dispatch => ({
+  setQ: questions => dispatch(setQ(questions))
 })
- this.props.socket.on('delete', (response) => {
-    var questions = this.state.questions
-    this.state.questions = []
-    this.state.questionId = {}
-    console.log(questions, "QUESTIONS MAPPED");
-    this.mapQuestions(questions, "deleteStatus")
- })
-}
-
-componentWillReceiveProps(newProps) {
-  this.mapQuestions(newProps.questions);
-}
 
 
-render() {
- if (this.state.questions.length > 0) {
- return (
-  <div>
-  {this.state.questions.map(question =>
-    <QuestionListItem userName = {this.props.userName} key={question.id} question={question} broadcastSocket = {this.props.broadcastSocket} />
-
-  )}
-  </div>
-
-
-  )
-  }
- else {
-   return <div>Hello</div>
- }
-}
-}
-
-export default QuestionList;
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionList);

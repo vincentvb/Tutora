@@ -1,6 +1,48 @@
 const models = require('../../db/models');
 const Bookshelf = require('../../db/Bookshelf.js')
 const saveImageToS3 = require('../middleware/images.js').uploadQuestionPic;
+const Promise = require('bluebird');
+Promise.promisifyAll(require('redis'));
+const client = require('../app.js').client;
+
+module.exports.getOnlineQ = (req, res) => {
+  console.log("HELLLLOOOO");
+  console.log(req.body.questions, "WHAT IS BEING SENT TO GET ONLINE Q ROUTE?")
+
+  Promise.map(req.body.questions, (question) => {
+    return client.getAsync(question.profile_id)
+    .then(res => {
+      if (res === "online") {
+        return question
+      }
+    })
+  })
+  .then(questions => {
+    console.log(questions, "IN CHECK ONLINE");
+
+    questions = questions.filter(function(question){
+      return question !== undefined;
+    });
+
+    res.status(200).send(questions)
+
+  })
+  .catch(err => console.log(err))
+}
+
+module.exports.getRecommendedQ = (req, res) => {
+  // get profile skills 
+  // for each profile skill, pull all questions
+  // 
+
+  // SELECT * 
+  // FROM tags_profiles tp 
+  // JOIN questions q 
+  //  ON q.tag_id = tp.tags_id 
+  // JOIN  
+  // WHERE tp.profile_id = 2
+}
+
 
 module.exports.getOne = (req, res) => {
 	Bookshelf.getOneQuestion(req.user.id, function(error, result) {
@@ -31,6 +73,28 @@ module.exports.getUserQ = (req, res) => {
 		return res.send(result);
 	});
 };
+
+module.exports.getAllQbyTag = (req, res) => {
+  console.log(req.params.tagname, "TAG NAME")
+  Bookshelf.getAllQbyTag(req.params.tagname, function(error, result){
+    if (error) {
+      console.log(error);
+      return res.sendStatus(500);
+    }
+    return res.send(result);
+  })
+}
+
+module.exports.getAllQbyTaglet = (req, res) => {
+  Bookshelf.getAllQbyTaglet(req.params.tagletid, function(error, result){
+    if (error) {
+      console.log(error);
+      return res.sendStatus(500);
+    }
+    return res.send(result);
+  })
+}
+
 
 module.exports.updateUserQ = (req, res) => {
 	Bookshelf.updateQuestion(req.body.rating, req.body.questionId, req.body.answererId, req.body.questionAnswered)
