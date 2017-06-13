@@ -145,20 +145,8 @@ $(function() {
     $('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('active').addClass('notActive');
     $('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notActive').addClass('active');
   });
-
-  // $('#submitButton').on('click', function() {
-  //   console.log('yalla')
-  //   window.location = "/signup2";
-  // });
-
-  // $('#signup2-form').submit(function(event) {
-  //   console.log('yalla');
-  //   window.location = "/signup2";
-  // });
-
-  console.log('the referrer ', document.referrer)
+  
   document.getElementById("type").defaultValue = "student";
-
 });
 </script>
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
