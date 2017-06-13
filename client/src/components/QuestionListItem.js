@@ -100,6 +100,8 @@ class QuestionListItem extends React.Component {
       label = ""
     }
 
+    console.log('the props inside of the question dude ', this.props.question);
+
     return (
       <div style={styles.card}>
 
