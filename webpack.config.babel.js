@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import path from 'path';
+import Dotenv from 'dotenv-webpack';
 
 const config = {
   entry: './client/src/base',
@@ -40,6 +41,14 @@ const config = {
       }]
   }
 };
+
+if (process.env.DOCKER === 'isTrue') {
+  config.plugins = [
+      new Dotenv({
+        path: './.env'
+      })
+    ];
+}
 
 export default config;
 
