@@ -96,17 +96,24 @@ componentDidMount() {
      console.log('Successfully joined a Room: ', room);
      var tracks = Array.from(room.localParticipant.tracks.values())
       document.getElementById('videoTrack').appendChild(tracks[1].attach())
-      // tracks[1].attach(this.refs.remoteMedia)
+      document.getElementById('audioTrack').appendChild(tracks[0].attach());
+      const localMedia = tracks[1]
      room.on('trackAdded', function(track, participant) {
       var tracks = Array.from(participant.tracks.values())
       console.log("TRACKS", tracks)
       if (tracks[1]) {
       var id1 = document.getElementById('videoTrack')
       var id2 = document.getElementById('audioTrack');
+      var id3 = document.getElementById('mirrorTrack');
+      localMedia.dimensions.width = 1
+      localMedia.dimensions.height = 3
+      console.log(localMedia);
+
       id1.removeChild(id1.childNodes[0]);
       id1.appendChild(tracks[1].attach());
       id2.removeChild(id2.childNodes[0]);
       id2.appendChild(tracks[0].attach());
+      id3.appendChild(localMedia.attach());
      }
     })
      room.on('participantDisconnected', (participant) => {
@@ -182,7 +189,10 @@ componentDidMount() {
           <div style={styles.chat} className="col-md-4 col-xs-4">
             <Chat />
           </div>
-          <div style={styles.video} id="videoTrack" className="col-md-8 col-xs-8 media-container"></div>
+          <div>
+          <div style = {{position: "relative", zIndex: 1}} id="videoTrack" className="col-md-8 col-xs-8 media-container"></div>
+          <div style = {{position: "absolute", zIndex: 2, top: "62%", left: "73%"}} id="mirrorTrack"></div>
+          </div>
           <div id="audioTrack" className="col-md-8 col-xs-8 media-container"></div>
 
           </div>
@@ -237,7 +247,7 @@ const styles = {
     // borderColor: 'red',
     // borderWidth: 5,
     // borderStyle: 'solid',
-    height: 420,
+    height: 420
 
   },
   videotext: {
