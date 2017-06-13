@@ -12,7 +12,7 @@ router.route('/profile/:profileId')
   ;
 
 router.route('/question/:questionId')
-  .get(TagsController.getAllTagsbyQ)
+  .get(TagsController.getAllTagsByQ)
   ;
 
 router.route('/taglets')
@@ -21,6 +21,10 @@ router.route('/taglets')
 
 router.route('/taglets/:tagId')
   .get(TagsController.getAllTagletsByTag)
+  ;
+
+router.route('/taglets/question/:questionId')
+  .get(TagsController.getAllTagletsByQ)
   ;
 
 module.exports = router;

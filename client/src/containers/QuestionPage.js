@@ -126,7 +126,7 @@ class QuestionPage extends React.Component {
 
   componentWillReceiveProps(newProps){
         // will receive filter 
-    console.log(newProps.filter, "WHAT IS NEW FILTER?")
+    // console.log(newProps.filter, "WHAT IS NEW FILTER?")
 
    var context = this;
    getAllOnlineQ(onlinequestions => {
@@ -141,8 +141,7 @@ class QuestionPage extends React.Component {
 
   render(){
 
-    console.log(this.state.questions, "WHAT IS BEING RENDERED?")
-    console.log("NEW CHANGES")
+    // console.log(this.state.questions, "WHAT IS BEING RENDERED?")
 
     if (this.state.questions.length > 0) {
       return (
