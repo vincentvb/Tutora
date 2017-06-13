@@ -4890,7 +4890,6 @@ react-tap-event-plugin@^2.0.1:
   dependencies:
     fbjs "^0.8.6"
 
-<<<<<<< 9d38665c40650d7ba7a33550e6d0faecf16eecdd
 react-test-renderer@^15.5.4:
   version "15.5.4"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-15.5.4.tgz#d4ebb23f613d685ea8f5390109c2d20fbf7c83bc"
@@ -4898,16 +4897,13 @@ react-test-renderer@^15.5.4:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
 
-react-transition-group@^1.1.1, react-transition-group@^1.1.2:
-=======
 react-themeable@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-themeable/-/react-themeable-1.1.0.tgz#7d4466dd9b2b5fa75058727825e9f152ba379a0e"
   dependencies:
     object-assign "^3.0.0"
 
-react-transition-group@^1.1.2:
->>>>>>> pt of changing delete question mapping
+react-transition-group@^1.1.1, react-transition-group@^1.1.2:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-1.1.3.tgz#5e02cf6e44a863314ff3c68a0c826c2d9d70b221"
   dependencies:
@@ -5293,18 +5289,16 @@ scmp@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/scmp/-/scmp-0.0.3.tgz#3648df2d7294641e7f78673ffc29681d9bad9073"
 
-<<<<<<< 9d38665c40650d7ba7a33550e6d0faecf16eecdd
 scss-tokenizer@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/scss-tokenizer/-/scss-tokenizer-0.2.3.tgz#8eb06db9a9723333824d3f5530641149847ce5d1"
   dependencies:
     js-base64 "^2.1.8"
     source-map "^0.4.2"
-=======
+
 section-iterator@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/section-iterator/-/section-iterator-2.0.0.tgz#bf444d7afeeb94ad43c39ad2fb26151627ccba2a"
->>>>>>> pt of changing delete question mapping
 
 select-hose@^2.0.0:
   version "2.0.0"
@@ -5383,7 +5377,6 @@ sha.js@^2.3.6:
   dependencies:
     inherits "^2.0.1"
 
-<<<<<<< 9d38665c40650d7ba7a33550e6d0faecf16eecdd
 shallow-clone@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/shallow-clone/-/shallow-clone-0.1.2.tgz#5909e874ba77106d73ac414cfec1ffca87d97060"
@@ -5392,11 +5385,10 @@ shallow-clone@^0.1.2:
     kind-of "^2.0.1"
     lazy-cache "^0.2.3"
     mixin-object "^2.0.1"
-=======
+
 shallow-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shallow-equal/-/shallow-equal-1.0.0.tgz#508d1838b3de590ab8757b011b25e430900945f7"
->>>>>>> pt of changing delete question mapping
 
 shelljs@^0.7.5:
   version "0.7.7"

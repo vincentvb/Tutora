@@ -118,12 +118,8 @@ class Index extends React.Component {
   }
 
   render() {
-<<<<<<< d71f6abaac7013c6d56ca6a2e3a0b8a8eea13678
     console.log("USER", this.props.userid)
-=======
 
-
->>>>>>> merge3
     if (this.state.id !== "") {
         this.socket.emit('userData', {
           room: 'home',
@@ -187,8 +183,7 @@ class Index extends React.Component {
     ];
 
     return (
-      <div className="indexpage">
-       <img src ="https://static.pexels.com/photos/356079/pexels-photo-356079.jpeg" style = {imageStyle} />
+		  <div className="indexpage">
         <Snackbar
           open={this.state.snackBar}
           message={this.props.userid.type === "tutor" ? "Browse Student Questions and Engage!" : "Post a Question and Get the Answers You Need!"}

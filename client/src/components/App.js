@@ -10,14 +10,11 @@ import { getUserInfo } from '../actionCreators.js';
 import Classroom from '../containers/Classroom.js'
 import Nav from './Nav.js'
 import QuestionPage from '../containers/QuestionPage.js'
-<<<<<<< 8083e0486aa30129713d67f97c8ca8c32d888ee0
-import TutorSkills from './TutorSkills.js'
 import UserDashBoard from './UserDashBoard.js'
-=======
 import TutorSkills from './TutorSkills.js';
 import { getAllQ } from '../network.js';
 import { setQ } from '../actionCreators.js'
->>>>>>> still working
+
 
 class App extends React.Component {
   constructor(props){
