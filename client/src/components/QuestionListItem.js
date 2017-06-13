@@ -73,9 +73,6 @@ class QuestionListItem extends React.Component {
     if (this.props.user.type === 'student'){
       label = ""
     }
-
-    console.log('the props inside of the question dude ', this.props.question);
-
     return (
       <div style={styles.card}>
 
