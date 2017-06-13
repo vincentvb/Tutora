@@ -68,7 +68,7 @@ module.exports.getUserQ = (req, res) => {
 };
 
 module.exports.getAllQbyTag = (req, res) => {
-  console.log(req.params.tagname, "TAG NAME")
+  // console.log(req.params.tagname, "TAG NAME")
   Bookshelf.getAllQbyTag(req.params.tagname, function(error, result){
     if (error) {
       console.log(error);

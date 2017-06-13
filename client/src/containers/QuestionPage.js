@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import TutorSkills from '../components/TutorSkills.js';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { getAllQ, getUserQ, getQbyTag, getOnlineQ, getQbyTaglet, getAllOnlineQ } from '../network.js';
+import { getAllQ, getUserQ, getQbyTag, getOnlineQ, getQbyTaglet, getAllOnlineQ, getQbyTags } from '../network.js';
 
 
 class QuestionPage extends React.Component {
@@ -90,19 +90,9 @@ class QuestionPage extends React.Component {
       // return all of the questions that match the category of the profile skills
       // console.log(this.props.skills, "DID TUTOR SKILLS GET PASSED?")
       // for each profile skill, return the question from that tag
-      
-        var skillqs = [];
-
-        this.props.skills.forEach(skill => {
-          getQbyTag(skill, questions => {
-            skillqs.push(questions)
-          })
-        })
-        
-        console.log(skillqs, "WHAT ARE SKILLS Qs?")
-
-        cb(skillqs)
-
+      getQbyTags(this.props.skills, skillquestions => {
+        cb(skillquestions)
+      })
 
     } else if (filter[0] === 3){
       
