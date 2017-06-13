@@ -38,6 +38,7 @@ app.use('/api/tags', routes.tags);
 app.use('/api/profiles', routes.profiles);
 app.use('/api/questions', routes.questions);
 app.use('/api/payments', routes.payments);
+app.use('/api/dashboard', routes.dashboard);
 
 app.use('/', routes.auth);
 

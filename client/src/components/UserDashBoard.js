@@ -3,8 +3,11 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 import { Rating } from 'material-ui-rating'
+import axios from 'axios';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, PieChart, Pie, Sector, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+var chrono = require('chrono-node');
 import PaymentButton from './PaymentButton.js'
+
 
 
 
@@ -13,18 +16,61 @@ class UserDashBoard extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-    	value: 1,
-    	description: "I'm a munstah"
+    	totalQuestionsAnswered: 0,
+    	ratingValue: 5,
+    	questionNumbers: {
+    		Math: 0.1,
+    		Geography: 0.1,
+    		History: 0.1,
+    		Art: 0.1,
+    		Physics: 0.1,
+    		Chemistry: 0.1,
+    		Grammar: 0.1,
+    		English: 0.1,
+    		Biology: 0.1
+    	},
+    	questionsByDate: {
+    		"0": 0,
+    		"1": 0,
+    		"2": 0,
+    		"3": 0,
+    		"4": 0,
+    		"5": 0,
+    		"6": 0,
+    		"7": 0
+    	}
     }
 
   }
 
   componentDidMount() {
+  	var date = new Date()
+  	this.setState({currentDate: date})
+  	axios
+  	.get('/api/dashboard/rating', {params: { user: this.props.location.state.user}})
+  	.then(response => {
+  		console.log(response);
+  		var questions = response.data
+  		var ratingTotal = 0
+  		questions.forEach((question) => {
+  			ratingTotal += question.feedback_rating
+  			this.state.questionNumbers[question.tag_name] += 1
+  			var date = chrono.parseDate(question.created_at).getTime() - this.state.currentDate.getTime();
+  			var date = Math.round(Math.abs(date/(1000*60*60*24)));
+  			if (date <= 7) {
+  				var currentState = this.state.questionsByDate
+  				currentState[date] += 1
+  				this.setState({questionsByDate: currentState})
+  			   }
+  			})
+  		this.setState({ratingValue: Math.floor(ratingTotal / questions.length)})
+  		this.setState({totalQuestionsAnswered: questions.length})
+  		})
+  	}
 
-  	console.log(this.props.location.state.user);
-  }
 
   render() {
+  	console.log(this.state.questionsByDate);
   	var user = this.props.location.state.user
     const divStyle = {
     	backgroundColor: "white",
@@ -45,8 +91,8 @@ class UserDashBoard extends React.Component {
 
     var Header = (props) => (
        <div>
-    	<div><strong>Total Questions Answered:</strong> {this.state.value}</div>
-    	<div><strong>Summary:</strong> {this.state.description}</div>
+    	<div><strong>Total Questions Answered:</strong> {this.state.totalQuestionsAnswered}</div>
+    	<div><strong>Summary:</strong> {this.props.location.state.user.description}</div>
        </div>
 
         )
@@ -56,23 +102,31 @@ class UserDashBoard extends React.Component {
 
 
     const data = [
-      {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-      {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-      {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-      {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-      {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-      {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-      {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
+      {name: 'Today', Questions: this.state.questionsByDate[0], amt: 2400},
+      {name: '1 Day', Questions: this.state.questionsByDate[1], amt: 2210},
+      {name: '2 Days', Questions: this.state.questionsByDate[2], amt: 2290},
+      {name: '3 Days', Questions: this.state.questionsByDate[3], amt: 2000},
+      {name: '4 Days', Questions: this.state.questionsByDate[4], amt: 2181},
+      {name: '5 Days', Questions: this.state.questionsByDate[5], amt: 2500},
+      {name: '6 Days', Questions: this.state.questionsByDate[6], amt: 2100},
 ]
 
 const data02 = [
-    { subject: 'Math', A: 120, B: 110, fullMark: 150 },
-    { subject: 'Chinese', A: 98, B: 130, fullMark: 150 },
-    { subject: 'English', A: 86, B: 130, fullMark: 150 },
-    { subject: 'Geography', A: 99, B: 100, fullMark: 150 },
-    { subject: 'Physics', A: 85, B: 90, fullMark: 150 },
-    { subject: 'History', A: 65, B: 85, fullMark: 150 },
+    { subject: 'Math', A: this.state.questionNumbers.Math, fullMark: 150 },
+    { subject: 'Geography', A: this.state.questionNumbers.Geography, fullMark: 150 },
+    { subject: 'History', A: this.state.questionNumbers.History, fullMark: 150 },
+    { subject: 'Art', A: this.state.questionNumbers.Art, fullMark: 150 },
+    { subject: 'Physics', A: this.state.questionNumbers.Physics, fullMark: 150 },
+    { subject: 'Chemistry', A: this.state.questionNumbers.Chemistry, fullMark: 150 },
+    { subject: 'Grammar', A: this.state.questionNumbers.Grammar, fullMark: 150 },
+    { subject: 'English', A: this.state.questionNumbers.English, fullMark: 150 },
+    { subject: 'Biology', A: this.state.questionNumbers.Biology, fullMark: 150 }
+
+
+
 ]
+
+console.log("NUMS", this.state.questionNumbers.History)
 
  
 
@@ -88,7 +142,7 @@ const data02 = [
       title={this.props.location.state.user.display}
       avatar={this.props.location.state.user.avatar}
       children={[<Rating
-      	  value={this.state.value}
+      	  value={this.state.ratingValue}
           max={5}
         />,
         <Header style={{marginLeft: "25%"}} {...this.state.props} />
@@ -98,8 +152,8 @@ const data02 = [
 
     <CardText>
     <div>
-    <h4 style={{marginLeft: "25%", display: "inlineBlock"}}>Question History</h4>
-    <h4 style = {{marginLeft: "75%", display: "inlineBlock"}}>Question Type</h4>
+    <h4 style={{marginLeft: "20%", display: "inlineBlock"}}>Weekly Question History</h4>
+    <h4 style = {{marginLeft: "70%", display: "inlineBlock"}}>Question Types Answered</h4>
     <div style = {{display: "flex", flexDirection: "row"}}>
     	<LineChart width={600} height={300} data={data}
             margin={{top: 0, right: 10, left: 20}}>
@@ -108,10 +162,9 @@ const data02 = [
        <CartesianGrid strokeDasharray="3 3"/>
        <Tooltip/>
        <Legend />
-       <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}}/>
-       <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+       <Line type="monotone" dataKey="Questions" stroke="#82ca9d" />
       </LineChart>
-      <RadarChart margin = {{top: 0, bottom: 0, left: 0, right: 0}}cx={300} cy={150} outerRadius={150} width={600} height={500} data={data02}>
+      <RadarChart margin = {{top: 10, bottom: 0, left: 0, right: 0}}cx={300} cy={175} outerRadius={150} width={600} height={500} data={data02}>
           <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
           <PolarGrid />
           <PolarAngleAxis dataKey="subject" />

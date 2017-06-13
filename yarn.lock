@@ -1159,6 +1159,12 @@ chokidar@^1.4.3, chokidar@^1.6.0:
   optionalDependencies:
     fsevents "^1.0.0"
 
+chrono-node@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/chrono-node/-/chrono-node-1.3.3.tgz#b1dcf95e07c6687d04333295258284b2403a63a4"
+  dependencies:
+    moment "^2.10.3"
+
 cipher-base@^1.0.0, cipher-base@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/cipher-base/-/cipher-base-1.0.3.tgz#eeabf194419ce900da3018c207d212f2a6df0a07"
@@ -3733,7 +3739,7 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-moment@2.14.1:
+moment@2.14.1, moment@^2.10.3:
   version "2.14.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.14.1.tgz#b35b27c47e57ed2ddc70053d6b07becdb291741c"
 
