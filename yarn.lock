@@ -4860,6 +4860,10 @@ react-smooth@0.3.0:
     raf "^3.2.0"
     react-transition-group "^1.1.1"
 
+react-stripe-checkout@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-stripe-checkout/-/react-stripe-checkout-2.4.0.tgz#1b9cdcc79ef131199cc39e944b34e1e81a00cd10"
+
 react-tap-event-plugin@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-tap-event-plugin/-/react-tap-event-plugin-2.0.1.tgz#316beb3bc6556e29ec869a7293e89c826a9074d2"

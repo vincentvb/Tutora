@@ -6,6 +6,7 @@ import { Rating } from 'material-ui-rating'
 import axios from 'axios';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, PieChart, Pie, Sector, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 var chrono = require('chrono-node');
+import PaymentButton from './PaymentButton.js'
 
 
 
@@ -169,11 +170,12 @@ console.log("NUMS", this.state.questionNumbers.History)
           <PolarAngleAxis dataKey="subject" />
           <PolarRadiusAxis/>
         </RadarChart>
-	</div>
-	</div>
+  </div>
+  </div>
     </CardText>
     <CardActions>
     </CardActions>
+    <PaymentButton data = {this.props}/>
   </Card>
   </div>
   </div>

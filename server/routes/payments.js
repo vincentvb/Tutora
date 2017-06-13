@@ -27,12 +27,11 @@ router.route('/')
 	)
 	.post(
 		function (req, res) {
-			var options = {
+			axios.post(payService + '/', {
 				amount: req.body.amount,
 				source: req.body.token.id,
 				userID: req.body.userID
-			};
-			axios.post(payService + '/')
+			})
 				.then((response) => {
 					console.log('A POST on web for /api/payments');
 					res.status(201);
