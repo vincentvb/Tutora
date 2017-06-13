@@ -43,7 +43,6 @@ class FilterQuestion extends React.Component {
       })
 
     } else if (value === 3){
-      this.props.setFilter([value])
       this.setState({ menufilter: value})
       this.setState({ showCategory: true })
       this.setState({ showTaglets: false })
@@ -51,6 +50,7 @@ class FilterQuestion extends React.Component {
       this.setState({ showCategory: false })
       this.setState({ showTaglets: true })
     } else if (value === 2){
+      this.props.setFilter([2])      
       this.setState({ showCategory: false });
       this.setState({ showTaglets: false });
     }

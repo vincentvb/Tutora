@@ -5,11 +5,6 @@ const Promise = require('bluebird');
 const middleware = require('./middleware');
 const routes = require('./routes');
 const client = require('./redis.js')
-// const redis = require('redis');
-// Promise.promisifyAll(require('redis'));
-// const client = redis.createClient({
-//   host: process.env.REDIS_HOST || '127.0.0.1'
-// });
 
 const app = express();
 const http = require('http');
