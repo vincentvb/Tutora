@@ -22,3 +22,15 @@ module.exports.getProfileInfo = (req, res) => {
 			res.send(err);
 		})
 }
+
+module.exports.getStudent = (req, res) => {
+	req.user = JSON.parse(req.query.user)
+
+	models.Question.where({profile_id: req.user.id}).fetchAll()
+		.then(questions => {
+			res.send(questions)
+		})
+		.error(err => {
+			res.send(err);
+		})
+}
