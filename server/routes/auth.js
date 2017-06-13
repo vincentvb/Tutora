@@ -61,7 +61,6 @@ router.route('/landingPage')
 
   router.route('/redirectsignup')
     .get((req, res) => {
-      console.log("IN HERE");
       res.redirect('/')
     });
 
@@ -69,7 +68,7 @@ router.route('/signup2')
   .get((req, res) => {
     res.render('signup2.ejs')
   })
-  .post((req, res) => {
+  .post(middleware.auth.update, (req, res) => {
     res.redirect('/');
   });
 
