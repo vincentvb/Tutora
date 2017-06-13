@@ -64,19 +64,15 @@ class AskQuestion extends React.Component {
   }
 
   postQuestion() {
-    // console.log(this.state.tagletsValue, "TAGLETS VALUE");
-
     var body = {
       title: this.state.questionInput,
       body: this.state.questionDescription,
       userid: this.props.id,
       image: null,
-      image: 'www.placeholder.com', 
       tags: this.state.tagValue, 
       taglets: this.state.tagletsValue
     };
 
-    // console.log(body, "BODY OF PUT REQUEST")
     if (this.state.imageInput !== null) {
       var image = this.state.imageInput.slice();
       var reader = new FileReader();
@@ -258,7 +254,6 @@ class AskQuestion extends React.Component {
               rows={4}
               floatingLabelText="Body"
             />
-
             <RaisedButton
               containerElement='label'
               label='Upload a picture'>
@@ -327,12 +322,9 @@ const mapStateToProps = (state) => ({
   taglets: state.taglets
 });
 
-
 const mapDispatchToProps = dispatch => ({
   getTags: tags => dispatch(getTags()), 
   getTaglets: taglets => dispatch(getTaglets())
-})
-  
+});
+
 export default connect(mapStateToProps, mapDispatchToProps)(AskQuestion)
-
-
