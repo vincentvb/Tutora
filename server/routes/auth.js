@@ -69,8 +69,9 @@ router.route('/signup2')
   .get((req, res) => {
     res.render('signup2.ejs')
   })
-  .post(middleware.auth.update, (req, res) => {
-    res.redirect('/')
+  .post((req, res) => {
+    console.log('Inside of auth.js route')
+    res.redirect('/');
   });
 
 router.route('/getuserinfo')

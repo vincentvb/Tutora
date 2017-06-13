@@ -86,10 +86,19 @@ class Index extends React.Component {
 
   handleFilterQuestion(){
     this.setState({ filter: value })
-  } 
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Logic to throw user to signup2 if they don't have a role:
+    var referedWebSite = document.referrer;
+    var endpoint = referedWebSite.split('/');
+    endpoint = endpoint[endpoint.length - 1];
+    if(nextProps.userid.type === null && endpoint !== 'signup2') {
+      window.location = "/signup2";
+    }
+  }
 
   componentWillMount() {
-
     this.getUserInfo();
     this.socket = io.connect();
     var randomRoom = Math.random() * 9999999
@@ -113,13 +122,10 @@ class Index extends React.Component {
   }
 
   redirect() {
-    // console.log("IN REDIRECT");
     this.setState({redirect: true})
   }
 
   render() {
-    console.log("USER", this.props.userid)
-
     if (this.state.id !== "") {
         this.socket.emit('userData', {
           room: 'home',
