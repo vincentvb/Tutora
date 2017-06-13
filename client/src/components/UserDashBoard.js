@@ -5,7 +5,9 @@ import Divider from 'material-ui/Divider';
 import { Rating } from 'material-ui-rating'
 import axios from 'axios';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, PieChart, Pie, Sector, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
-var chrono = require('chrono-node');
+import chrono from 'chrono-node';
+import PaymentButton from './PaymentButton.js'
+
 
 
 
