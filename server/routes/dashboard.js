@@ -12,5 +12,8 @@ router.route('/profileInfo')
   .get(DashboardController.getProfileInfo)
   ;
 
+ router.route('/student')
+  .get(DashboardController.getStudent)
+
 
 module.exports = router; 

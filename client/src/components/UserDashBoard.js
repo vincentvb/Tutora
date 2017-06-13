@@ -17,7 +17,7 @@ class UserDashBoard extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      totalQuestionsAnswered: 0,
+      totalQuestions: 0,
       ratingValue: 5,
       questionNumbers: {
         Math: 0.1,
@@ -55,31 +55,55 @@ class UserDashBoard extends React.Component {
     else {
       var newUser = this.props.user
     }
+    console.log("USER", newUser);
     this.setState({user: newUser})
     var date = new Date()
     this.setState({currentDate: date})
+    this.setState({studentType: newUser.type})
     console.log("NEW USER", newUser)
-    axios
-    .get('/api/dashboard/rating', {params: { user: newUser}})
-    .then(response => {
-      console.log(response);
-      var questions = response.data
-      var ratingTotal = 0
-      questions.forEach((question) => {
-        ratingTotal += question.feedback_rating
-        this.state.questionNumbers[question.tag_name] += 1
-        var date = chrono.parseDate(question.created_at).getTime() - this.state.currentDate.getTime();
-        var date = Math.round(Math.abs(date/(1000*60*60*24)));
-        if (date <= 7) {
-          var currentState = this.state.questionsByDate
-          currentState[date] += 1
-          this.setState({questionsByDate: currentState})
-           }
-        })
-      this.setState({ratingValue: Math.floor(ratingTotal / questions.length)})
-      this.setState({totalQuestionsAnswered: questions.length})
-      })
-    }
+    if (this.state.studentType === "tutor") {
+	    axios
+	    .get('/api/dashboard/rating', {params: { user: newUser}})
+	    .then(response => {
+	      var questions = response.data
+	      var ratingTotal = 0
+	      questions.forEach((question) => {
+	        ratingTotal += question.feedback_rating
+	        this.state.questionNumbers[question.tag_name] += 1
+	        var date = chrono.parseDate(question.created_at).getTime() - this.state.currentDate.getTime();
+	        var date = Math.round(Math.abs(date/(1000*60*60*24)));
+	        if (date <= 7) {
+	          var currentState = this.state.questionsByDate
+	          currentState[date] += 1
+	          this.setState({questionsByDate: currentState})
+	           }
+	        })
+	      this.setState({ratingValue: Math.floor(ratingTotal / questions.length)})
+	      this.setState({totalQuestions: questions.length})
+	      })
+	    }
+   else {
+	   	axios
+	   	.get('/api/dashboard/student', {params: { user: newUser}})
+	    .then(response => {
+	      var questions = response.data
+	      var ratingTotal = 0
+	      questions.forEach((question) => {
+	        ratingTotal += question.feedback_rating
+	        this.state.questionNumbers[question.tag_name] += 1
+	        var date = chrono.parseDate(question.created_at).getTime() - this.state.currentDate.getTime();
+	        var date = Math.round(Math.abs(date/(1000*60*60*24)));
+	        if (date <= 7) {
+	          var currentState = this.state.questionsByDate
+	          currentState[date] += 1
+	          this.setState({questionsByDate: currentState})
+	           }
+	        })
+	      this.setState({ratingValue: Math.floor(ratingTotal / questions.length)})
+	      this.setState({totalQuestions: questions.length})
+	      })
+	   }
+  }
 
 
   render() {
@@ -105,7 +129,14 @@ class UserDashBoard extends React.Component {
 
     var Header = (props) => (
        <div>
-      <div><strong>Total Questions Answered:</strong> {this.state.totalQuestionsAnswered}</div>
+      <div><strong>Total Questions Answered:</strong> {this.state.totalQuestions}</div>
+      <div><strong>Summary:</strong> {this.state.user.description}</div>
+       </div>
+
+        )
+    var Header2 = (props) => (
+       <div>
+      <div><strong>Total Questions Asked:</strong> {this.state.totalQuestions}</div>
       <div><strong>Summary:</strong> {this.state.user.description}</div>
        </div>
 
@@ -141,7 +172,7 @@ const data02 = [
 ]
 
 
- 
+ if (this.state.studentType === "tutor") {
 
     return (
     <div>
@@ -158,7 +189,7 @@ const data02 = [
       children={[<Rating
           value={this.state.ratingValue}
           max={5}
-        />,
+        />, 
         <Header style={{marginLeft: "25%"}} {...this.state.props} />
       ]}
     />
@@ -193,6 +224,55 @@ const data02 = [
   </div>
   </div>
     )
+} else {
+     return (
+    <div>
+      {this.props.modal ? <div></div> : <img src ="https://static.pexels.com/photos/226591/pexels-photo-226591.jpeg" style = {imageStyle} />
+      }
+
+    <a href="/"> <FlatButton style = {buttonStyle} label="Home" /> </a>
+
+    <div>
+    <Card style={{opacity: "0.92", backgroundColor: "white", width: "80%", height:"100%", marginLeft: "auto", marginRight: "auto", marginBottom: "25%"}}>
+    <CardHeader
+      title={this.state.user.display}
+      avatar={this.state.user.avatar}
+      children={
+        <Header2 style={{marginLeft: "25%"}} {...this.state.props} />
+      }
+    />
+    <Divider />
+
+    <CardText>
+    <div>
+    <h4 style={{marginLeft: "20%", display: "inlineBlock"}}>Weekly Question History</h4>
+    <h4 style = {{marginLeft: "70%", display: "inlineBlock"}}>Question Types Asked</h4>
+    <div style = {{display: "flex", flexDirection: "row"}}>
+      <LineChart width={600} height={300} data={data}
+            margin={{top: 0, right: 10, left: 20}}>
+       <XAxis dataKey="name"/>
+       <YAxis/>
+       <CartesianGrid strokeDasharray="3 3"/>
+       <Tooltip/>
+       <Legend />
+       <Line type="monotone" dataKey="Questions" stroke="#82ca9d" />
+      </LineChart>
+      <RadarChart margin = {{top: 10, bottom: 0, left: 0, right: 0}}cx={300} cy={175} outerRadius={150} width={600} height={500} data={data02}>
+          <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
+          <PolarGrid />
+          <PolarAngleAxis dataKey="subject" />
+          <PolarRadiusAxis/>
+        </RadarChart>
+  </div>
+  </div>
+    </CardText>
+    <PaymentButton data= {this.props}/>
+  </Card>
+  </div>
+  </div>
+    )
+
+    }
   }
 }
 
