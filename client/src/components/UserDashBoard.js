@@ -47,7 +47,7 @@ class UserDashBoard extends React.Component {
 
   }
 
-  componentDidMount() {
+  componentWillMount() {
     var newUser
     if (this.props.location) {
       var newUser = this.props.location.state.user || this.props.user
@@ -107,9 +107,8 @@ class UserDashBoard extends React.Component {
 
 
   render() {
-    console.log(this.state.questionsByDate);
+  	console.log("USER", this.state.user)
     var user = this.state.user
-    console.log("USER", this.state.user);
     const divStyle = {
       backgroundColor: "white",
       width: "75%"
@@ -224,7 +223,7 @@ const data02 = [
   </div>
   </div>
     )
-} else {
+} else if (this.state.studentType === "student") {
      return (
     <div>
       {this.props.modal ? <div></div> : <img src ="https://static.pexels.com/photos/226591/pexels-photo-226591.jpeg" style = {imageStyle} />

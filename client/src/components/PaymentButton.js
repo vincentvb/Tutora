@@ -36,7 +36,7 @@ class PaymentButton extends React.Component {
   	var thisReference = this;
   	return (
   		<div>
-  		{this.props.data.location.state.user.type === 'student' ? (
+  		(
 	  		<div>
 	  			Input money to your Tutora account:
 	        <Slider
