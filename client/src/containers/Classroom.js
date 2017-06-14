@@ -96,19 +96,17 @@ componentDidMount() {
      console.log('Successfully joined a Room: ', room);
      var tracks = Array.from(room.localParticipant.tracks.values())
       document.getElementById('videoTrack').appendChild(tracks[1].attach())
-      const localMedia = tracks[1]
+      document.getElementById('audioTrack').appendChild(tracks[0].attach())
      room.on('trackAdded', function(track, participant) {
       var tracks = Array.from(participant.tracks.values())
       console.log("TRACKS", tracks)
       if (tracks[1]) {
         var id1 = document.getElementById('videoTrack')
         var id2 = document.getElementById('audioTrack');
-        var id3 = document.getElementById('mirrorTrack');
 
         id1.removeChild(id1.childNodes[0]);
         id1.appendChild(tracks[1].attach());
         id2.appendChild(tracks[0].attach());
-        id3.appendChild(localMedia.attach());
         console.log(id2);
      }
     })
@@ -187,9 +185,7 @@ componentDidMount() {
           </div>
           <div>
           <div id="audioTrack" className="col-md-8 col-xs-8 media-container"></div>
-          <div style = {{position: "relative", zIndex: 1}} id="videoTrack" className="col-md-8 col-xs-8 media-container">
-          <div style = {{position: "absolute", zIndex: 2, top: "62%", left: "73%"}} id="mirrorTrack"></div>
-          </div>
+          <div style = {{position: "relative", zIndex: 1}} id="videoTrack" className="col-md-8 col-xs-8 media-container"></div>
           </div>
 
           </div>
