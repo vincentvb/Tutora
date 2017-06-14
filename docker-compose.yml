@@ -52,6 +52,8 @@ services:
     command: npm run migrateDB
   sockets:
     build: sockets_micro
+    ports: 
+      - "3030:3030"
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -62,8 +64,8 @@ services:
         limits:
           cpus: "0.1"
           memory: 50M
-    ports:
-      - 6666:6666
+    # ports:
+    #   - 6666:6666
     networks:
       - webnet
     environment:
