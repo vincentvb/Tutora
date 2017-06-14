@@ -65,6 +65,7 @@ class FilterQuestion extends React.Component {
           floatingLabelText="Filter Student Questions By"
           value={this.props.filter}
           onChange={this.handleChange}
+          floatingLabelStyle={{fontColor: "white"}}
         >
           <MenuItem value={1} primaryText="None" />
           <MenuItem value={2} primaryText="Recommended" />

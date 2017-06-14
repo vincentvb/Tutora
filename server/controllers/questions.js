@@ -90,6 +90,7 @@ module.exports.getAllQbyTaglet = (req, res) => {
 
 
 module.exports.updateUserQ = (req, res) => {
+	console.log(req.body);
 	Bookshelf.updateQuestion(req.body.rating, req.body.questionId, req.body.answererId, req.body.questionAnswered)
 }
 
