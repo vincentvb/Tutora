@@ -42,13 +42,11 @@ const config = {
   }
 };
 
-if (process.env.DOCKER === 'isTrue') {
-  config.plugins = [
-      new Dotenv({
-        path: './.env'
-      })
-    ];
-}
+config.plugins = [
+    new Dotenv({
+      path: './.env'
+    })
+  ];
 
 export default config;
 

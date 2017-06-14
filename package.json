@@ -6,7 +6,7 @@
     "test": "NODE_ENV=test grunt test",
     "build": "webpack --watch",
     "dev": "webpack-dev-server",
-    "compile": "webpack --config webpack.config.babel.js",
+    "compile": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
     "migrateDB": "knex migrate:latest && knex seed:run && nodemon server",
     "seedDB": "knex seed:run"
   },
