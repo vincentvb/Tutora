@@ -73,19 +73,21 @@ class AskQuestion extends React.Component {
       taglets: this.state.tagletsValue
     };
 
+    var refToSocket = this.props.socket;
+    var refToThis = this;
+
     if (this.state.imageInput !== null) {
       var image = this.state.imageInput.slice();
       var reader = new FileReader();
       reader.readAsDataURL(image);
 
-      var refToSocket = this.props.socket;
-      
       reader.onload = function() {
         body.image = reader.result.split('base64,')[1];
         axios.post('/api/questions', body)
         .then(response => {
           console.log('Posted question to server WHICH ONE. ', response.data);
           refToSocket.emit('postedQ', response.data)
+          refToThis.setState({imageInput: null});
         })
         .catch(error => {
           console.log('Error while posting to the server, ', error);
@@ -95,69 +97,63 @@ class AskQuestion extends React.Component {
       axios.post('/api/questions', body)
       .then(response => {
         console.log('Posted question to server. ', response.data);
-        this.props.socket.emit('postedQ', response.data)
+        refToSocket.emit('postedQ', response.data)
       })
       .catch(error => {
         console.log('Error while posting to the server, ', error);
       });
     }
-    
-
     this.setState({snackBarQuestion: true})
-
     this.closeModal();
   }
 
-    openModal() {
-      this.setState({modalIsOpen: true});
-    }
+  openModal() {
+    this.setState({modalIsOpen: true});
+  }
 
-    afterOpenModal() {
-      this.subtitle.style.color = 'black';
-    }
+  afterOpenModal() {
+    this.subtitle.style.color = 'black';
+  }
 
-    closeModal() {
-      this.setState({modalIsOpen: false});
-    }
+  closeModal() {
+    this.setState({modalIsOpen: false});
+  }
 
-    handleQuestionInput(event) {
-      this.setState({
-        questionInput: event.target.value
-      });
-    }
+  handleQuestionInput(event) {
+    this.setState({
+      questionInput: event.target.value
+    });
+  }
 
-    handleDescriptionInput(event) {
-      this.setState({
-        questionDescription: event.target.value
-      });
-    }
+  handleDescriptionInput(event) {
+    this.setState({
+      questionDescription: event.target.value
+    });
+  }
 
-    handleSnackBarQuestionClose () {
-      this.setState({
-        snackBarQuestion: false
-      })
-    }
+  handleSnackBarQuestionClose () {
+    this.setState({
+      snackBarQuestion: false
+    })
+  }
 
-    imageInput(event) {
-      this.setState({
-        imageInput: event.target.files[0]
-      });
-    }
+  imageInput(event) {
+    this.setState({
+      imageInput: event.target.files[0]
+    });
+  }
 
   handleToggleChange(event, logged) {
     this.setState({logged: logged});
   }
 
   handleTagChange(event, index, value){
-
     var tagId = "";
-
     this.props.tags.forEach(function(tag){
       if (tag.value === value){
         tagId = tag.id
       }
     })
-
 
     axios
     .get('/api/tags/taglets/'+tagId)
@@ -176,9 +172,7 @@ class AskQuestion extends React.Component {
   }
 
   handleTagletsChange(value){
-    // console.log("Selected: ", value)
     this.setState({ tagletsValue: value })
-
   }
 
   render() {
