@@ -10,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
 import Exit from 'material-ui/svg-icons/content/clear';
 import Write from 'material-ui/svg-icons/content/create';
+import Trash from 'material-ui/svg-icons/content/undo';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import Dialog from 'material-ui/Dialog';
@@ -52,6 +53,7 @@ class AskQuestion extends React.Component {
     this.handleToggleChange = this.handleToggleChange.bind(this);
     this.handleTagChange = this.handleTagChange.bind(this);
     this.updateTagletsValue = this.updateTagletsValue.bind(this);
+    this.imgUploadClick = this.imgUploadClick.bind(this);
   }
 
   componentWillMount(){
@@ -175,6 +177,10 @@ class AskQuestion extends React.Component {
     this.setState({ tagletsValue: value })
   }
 
+  imgUploadClick() {
+    this.setState({imageInput: null});
+  }
+
   render() {
     var options = this.props.taglets.map(function(tag){
       return { value: tag, label: tag }
@@ -208,6 +214,7 @@ class AskQuestion extends React.Component {
           modal={false}
           open={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
+          autoScrollBodyContent={true}
         >
 
           <TextField
@@ -251,6 +258,14 @@ class AskQuestion extends React.Component {
                   accept='image/*'
                 />
             </RaisedButton>
+            {this.state.imageInput ? (
+              <div style={{margin: 10, color: "#006064"}} onClick={this.imgUploadClick}>
+                <Trash/>
+                Chosen image: {this.state.imageInput.name}
+              </div>
+            ) : (
+              <div></div>
+            )}
           <div style={{marginBottom: 10}}></div>
           <Taglets options={this.state.options} tagletsValue={this.state.tagletsValue} updateTagletsValue={this.updateTagletsValue} />
           {this.props.funds >= 5 ? (
