@@ -30,23 +30,26 @@ class QuestionPage extends React.Component {
     // to filter through less questions. This could refactored to already 
     // having all of the question data off of passing down the object in the 'post question' return result
     this.props.socket.on('postedQ', question => {
-      console.log("NEW POSTED Q")
+      console.log("NEW POSTED Q", question)
 
-      var context = this;
-      axios
-      .get('/api/questions/'+question.id)
-      .then(question => {
+      // only post for the student and all the tutors 
+      if (this.props.user.type === "tutor" || this.props.user.id === question.profile_id){
+        var context = this;
+        axios
+        .get('/api/questions/'+question.id)
+        .then(question => {
 
-        this.filterTutorQ(this.props.filter, question.data, filteredq => {
-          var allfilteredqs = this.state.questions.concat(filteredq);
-          allfilteredqs = uniqBy(allfilteredqs, 'id');
+          this.filterTutorQ(this.props.filter, [question.data], filteredq => {
+            var allfilteredqs = filteredq.concat(this.state.questions);
+            allfilteredqs = uniqBy(allfilteredqs, 'id');
 
-          context.setState({ questions: allfilteredqs })
+            context.setState({ questions: allfilteredqs })
+          })
         })
-      })
-      .catch(error => {
-        console.error('axios error', error)
-      });
+        .catch(error => {
+          console.error('axios error', error)
+        });
+      }
 
 
       // getUserQ(this.props.userinfo.id, questions => this.setState({ questions }))
@@ -72,18 +75,21 @@ class QuestionPage extends React.Component {
     this.props.socket.on('newonlineuser', userid => {
       console.log("NEW USER ONLINE")
       // console.log(this.state.questions, "CURRENT QUESTIONS IN STATE")
-      
-      // get all of user questions and pass through the filterTutorQ
-      getUserQ(userid, questions => {
 
-        this.filterTutorQ(this.props.filter, questions, filteredq => {
 
-          var allfilteredqs = this.state.questions.concat(filteredq);
-          allfilteredqs = uniqBy(allfilteredqs, 'id');
+      // if tutor, get all of user questions and pass through the filterTutorQ
+      if (this.props.user.type === "tutor"){
+        getUserQ(userid, questions => {
 
-          context.setState({ questions: allfilteredqs })
+          this.filterTutorQ(this.props.filter, questions, filteredq => {
+
+            var allfilteredqs = this.state.questions.concat(filteredq);
+            allfilteredqs = uniqBy(allfilteredqs, 'id');
+
+            context.setState({ questions: allfilteredqs })
+          })
         })
-      })
+      }
 
     })
   }
@@ -117,6 +123,8 @@ class QuestionPage extends React.Component {
     // 1) Anti-pattern to mutate Redux props (I believe)
     // 2) Redux prop doesn't get updated until the render, so it's useless in this function
     // 3) Because componentWillReceiveProps calls this function, it's an infinite loop
+
+    console.log(qs, "IS THIS AN ARRAY IN FILTER FOR ONE POSTED Q?")
 
     if (!filter || filter[0] === 0 || filter.length === 0){
       cb(qs)
