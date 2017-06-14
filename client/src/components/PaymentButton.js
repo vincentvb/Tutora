@@ -35,9 +35,7 @@ class PaymentButton extends React.Component {
   render() {
   	var thisReference = this;
   	return (
-  		<div>
-  		(
-	  		<div>
+  		<div className="paymentbox">
 	  			Input money to your Tutora account:
 	        <Slider
 	        	style={{width: '50%'}}
@@ -67,13 +65,9 @@ class PaymentButton extends React.Component {
 					  allowRememberMe={false}
 					  >
 					</StripeCheckout>
-	  		</div>
-  		) : (
-  			<div>
-  			</div>
-  		)}
+  
   		</div>
-		)
+    )
   }
 }
 
