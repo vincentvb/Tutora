@@ -9,6 +9,7 @@ import TutorSkills from '../components/TutorSkills.js';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { getAllQ, getUserQ, getQbyTag, getOnlineQ, getQbyTaglet, getAllOnlineQ, getQbyTags } from '../network.js';
+import uniqBy from 'lodash/uniqBy'
 
 
 class QuestionPage extends React.Component {
@@ -23,9 +24,38 @@ class QuestionPage extends React.Component {
 
     this.filterTutorQ = this.filterTutorQ.bind(this);
 
-    this.props.socket.on('deleteOfflineQs', () => {
-      console.log("DELETING QUESTIONS");
+    // when a student posts a question
+    // please note that this is very similar to when a newonlineuser comes online
+    // however it is split into a separate socket to keep separation and also 
+    // to filter through less questions. This could refactored to already 
+    // having all of the question data off of passing down the object in the 'post question' return result
+    this.props.socket.on('postedQ', question => {
+      console.log("NEW POSTED Q")
 
+      var context = this;
+      axios
+      .get('/api/questions/'+question.id)
+      .then(question => {
+
+        this.filterTutorQ(this.props.filter, question.data, filteredq => {
+          var allfilteredqs = this.state.questions.concat(filteredq);
+          allfilteredqs = uniqBy(allfilteredqs, 'id');
+
+          context.setState({ questions: allfilteredqs })
+        })
+      })
+      .catch(error => {
+        console.error('axios error', error)
+      });
+
+
+      // getUserQ(this.props.userinfo.id, questions => this.setState({ questions }))
+    })
+
+
+    // when a student logs off 
+    this.props.socket.on('re-renderQs', () => {
+      console.log("USER LOGGED OFF")
       // reset this.props.questionlist to the online qs, based on the current filter 
       // do a fresh call to find all online questions, since this.props.question is old off IndexPage 
         
@@ -40,11 +70,16 @@ class QuestionPage extends React.Component {
 
     var context = this;
     this.props.socket.on('newonlineuser', userid => {
-
+      console.log("NEW USER ONLINE")
+      // console.log(this.state.questions, "CURRENT QUESTIONS IN STATE")
+      
       // get all of user questions and pass through the filterTutorQ
       getUserQ(userid, questions => {
+
         this.filterTutorQ(this.props.filter, questions, filteredq => {
-          var allfilteredqs = this.state.questions.concat(filteredq)
+
+          var allfilteredqs = this.state.questions.concat(filteredq);
+          allfilteredqs = uniqBy(allfilteredqs, 'id');
 
           context.setState({ questions: allfilteredqs })
         })
@@ -83,7 +118,7 @@ class QuestionPage extends React.Component {
     // 2) Redux prop doesn't get updated until the render, so it's useless in this function
     // 3) Because componentWillReceiveProps calls this function, it's an infinite loop
 
-    if (!filter || filter[0] === 0){
+    if (!filter || filter[0] === 0 || filter.length === 0){
       cb(qs)
     } else if (filter[0] === 2){
 
@@ -126,7 +161,7 @@ class QuestionPage extends React.Component {
 
   componentWillReceiveProps(newProps){
         // will receive filter 
-    console.log(newProps.filter, "WHAT IS NEW FILTER?")
+    // console.log(newProps.filter, "WHAT IS NEW FILTER?")
 
    var context = this;
    getAllOnlineQ(onlinequestions => {
@@ -141,8 +176,7 @@ class QuestionPage extends React.Component {
 
   render(){
 
-    console.log(this.state.questions, "WHAT IS BEING RENDERED?")
-    console.log("NEW CHANGES")
+    // console.log(this.state.questions, "WHAT IS BEING RENDERED?")
 
     if (this.state.questions.length > 0) {
       return (

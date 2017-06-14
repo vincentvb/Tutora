@@ -92,6 +92,17 @@ const getOnlineQ = (questions, context, cb) => {
   });
 }
 
+const getTagletsbyQ = (qid, cb) => {
+  axios
+  .get('/api/tags/taglets/question/'+qid)
+  .then(response => {
+    cb(response.data)
+  })
+  .catch(error => {
+    console.error('axios error', error)
+  });
+}
+
 export { 
   getAllQ, 
   getQbyTag, 
@@ -99,6 +110,7 @@ export {
   getOnlineQ,
   getAllOnlineQ,
   getQbyTaglet, 
-  getQbyTags
+  getQbyTags, 
+  getTagletsbyQ
 
 }

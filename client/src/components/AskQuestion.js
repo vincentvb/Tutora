@@ -84,12 +84,8 @@ class AskQuestion extends React.Component {
         body.image = reader.result.split('base64,')[1];
         axios.post('/api/questions', body)
         .then(response => {
-          console.log('Posted question to server. ', response);
-        })
-        .then(() => {
-          console.log('here')
-          refToSocket.emit('updateQuestions', () => {
-          })
+          console.log('Posted question to server WHICH ONE. ', response.data);
+          refToSocket.emit('postedQ', response.data)
         })
         .catch(error => {
           console.log('Error while posting to the server, ', error);
@@ -98,11 +94,8 @@ class AskQuestion extends React.Component {
     } else {
       axios.post('/api/questions', body)
       .then(response => {
-        console.log('Posted question to server. ', response);
-      })
-      .then(() => {
-        this.props.socket.emit('updateQuestions', () => {
-        })
+        console.log('Posted question to server. ', response.data);
+        this.props.socket.emit('postedQ', response.data)
       })
       .catch(error => {
         console.log('Error while posting to the server, ', error);

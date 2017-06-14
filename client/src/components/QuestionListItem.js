@@ -6,6 +6,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { setQuestioner, setAnswerer } from '../actionCreators.js';
 import Chip from 'material-ui/Chip';
+import { getTagletsbyQ } from '../network.js';
 
 
 class QuestionListItem extends React.Component {
@@ -35,6 +36,18 @@ class QuestionListItem extends React.Component {
       this.setState({ questionUserName: response.data.display || response.data.first+' '+response.data.last})
       this.setState({ questionAvatar: response.data.avatar })
     })
+  
+    getTagletsbyQ(this.props.question.id, tags =>{
+      var tagsarr = [{ key: 0, label: this.props.question.tag_name }]
+
+      tags.forEach(function(tag, idx){
+        tagsarr.push({ key: idx+1, label: tag.taglets.value })
+      })
+
+      this.setState({ tags: tagsarr })
+
+    })
+
   }
 
   broadcast() {
@@ -80,7 +93,7 @@ class QuestionListItem extends React.Component {
             <CardHeader
               title={this.props.question.title+' asked by '+this.state.questionUserName}
               subtitleStyle={styles.wrapper}
-              subtitle={this.props.question.tag_name}
+              subtitle={this.state.tags.map(this.renderChip, this)}
               avatar={this.state.questionAvatar || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"}
               actAsExpander={true}
               showExpandableButton={true}
