@@ -81,8 +81,9 @@ io.on('connection', (socket) => {
     })
   })
 
-  socket.on('updateQuestions', () => {
-    io.to('home').emit('updateQuestions');
+  // when a student has posted a question
+  socket.on('postedQ', question => {
+    io.to('home').emit('postedQ', question);
   })
 
 
@@ -124,8 +125,8 @@ io.on('connection', (socket) => {
             client.del(socket.userId)
             client.srem("online", socket.userId)
             io.to('home').emit('delete')
-            io.to('home').emit('deleteOfflineQs')
-            // console.log("UPDATE QUESTIONS");
+            io.to('home').emit('re-renderQs')
+            console.log("somebody logged off");
           }
         })
       }, 1000)
