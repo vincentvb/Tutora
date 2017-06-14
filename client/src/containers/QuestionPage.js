@@ -124,7 +124,6 @@ class QuestionPage extends React.Component {
     // 2) Redux prop doesn't get updated until the render, so it's useless in this function
     // 3) Because componentWillReceiveProps calls this function, it's an infinite loop
 
-    console.log(qs, "IS THIS AN ARRAY IN FILTER FOR ONE POSTED Q?")
 
     if (!filter || filter[0] === 0 || filter.length === 0){
       cb(qs)
