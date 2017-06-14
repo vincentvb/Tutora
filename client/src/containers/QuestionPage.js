@@ -25,17 +25,17 @@ class QuestionPage extends React.Component {
     this.filterTutorQ = this.filterTutorQ.bind(this);
 
     // when a student posts a question
+    // please note that this is very similar to when a newonlineuser comes online
+    // however it is split into a separate socket to keep separation and also 
+    // to filter through less questions. This could refactored to already 
+    // having all of the question data off of passing down the object in the 'post question' return result
     this.props.socket.on('postedQ', question => {
-      console.log(question, "POSTED QUESTION ON QP")
+      console.log("NEW POSTED Q")
 
-      // if student, add the question 
-      // if tutor, run through filter 
       var context = this;
       axios
       .get('/api/questions/'+question.id)
       .then(question => {
-
-        console.log(question.data, "WHAT IS UNDEFINED HERE?")
 
         this.filterTutorQ(this.props.filter, question.data, filteredq => {
           var allfilteredqs = this.state.questions.concat(filteredq);
