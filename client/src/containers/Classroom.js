@@ -96,24 +96,20 @@ componentDidMount() {
      console.log('Successfully joined a Room: ', room);
      var tracks = Array.from(room.localParticipant.tracks.values())
       document.getElementById('videoTrack').appendChild(tracks[1].attach())
-      document.getElementById('audioTrack').appendChild(tracks[0].attach());
       const localMedia = tracks[1]
      room.on('trackAdded', function(track, participant) {
       var tracks = Array.from(participant.tracks.values())
       console.log("TRACKS", tracks)
       if (tracks[1]) {
-      var id1 = document.getElementById('videoTrack')
-      var id2 = document.getElementById('audioTrack');
-      var id3 = document.getElementById('mirrorTrack');
-      localMedia.dimensions.width = 1
-      localMedia.dimensions.height = 3
-      console.log(localMedia);
+        var id1 = document.getElementById('videoTrack')
+        var id2 = document.getElementById('audioTrack');
+        var id3 = document.getElementById('mirrorTrack');
 
-      id1.removeChild(id1.childNodes[0]);
-      id1.appendChild(tracks[1].attach());
-      id2.removeChild(id2.childNodes[0]);
-      id2.appendChild(tracks[0].attach());
-      id3.appendChild(localMedia.attach());
+        id1.removeChild(id1.childNodes[0]);
+        id1.appendChild(tracks[1].attach());
+        id2.appendChild(tracks[0].attach());
+        id3.appendChild(localMedia.attach());
+        console.log(id2);
      }
     })
      room.on('participantDisconnected', (participant) => {
@@ -175,7 +171,7 @@ componentDidMount() {
 
     return (
      <div>
-     <img src ="https://pixabay.com/get/e835b60d2bf2073ed1534705fb0938c9bd22ffd41db8174890f9c67ea6/black-1072366_1920.jpg" style={imageStyle} />
+     <img src ="/assets/chalkBoard.jpg" style={imageStyle} />
       <FlatButton onTouchTap = {this.openFeedback} style = {buttonStyle} label="Return To Home" />
 
       <div className="container">
@@ -190,10 +186,11 @@ componentDidMount() {
             <Chat />
           </div>
           <div>
-          <div style = {{position: "relative", zIndex: 1}} id="videoTrack" className="col-md-8 col-xs-8 media-container"></div>
+          <div id="audioTrack" className="col-md-8 col-xs-8 media-container"></div>
+          <div style = {{position: "relative", zIndex: 1}} id="videoTrack" className="col-md-8 col-xs-8 media-container">
           <div style = {{position: "absolute", zIndex: 2, top: "62%", left: "73%"}} id="mirrorTrack"></div>
           </div>
-          <div id="audioTrack" className="col-md-8 col-xs-8 media-container"></div>
+          </div>
 
           </div>
       </div>

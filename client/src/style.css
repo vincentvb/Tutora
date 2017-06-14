@@ -1,11 +1,17 @@
 #mirrorTrack video {
-  max-width: 33% !important;
+  max-width: 25% !important;
   border: 1px solid #272726;
 }
 
 #videoTrack video {
   border: 1px solid #272726;
+  top: 50%;
+  left: 75%;
 
+}
+
+#videoTrack video {
+  top: 50%;
 }
 
 .indexpage {
