@@ -17,7 +17,8 @@ const Video = require('twilio-video');
 const imageStyle = {
   position: "fixed",
   width: "100%",
-  height: "100%"
+  height: "100%",
+  zIndex: 1
 }
 
 
@@ -217,7 +218,8 @@ const styles = {
     fontWeight: 'bold',
     fontFamily: 'Vibur',
     textAlign: 'center',
-    margin: 30
+    margin: 30,
+    zIndex: 3
   },
   chat: {
     // borderColor: 'green',

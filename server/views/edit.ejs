@@ -1,12 +1,15 @@
 <!doctype html>
 <html>
 <head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 body {
-  background-image: url("https://static.pexels.com/photos/226591/pexels-photo-226591.jpeg");
+  background-image: url("/assets/chalk.jpeg");
   background-size: 100%;
 }
 .formDiv {
@@ -73,6 +76,18 @@ body {
     30% { top: 0.1em; }
     50% { opacity: 0; font-size: 0.85em; }
     100% { top: 3em; opacity: 1; }
+}
+#button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  color: white;
+}
+#button2 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  color: white;
 }
 .file-input {
   display: inline-block;
@@ -244,6 +259,9 @@ function sendImage(event) {
 
 </head>
 <body>
+<a href="/"><button id="button" class="mdl-button mdl-js-button">
+  Home Page
+</button></a>
   <div class="container formDiv">
 
         <div class="row">
@@ -302,7 +320,7 @@ function sendImage(event) {
                         <label for=""></label>
                         <textarea name="description" class="form-control" placeholder="<%= user.description %>" rows="2"></textarea>
                     </div>
-                    <input style="display: block; margin-left: auto; margin-right: auto; top-margin: 20px; margin-bottom: 20px;" type="submit" name="register-submit" id="register-submit" tabindex="4" class="btn btn-primary btn-lg" value="Save Changes">
+                    <input style="display: block; margin-left: auto; margin-right: auto; top-margin: 20px; margin-bottom: 20px;" type="submit" name="register-submit" id="register-submit" tabindex="4" class="mdl-button mdl-js-button" value="Save Changes">
 
                 </form>
 
