@@ -60,20 +60,23 @@ class FilterQuestion extends React.Component {
 
   render() {
     return (
-      <div>
-        <SelectField
-          floatingLabelText="Filter Student Questions By"
-          value={this.props.filter}
-          onChange={this.handleChange}
-          floatingLabelStyle={{color: "white"}}
-        >
-          <MenuItem value={1} primaryText="None" />
-          <MenuItem value={2} primaryText="Recommended" />
-          <MenuItem value={3} primaryText="Category" />
-          <MenuItem value={4} primaryText="Tag" />
-        </SelectField>
+      <div className="row">
+        <div className="col-md-4 filterq">
+          <SelectField
+            style={{display: 'inline-block'}}
+            floatingLabelText="Filter Student Questions By"
+            value={this.props.filter}
+            onChange={this.handleChange}
+            floatingLabelStyle={{color: "white"}}
+          >
+            <MenuItem value={1} primaryText="None" />
+            <MenuItem value={2} primaryText="Recommended" />
+            <MenuItem value={3} primaryText="Category" />
+            <MenuItem value={4} primaryText="Tag" />
+          </SelectField>
+         </div> 
 
-        <div style = {{display: "inline-block", marginLeft: "5%", marginTop: "2%"}}>
+        <div className="col-md-4">
           {this.state.showCategory ? <FilterCategory socket={this.props.socket} menufilter={this.state.filter} /> : null}
           {this.state.showTaglets ? <FilterTaglets /> : null }
         </div>
@@ -94,29 +97,4 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterQuestion);
 
-//   "id": 53,
-//   "title": "American History asked by 19, A",
-//   "body": "Who was the founding fathers? Why no founding mothers? I need some clarification.",
-//   "profile_id": 19,
-//   "image": "www.testimage.com",
-//   "created_at": "2017-06-09T00:54:58.991Z",
-//   "updated_at": "2017-06-09T00:54:58.991Z",
-//   "status": null,
-//   "feedback_rating": null,
-//   "answerer_id": null,
-//   "tag_id": null,
-//   "tag_name": null
-// }, {
-//   "id": 54,
-//   "title": "5th grade algebra asked by 20, B",
-//   "body": "I really need some help actually. I am going crazy.",
-//   "profile_id": 20,
-//   "image": "www.testimage.com",
-//   "created_at": "2017-06-09T00:54:58.996Z",
-//   "updated_at": "2017-06-09T00:54:58.996Z",
-//   "status": null,
-//   "feedback_rating": null,
-//   "answerer_id": null,
-//   "tag_id": null,
-//   "tag_name": null
-// }])
+// <div style = {{display: "inline-block", marginLeft: "5%", marginTop: "2%"}}>

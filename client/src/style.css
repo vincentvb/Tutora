@@ -1,3 +1,15 @@
+.category {
+  vertical-align: bottom;
+}
+
+.catbutton {
+  vertical-align: bottom;
+}
+
+.filterq {
+  vertical-align: top;
+}
+
 .charttitle {
   font-size: 25px;
   color: black;
