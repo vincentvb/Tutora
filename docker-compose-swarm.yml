@@ -24,7 +24,7 @@ services:
     networks:
       - webnet
   web:
-    build: .
+    image: tomdickson/tutora:webserver
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -51,13 +51,13 @@ services:
       - DOCKER=isTrue
     command: npm run migrateDB
   sockets:
-    build: sockets_micro
+    image: tomdickson/tutora:sockets
     ports: 
       - "3030:3030"
     deploy:
       placement:
         constraints: [node.role == manager]
-      replicas: 2
+      replicas: 4
       restart_policy:
         condition: on-failure
       resources:
@@ -70,11 +70,11 @@ services:
       - DOCKER=isTrue
       - REDIS_HOST=redis
   payments:
-    build: payments_micro
+    image: tomdickson/tutora:payments
     deploy:
       placement:
         constraints: [node.role == manager]
-      replicas: 2
+      replicas: 1
       restart_policy:
         condition: on-failure
       resources:

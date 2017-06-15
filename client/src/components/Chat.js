@@ -43,8 +43,7 @@ class Chat extends React.Component {
   componentWillMount(){
     var roomName = this.props.location;
     this.setState({currentRoom: roomName.split('&')[0]})
-    this.socket = io.connect();
-    // this.socket = io.connect(process.env.SOCKET_SERVER || '');
+    this.socket = io.connect('https://localhost:3030');
     this.socket.on('connect', (socket) => {
       this.socket.emit('roomJoin', {
         room: roomName.split("&")[0],

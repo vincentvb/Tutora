@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
     socket.userId = data.user_id
     socket.join(data.room);
     socket.room = data.room
-	})
+})
 
   socket.on('connectionRequest', (data) => {
     io.to('home').emit('alertMessage', {
@@ -41,11 +41,10 @@ io.on('connection', (socket) => {
     })
   })
 
-  socket.on('updateQuestions', () => {
-    io.to('home').emit('updateQuestions');
+  socket.on('postedQ', question => {
+    io.to('home').emit('postedQ', question);
   })
-
-  //  maybe refactor to a reverse index 
+ 
   socket.on('checkOnline', (user) => {
     console.log(user, "CHECK ONLINE QUESTION")
 
@@ -58,6 +57,7 @@ io.on('connection', (socket) => {
       })
     })
     .then(questions => {
+      // console.log(questions, "IN CHECK ONLINE");
       questions = questions.filter(function(question){
         return question !== undefined;
       });
@@ -66,6 +66,7 @@ io.on('connection', (socket) => {
       io.to('home').emit('onlineQs', questions )
     })
     .catch(err => console.log(err))
+
   })  
 
   socket.on('chatMessage', (data) => {
@@ -81,7 +82,8 @@ io.on('connection', (socket) => {
             client.del(socket.userId)
             client.srem("online", socket.userId)
             io.to('home').emit('delete')
-            io.to('home').emit('deleteOfflineQs')
+            io.to('home').emit('re-renderQs')
+            console.log("somebody logged off");
           }
         })
       }, 1000)
