@@ -100,7 +100,6 @@ class Index extends React.Component {
 
   componentWillMount() {
     this.getUserInfo();
-    // this.socket = io.connect();
     this.socket = io.connect('https://localhost:3030');
     var randomRoom = Math.random() * 9999999
     this.setState({roomName: randomRoom})
