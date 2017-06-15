@@ -11,4 +11,4 @@ RUN npm install -g nodemon
 RUN yarn
 
 CMD ["npm", "start"]
-EXPOSE 3030
+EXPOSE 6666
