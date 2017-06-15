@@ -17,7 +17,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import { connect } from 'react-redux';
-import { getTags, getTaglets } from '../actionCreators.js';
 import Select from 'react-select';
 import Toggle from 'material-ui/Toggle';
 import MenuItem from 'material-ui/MenuItem';
@@ -57,8 +56,6 @@ class AskQuestion extends React.Component {
   }
 
   componentWillMount(){
-    this.props.getTags();
-    this.props.getTaglets();
   }
 
   updateTagletsValue(value){
@@ -324,9 +321,4 @@ const mapStateToProps = (state) => ({
   taglets: state.taglets
 });
 
-const mapDispatchToProps = dispatch => ({
-  getTags: tags => dispatch(getTags()), 
-  getTaglets: taglets => dispatch(getTaglets())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AskQuestion)
+export default connect(mapStateToProps, null)(AskQuestion)
