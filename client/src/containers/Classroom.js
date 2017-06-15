@@ -36,21 +36,11 @@ class Classroom extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.openFeedback = this.openFeedback.bind(this);
     this.redirect = this.redirect.bind(this);
-    this.handleFeedbackQuestionClose = this.handleFeedbackQuestionClose.bind(this);
-    this.handleFeedbackNoQuestionClose = this.handleFeedbackNoQuestionClose.bind(this);
+    this.handleFeedback = this.handleFeedback.bind(this);
   }
 
 
-
-handleFeedbackQuestionClose() {
-  console.log("ANSWEREID", this.props.location.state.requestUser);
-  axios.post(`/api/questions/user/${this.props.location.state.questionId}`, {rating: this.state.rating, questionId: this.props.location.state.questionId, answererId: this.props.location.state.requestUser})
-  .then((req, res) => {console.log(res)})
-  this.redirect();
-  this.setState({feedback: false})
-}
-
-handleFeedbackNoQuestionClose() {
+handleFeedback() {
   console.log("ROUTE", `/api/questions/user/${this.props.location.state.questionId}`)
   axios.post(`/api/questions/user/${this.props.location.state.questionId}`, {rating: this.state.rating, questionId: this.props.location.state.questionId, answererId: this.props.location.state.requestUser, questionAnswered: true})
   this.redirect();
@@ -137,17 +127,10 @@ componentDidMount() {
     <FlatButton
           label="Close My Question"
           primary={true}
-          onTouchTap={this.handleFeedbackNoQuestionClose}
+          onTouchTap={this.handleFeedback}
           style={{textAlign: "center"}}
 
-    />,
-    <FlatButton
-        label="Keep My Question Open"
-        primary={true}
-        onTouchTap={this.handleFeedbackQuestionClose}
-        style={{textAlign: "center"}}
-
-        />
+    />
     ]
   const buttonActions = [
     <FlatButton
@@ -173,7 +156,7 @@ componentDidMount() {
     return (
      <div>
      <img src ="/assets/chalkBoard.jpg" style={imageStyle} />
-      <FlatButton onTouchTap = {this.openFeedback} style = {buttonStyle} label="Return To Home" />
+      <FlatButton onTouchTap = {this.openFeedback} style = {buttonStyle} label="Exit Classroom" />
 
       <div className="container">
       
