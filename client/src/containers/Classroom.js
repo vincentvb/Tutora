@@ -66,6 +66,7 @@ handleFeedback() {
   }
 
   redirect() {
+    this.state.room.disconnect();
     this.setState({redirect: true})
   }
 
@@ -84,6 +85,7 @@ componentDidMount() {
     console.log("DATA", response.data)
     var room
     Video.connect(response.data, {name: location.state.room}).then((room) => {
+     this.setState({room})
      var room = room
      console.log('Successfully joined a Room: ', room);
      var tracks = Array.from(room.localParticipant.tracks.values())
@@ -103,6 +105,7 @@ componentDidMount() {
      }
     })
      room.on('participantDisconnected', (participant) => {
+      console.log("IN HERE");
       this.handleOpen();
 
      })

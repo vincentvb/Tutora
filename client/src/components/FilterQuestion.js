@@ -65,7 +65,7 @@ class FilterQuestion extends React.Component {
           floatingLabelText="Filter Student Questions By"
           value={this.props.filter}
           onChange={this.handleChange}
-          floatingLabelStyle={{fontColor: "white"}}
+          floatingLabelStyle={{color: "white"}}
         >
           <MenuItem value={1} primaryText="None" />
           <MenuItem value={2} primaryText="Recommended" />
@@ -73,7 +73,7 @@ class FilterQuestion extends React.Component {
           <MenuItem value={4} primaryText="Tag" />
         </SelectField>
 
-        <div>
+        <div style = {{display: "inline-block", marginLeft: "5%", marginTop: "2%"}}>
           {this.state.showCategory ? <FilterCategory socket={this.props.socket} menufilter={this.state.filter} /> : null}
           {this.state.showTaglets ? <FilterTaglets /> : null }
         </div>

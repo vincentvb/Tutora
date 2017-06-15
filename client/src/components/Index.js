@@ -174,7 +174,8 @@ class Index extends React.Component {
     const imageStyle = {
       position: "fixed",
       width: "100%",
-      height: "100%"
+      height: "100%",
+      zIndex: 0
     }
     const actions = [
       <FlatButton
@@ -191,7 +192,7 @@ class Index extends React.Component {
 
     return (
 		  <div>
-      <img src ="/assets/Questionmark.jpeg" style={imageStyle} />
+      <img src ="/assets/coffee.jpg" style={imageStyle} />
 
         <Snackbar
           open={this.state.snackBar}
@@ -213,7 +214,7 @@ class Index extends React.Component {
         </div>
 
         <QuestionPage socket = {this.socket} userinfo={this.props.userid} id={this.state.id} broadcastSocket = {this.broadcastSocket} />
-        <AskQuestion socket = {this.socket} id={this.state.id} funds={this.state.funds} />
+        {this.props.userid.type === "student" ? <AskQuestion socket = {this.socket} id={this.state.id} funds={this.state.funds} /> : null}
         <Dialog
           title="We found a tutor for your question!"
           actions={actions}
