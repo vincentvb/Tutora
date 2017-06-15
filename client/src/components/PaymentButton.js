@@ -2,6 +2,7 @@ import React from 'react';
 import Slider from 'material-ui/Slider';
 import StripeCheckout from 'react-stripe-checkout';
 import axios from 'axios';
+import {IntlProvider, FormattedNumber} from 'react-intl';
 
 class PaymentButton extends React.Component {
 	constructor(props){
@@ -18,6 +19,7 @@ class PaymentButton extends React.Component {
   }
 
   onToken(token) {
+    var context = this;
   	console.log('Token: ', token);
   	axios.post('/api/payments/' , {
   		token,
@@ -30,6 +32,7 @@ class PaymentButton extends React.Component {
   	.catch((error) => {
   		console.log('Error: ', error);
   	});
+    this.props.addFunds(this.state.slider * 100);
   }
 
   render() {
@@ -45,8 +48,10 @@ class PaymentButton extends React.Component {
 	          value={reverse(this.state.slider)}
 	          onChange={this.handleSlider}
 	        />
-	  			<span>{'Chosen amount: $'}</span>
-	  			<span>{this.state.slider}</span>
+	  			<span>{'Chosen amount: '}</span>
+	  			<span>
+            <FormattedNumber value={this.state.slider} style="currency" currency="USD" />
+          </span>
 	  			<br/>
 					<StripeCheckout
 					  name="Tutora"

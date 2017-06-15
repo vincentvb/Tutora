@@ -7,6 +7,8 @@ import axios from 'axios';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, PieChart, Pie, Sector, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import chrono from 'chrono-node';
 import PaymentButton from './PaymentButton.js';
+import Wallet from 'material-ui/svg-icons/action/account-balance-wallet';
+import {IntlProvider, FormattedNumber} from 'react-intl';
 require('!style-loader!css-loader!../../../client/src/style.css')
 
 class UserDashBoard extends React.Component {
@@ -14,6 +16,7 @@ class UserDashBoard extends React.Component {
     super(props)
     this.state = {
       totalQuestions: 0,
+      funds: undefined,
       ratingValue: 5,
       questionNumbers: {
         Math: 0.1,
@@ -37,10 +40,14 @@ class UserDashBoard extends React.Component {
         "7": 0
       },
       user: {
-
       }
     }
+    this.addFunds = this.addFunds.bind(this);
+  }
 
+  addFunds(cashAmount) {
+    var totalCash = this.state.funds + cashAmount;
+    this.setState({funds: totalCash});
   }
 
   componentWillMount() {
@@ -51,7 +58,7 @@ class UserDashBoard extends React.Component {
     else {
       var newUser = this.props.user
     }
-    console.log("USER", newUser);
+    console.log("THE NEW USER", newUser);
     this.setState({user: newUser})
     var date = new Date()
     this.setState({currentDate: date})
@@ -79,31 +86,38 @@ class UserDashBoard extends React.Component {
 	      })
 	    }
    else {
-	   	axios
-	   	.get('/api/dashboard/student', {params: { user: newUser}})
-	    .then(response => {
-	      var questions = response.data
-	      var ratingTotal = 0
-	      questions.forEach((question) => {
-	        ratingTotal += question.feedback_rating
-	        this.state.questionNumbers[question.tag_name] += 1
-	        var date = chrono.parseDate(question.created_at).getTime() - this.state.currentDate.getTime();
-	        var date = Math.round(Math.abs(date/(1000*60*60*24)));
-	        if (date <= 7) {
-	          var currentState = this.state.questionsByDate
-	          currentState[date] += 1
-	          this.setState({questionsByDate: currentState})
-	           }
-	        })
-	      this.setState({ratingValue: Math.floor(ratingTotal / questions.length)})
-	      this.setState({totalQuestions: questions.length})
-	      })
-	   }
+   	axios
+   	.get('/api/dashboard/student', {params: { user: newUser}})
+    .then(response => {
+      var questions = response.data
+      var ratingTotal = 0
+      questions.forEach((question) => {
+        ratingTotal += question.feedback_rating
+        this.state.questionNumbers[question.tag_name] += 1
+        var date = chrono.parseDate(question.created_at).getTime() - this.state.currentDate.getTime();
+        var date = Math.round(Math.abs(date/(1000*60*60*24)));
+        if (date <= 7) {
+          var currentState = this.state.questionsByDate
+          currentState[date] += 1
+          this.setState({questionsByDate: currentState})
+           }
+        })
+      this.setState({ratingValue: Math.floor(ratingTotal / questions.length)})
+      this.setState({totalQuestions: questions.length})
+      })
+    }
+    var context = this;
+    axios
+    .get('/api/payments/' + newUser.id)
+    .then(paymentsRespons => {
+      context.setState({funds: paymentsRespons.data.funds})
+    })
   }
 
 
   render() {
-  	console.log("USER", this.state.user)
+  	console.log("USER", this.state.user.id);
+    console.log('STATE', this.state);
     var user = this.state.user
     const divStyle = {
       backgroundColor: "white",
@@ -124,18 +138,28 @@ class UserDashBoard extends React.Component {
 
     var Header = (props) => (
        <div>
+      <Balance funds={props.funds} />         
       <div><strong>Total Questions Answered:</strong> {this.state.totalQuestions}</div>
       <div><strong>Summary:</strong> {this.state.user.description}</div>
        </div>
-
-        )
+    )
     var Header2 = (props) => (
        <div>
+      <Balance funds={props.funds} />
       <div><strong>Total Questions Asked:</strong> {this.state.totalQuestions}</div>
       <div><strong>Summary:</strong> {this.state.user.description}</div>
        </div>
+    )
 
-        )
+    var Balance = (props) => (
+      <div style={{float:"right"}}>
+        <container>
+          <Wallet style={{"align":"right"}}/>
+        </container>
+        <br/>
+        <FormattedNumber value={props.funds} style="currency" currency="USD" />
+      </div>
+    )
 
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     const RADIAN = Math.PI / 180;                    
@@ -169,8 +193,9 @@ const data02 = [
 
  if (this.state.studentType === "tutor") {
 
-    return (
+    return (    
     <div>
+
       {this.props.modal ? <div></div> : <img src ="https://static.pexels.com/photos/226591/pexels-photo-226591.jpeg" style = {imageStyle} />
       }
 
@@ -185,7 +210,7 @@ const data02 = [
           value={this.state.ratingValue}
           max={5}
         />, 
-        <Header style={{marginLeft: "25%"}} {...this.state.props} />
+        <Header style={{marginLeft: "25%"}} {...this.state.props} funds={this.state.funds} />
       ]}
     />
     <Divider />
@@ -245,7 +270,7 @@ const data02 = [
       title={this.state.user.display}
       avatar={this.state.user.avatar}
       children={
-        <Header2 style={{marginLeft: "25%"}} {...this.state.props} />
+        <Header2 style={{marginLeft: "25%"}} {...this.state.props} funds={this.state.funds} />
       }
     />
     <Divider />
@@ -284,7 +309,7 @@ const data02 = [
       </CardText>
       
       <div>
-        <PaymentButton data= {this.props}/>
+        <PaymentButton data={this.props} addFunds={this.addFunds} />
       </div>  
     </div>
     </Card>
