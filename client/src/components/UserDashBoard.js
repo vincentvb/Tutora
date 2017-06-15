@@ -197,7 +197,7 @@ const data02 = [
           <div className="charttitle">Weekly Question History </div>
             <div className="chart">
             
-              <LineChart width={600} height={300} data={data}
+              <LineChart width={500} height={250} data={data}
                     margin={{top: 0, right: 10, left: 20}}>
                <XAxis dataKey="name"/>
                <YAxis/>
@@ -213,7 +213,7 @@ const data02 = [
         <div className="row">
           <div className="charttitle"> Question Types Answered </div>
             <div className="chart">
-              <RadarChart margin = {{top: 10, bottom: 0, left: 0, right: 0}}cx={300} cy={175} outerRadius={150} width={600} height={500} data={data02}>
+              <RadarChart margin = {{top: 10, bottom: 0, left: 0, right: 0}}cx={300} cy={175} outerRadius={150} width={500} height={420} data={data02}>
                 <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
                 <PolarGrid />
                 <PolarAngleAxis dataKey="subject" />
@@ -250,33 +250,46 @@ const data02 = [
     />
     <Divider />
 
-    <CardText>
-    <div>
-    <div className="weekly">Weekly Question History </div>
-    <h4 style = {{marginLeft: "70%", display: "inlineBlock"}}>Question Types Asked</h4>
-    <div style = {{display: "flex", flexDirection: "row"}}>
-      <LineChart width={600} height={300} data={data}
-            margin={{top: 0, right: 10, left: 20}}>
-       <XAxis dataKey="name"/>
-       <YAxis/>
-       <CartesianGrid strokeDasharray="3 3"/>
-       <Tooltip/>
-       <Legend />
-       <Line type="monotone" dataKey="Questions" stroke="#82ca9d" />
-      </LineChart>
-      <RadarChart margin = {{top: 10, bottom: 0, left: 0, right: 0}}cx={300} cy={175} outerRadius={150} width={600} height={500} data={data02}>
-          <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
-          <PolarGrid />
-          <PolarAngleAxis dataKey="subject" />
-          <PolarRadiusAxis/>
-        </RadarChart>
-  </div>
-  </div>
-    </CardText>
-    <PaymentButton data= {this.props}/>
-  </Card>
-  </div>
-  </div>
+    <div className="container-fluid">
+      <CardText>
+          <div className="row">
+
+            <div className="charttitle">Weekly Question History </div>
+            <div className="chart">
+              <LineChart width={500} height={250} data={data}
+                    margin={{top: 0, right: 10, left: 20}}>
+               <XAxis dataKey="name"/>
+               <YAxis/>
+               <CartesianGrid strokeDasharray="3 3"/>
+               <Tooltip/>
+               <Legend />
+               <Line type="monotone" dataKey="Questions" stroke="#82ca9d" />
+              </LineChart>
+            </div> 
+
+          </div>    
+          
+          <div className="row">
+            <div className="charttitle"> Question Types Answered </div>
+            <div className="chart">          
+              <RadarChart margin = {{top: 10, bottom: 0, left: 0, right: 0}}cx={300} cy={175} outerRadius={150} width={500} height={420} data={data02}>
+                <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
+                <PolarGrid />
+                <PolarAngleAxis dataKey="subject" />
+                <PolarRadiusAxis/>
+              </RadarChart>
+            </div>  
+            
+          </div>
+      </CardText>
+      
+      <div>
+        <PaymentButton data= {this.props}/>
+      </div>  
+    </div>
+    </Card>
+    </div>
+    </div>
     )
 
     }

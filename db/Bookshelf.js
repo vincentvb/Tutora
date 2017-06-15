@@ -16,7 +16,7 @@ module.exports = {
 	},
 
 	getAllQbyTag : (tagname, callback) => {
-		Question.where({ tag_name: tagname }).fetchAll()
+		Question.where({ tag_name: tagname }).orderBy('-created_at').fetchAll()
 		.then(question => {
 			callback(null, question);
 		})
@@ -26,7 +26,7 @@ module.exports = {
 	},
 
 	getAllQbyTags : (tagnames, callback) => {
-		Question.where('tag_name', 'in', tagnames).fetchAll()
+		Question.where('tag_name', 'in', tagnames).orderBy('-created_at').fetchAll()
 		.then(question => {
 			callback(null, question);
 		})
@@ -37,7 +37,7 @@ module.exports = {
 	
 
 	getAllQbyTaglet : (tagletid, callback) => {
-		Taglets_Question.where({ taglet_id: tagletid }).fetchAll({
+		Taglets_Question.where({ taglet_id: tagletid }).orderBy('-created_at').fetchAll({
 			withRelated: [
 			{
 				'questions': function(qb){
@@ -182,7 +182,7 @@ module.exports = {
 	},
 
 	getAllQuestions : (callback) => {
-		Question.where( {status : false} ).fetchAll()
+		Question.where( {status : false} ).orderBy('-created_at').fetchAll()
 		.then(questions => {
 			callback(null, questions);
 		})
@@ -203,7 +203,7 @@ module.exports = {
 	},
 
 	getUserQuestions : (userID, callback) => {
-		Question.where({ profile_id : userID , status: false}).fetchAll()
+		Question.where({ profile_id : userID , status: false}).orderBy('-created_at').fetchAll()
 		.then(questions => {
 			// console.log(questions, "QUESTIONS FROM GET")
 			callback(null, questions);
