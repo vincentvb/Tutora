@@ -213,7 +213,7 @@ class Index extends React.Component {
           autoDetectWindowHeight = {true}
         >
 
-        <UserDashBoard user = {this.state.requestUser} modal = {true} />
+        <UserDashBoard user = {this.state.requestUser} modal = {true} requestFromInvite = {true} />
         
         </Dialog>
 

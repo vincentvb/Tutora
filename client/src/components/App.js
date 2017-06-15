@@ -15,21 +15,16 @@ import TutorSkills from './TutorSkills.js';
 import { getAllQ } from '../network.js';
 import { setQ } from '../actionCreators.js'
 
-
 class App extends React.Component {
   constructor(props){
     super(props)
-
   }
 
   componentWillMount(){
     this.props.getUserID();
-
   }
 
   render () {
-    // console.log('userid prop in App:', this.props.userid)
-
     return (
       <div>
         <BrowserRouter>
@@ -48,12 +43,9 @@ class App extends React.Component {
 
 }
 
-
-
 const mapDispatchToProps = dispatch => ({
   getUserID: userid => dispatch(getUserInfo()),
   setQ: questions => dispatch(setQ(questions))
 })
 
 export default connect(null, mapDispatchToProps)(App);
-
