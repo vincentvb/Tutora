@@ -7,7 +7,7 @@ const redisclient = require('../redis.js');
 module.exports.getOnlineQ = (req, res) => {
   redisclient.smembersAsync("online")
     .then(ids => {
-      models.Question.where('profile_id', 'in', ids).fetchAll()
+      models.Question.where('profile_id', 'in', ids).where({ status: false }).fetchAll()
       .then(questions => {
         res.status(200).send(questions)
       })

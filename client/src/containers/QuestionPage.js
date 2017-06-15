@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import QuestionList from '../components/QuestionList.js'
-import { getUserQuestions, getProfileSkills, setQ } from '../actionCreators.js';
+import { getUserQuestions, getProfileSkills, setQ, getTags, getTaglets } from '../actionCreators.js';
 import Modal from 'react-modal';
 import TutorSkills from '../components/TutorSkills.js';
 import Dialog from 'material-ui/Dialog';
@@ -95,6 +95,9 @@ class QuestionPage extends React.Component {
   }
 
   componentDidMount() {
+    this.props.getTags();
+    this.props.getTaglets();
+    
     if (this.props.user.type === null){
       axios
       .get('/redirectsignup')
@@ -214,7 +217,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   getUserQ: questions => dispatch(getUserQuestions()), 
   getProfileSkills: profileid => dispatch(getProfileSkills(profileid)),
-  setQ: questions => dispatch(setQ(questions))
+  setQ: questions => dispatch(setQ(questions)),
+  getTags: tags => dispatch(getTags()), 
+  getTaglets: taglets => dispatch(getTaglets())
 })
 
 
