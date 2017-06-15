@@ -45,11 +45,13 @@ class Classroom extends React.Component {
 handleFeedbackQuestionClose() {
   console.log("ANSWEREID", this.props.location.state.requestUser);
   axios.post(`/api/questions/user/${this.props.location.state.questionId}`, {rating: this.state.rating, questionId: this.props.location.state.questionId, answererId: this.props.location.state.requestUser})
+  .then((req, res) => {console.log(res)})
   this.redirect();
   this.setState({feedback: false})
 }
 
 handleFeedbackNoQuestionClose() {
+  console.log("ROUTE", `/api/questions/user/${this.props.location.state.questionId}`)
   axios.post(`/api/questions/user/${this.props.location.state.questionId}`, {rating: this.state.rating, questionId: this.props.location.state.questionId, answererId: this.props.location.state.requestUser, questionAnswered: true})
   this.redirect();
   this.setState({feedback: false})
