@@ -134,6 +134,12 @@ class UserDashBoard extends React.Component {
     right: "0px",
     color: "white"
   }
+    const buttonStyle2 = {
+    position: "absolute",
+    top: "0px",
+    left: "0px",
+    color: "white"
+  }
     const childrenProp = "hello"
 
     var Header = (props) => (
@@ -198,6 +204,8 @@ const data02 = [
       {this.props.modal ? <div></div> : <img src ="/assets/chalk.jpeg" style = {imageStyle} />}
 
     <a href="/"> <FlatButton style = {buttonStyle} label="Home" /> </a>
+    <a href="/edit"> <FlatButton style = {buttonStyle2} label="Edit Profile" /> </a>
+
 
     <div>
     <Card style={{opacity: "0.92", backgroundColor: "white", width: "80%", height:"100%", marginLeft: "auto", marginRight: "auto", marginBottom: "25%"}}>
@@ -261,6 +269,8 @@ const data02 = [
       }
 
     <a href="/"> <FlatButton style = {buttonStyle} label="Home" /> </a>
+     <a href="/edit"> <FlatButton style = {buttonStyle2} label="Edit Profile" /> </a>
+
 
     <div>
     <Card style={{opacity: "0.92", backgroundColor: "white", width: "80%", height:"100%", marginLeft: "auto", marginRight: "auto", marginBottom: "25%"}}>
