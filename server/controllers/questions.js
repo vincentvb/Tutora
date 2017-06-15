@@ -7,7 +7,14 @@ const redisclient = require('../redis.js');
 module.exports.getOnlineQ = (req, res) => {
   redisclient.smembersAsync("online")
     .then(ids => {
-      models.Question.where('profile_id', 'in', ids).where({ status: false }).fetchAll()
+      models.Question.where('profile_id', 'in', ids).where({ status: false }).fetchAll({
+        withRelated: [
+        {
+          'profiles': function(qb){
+            qb.select('id', 'first', 'last', 'display', 'avatar')
+          }
+        }]
+      })
       .then(questions => {
         res.status(200).send(questions)
       })
@@ -21,7 +28,6 @@ module.exports.getOnlineQ = (req, res) => {
     })
 
 }
-
 
 module.exports.getRecommendedQ = (req, res) => {
   // get profile skills 

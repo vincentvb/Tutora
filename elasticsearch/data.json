@@ -1,0 +1,401 @@
+[
+    {
+        "id": 103,
+        "title": "Q1 made Incognito by B",
+        "body": "Is the word loan redundant in the following sentence, when the word delinquency is used?",
+        "profile_id": 20,
+        "image": "https://s3-us-west-1.amazonaws.com/talentedtoasters%2Fquestionpictures/0.9275015076509165%3Auserid20",
+        "created_at": "2017-06-10T15:17:20.023Z",
+        "updated_at": "2017-06-10T15:17:20.023Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": 7,
+        "tag_name": "Grammar",
+        "profiles": {
+            "id": 20,
+            "first": "Caitlyn",
+            "last": "Jenner",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 104,
+        "title": "",
+        "body": "There are three parts to my question. Part one: Let's assume we have a reversible reaction at equilibrium as follows : Calcium carbonate (solid) goes into calcium oxide(solid) and carbon dioxide(gas). Let's assume that I add more calcium carbonate i.e I add more solid. Now I understand that there would be no shift in the position of the equilibrium since we added a solid therefore we induced a very negligible change in concentration , but what I am confused about is doesn't more reactant mean more product and doesn't more product symbolise a shift to the right? Part two: -I have read that the equilibrium constant KcKc and KpKp are really just close approximations of the true thermodynamic constant which uses activities hence the activity of a solid and pure liquid is always 1. However upon further research I discovered that for an esterification reaction the equilibrium constant is 4 -First of all, the above reaction involves all pure liquids and hence the thermodynamic equilibrium constant would be one ,however why stick to a value of 4 why not easily say it is one since all activities are 1. Part 3 -If we do take pure liquids in the KcKc value how do you measure the concentration of such a species, wouldn't the value be very high.My intution tells me that pure liquids are only taken when a reaction only involves pure liquids only , but they are not taken in heterogeneous reactions or when the liquid involved acts as a solvent as well.However in a case of a heterogeneous reaction only involving solids and liquids what will your equilibrium constant look like . Lastly I have no knowledge of thermodynamics and I am still a high school student .",
+        "profile_id": 20,
+        "image": "https://s3-us-west-1.amazonaws.com/talentedtoasters%2Fquestionpictures/0.6420845843718817%3Auserid20",
+        "created_at": "2017-06-10T15:17:53.477Z",
+        "updated_at": "2017-06-10T15:17:53.477Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": 6,
+        "tag_name": "Chemistry",
+        "profiles": {
+            "id": 20,
+            "first": "Kaitlin",
+            "last": "Jam",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 107,
+        "title": "Q3 made by B",
+        "body": "Which sentence is grammatically correct?  2. Not John and his friends but Mary has surreptitiously taken your photographs and sent them to her friends. 2. Not John and his friends but Mary has surreptitiously taken your photographs and send them to her friends. If both are correct please explain the differences.",
+        "profile_id": 20,
+        "image": "https://s3-us-west-1.amazonaws.com/talentedtoasters%2Fquestionpictures/0.21943379628528126%3Auserid20",
+        "created_at": "2017-06-13T05:04:50.761Z",
+        "updated_at": "2017-06-13T05:04:50.761Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": 8,
+        "tag_name": "English",
+        "profiles": {
+            "id": 20,
+            "first": "Caitlin",
+            "last": "Bryant",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 108,
+        "title": "Q4 made by B",
+        "body": "a",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-13T23:34:41.986Z",
+        "updated_at": "2017-06-13T23:34:41.986Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": 9,
+        "tag_name": "Biology",
+        "profiles": {
+            "id": 20,
+            "first": "Agnes",
+            "last": "Chu",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 109,
+        "title": "Q5 made by B",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-13T23:52:18.617Z",
+        "updated_at": "2017-06-13T23:52:18.617Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": 2,
+        "tag_name": "Geography",
+        "profiles": {
+            "id": 20,
+            "first": "Josh",
+            "last": "Roberts",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 110,
+        "title": "Q6",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T00:24:34.509Z",
+        "updated_at": "2017-06-14T00:24:34.509Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": null,
+        "profiles": {
+            "id": 20,
+            "first": "James",
+            "last": "Boise",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 111,
+        "title": "Q7",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T00:29:17.803Z",
+        "updated_at": "2017-06-14T00:29:17.803Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": null,
+        "profiles": {
+            "id": 20,
+            "first": "Billy Bob",
+            "last": "Thornton",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 112,
+        "title": "Q8",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T00:39:34.787Z",
+        "updated_at": "2017-06-14T00:39:34.787Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": null,
+        "profiles": {
+            "id": 20,
+            "first": "Billy",
+            "last": "Chesapeake",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 113,
+        "title": "Q9",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T00:40:37.797Z",
+        "updated_at": "2017-06-14T00:40:37.797Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": null,
+        "profiles": {
+            "id": 20,
+            "first": "Bill",
+            "last": "Gates",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 114,
+        "title": "How to make a solution of 50% v/v from a solution of 70% w/w",
+        "body": "I'm having quite a trouble how to answer this question. I have to prepare a HNO3HNOX3 solution with a final concentration of 50% by volume (v/v). I have a stock solution of 70% by weight (w/w) with a density of 1.54 g/mL1.54 g/mL. I calculated the molar concentration of my stock solution to c=17.11 Mc=17.11 M. I know that my final solution must have 50% HNO3HNOX3 and 50% H2OHX2O. I have tried several ways to get how much HNO3HNOX3 I need to dilute with water to make the 50% solution, but none have been successful. I would really much appreciate your help!",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T00:41:27.507Z",
+        "updated_at": "2017-06-14T00:41:27.507Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": "Chemistry",
+        "profiles": {
+            "id": 20,
+            "first": "Tommy",
+            "last": "Billford",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 115,
+        "title": "Colour Changing Chemistry [on hold]",
+        "body": "What compounds/substances will change colour, from one colour to another or through a range of colours, over a period of time (for example a week) when they are oxidised or come into contact with other chemicals? Are their any substances that get more acidic when they come into contact with oxygen?",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T01:48:07.399Z",
+        "updated_at": "2017-06-14T01:48:07.399Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": "Chemistry",
+        "profiles": {
+            "id": 20,
+            "first": "Tom",
+            "last": "Jerry",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 116,
+        "title": "Q12",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T01:55:25.440Z",
+        "updated_at": "2017-06-14T01:55:25.440Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": null,
+        "profiles": {
+            "id": 20,
+            "first": "Angela",
+            "last": "Langston",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 117,
+        "title": "Q13",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T01:58:02.783Z",
+        "updated_at": "2017-06-14T01:58:02.783Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": null,
+        "profiles": {
+            "id": 20,
+            "first": "Andrew",
+            "last": "Peace",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 118,
+        "title": "Q16",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T02:03:26.776Z",
+        "updated_at": "2017-06-14T02:03:26.776Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": null,
+        "profiles": {
+            "id": 20,
+            "first": "Andy",
+            "last": "Roberto",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 119,
+        "title": "Q17",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T02:05:19.622Z",
+        "updated_at": "2017-06-14T02:05:19.622Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": null,
+        "profiles": {
+            "id": 20,
+            "first": "Joshua",
+            "last": "Cranberry",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 120,
+        "title": "Q15",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T22:15:47.136Z",
+        "updated_at": "2017-06-14T22:15:47.136Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": null,
+        "profiles": {
+            "id": 20,
+            "first": "Drew",
+            "last": "Fordbed",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 121,
+        "title": "Q18",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T22:36:53.434Z",
+        "updated_at": "2017-06-14T22:36:53.434Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": null,
+        "tag_name": null,
+        "profiles": {
+            "id": 20,
+            "first": "Jameson",
+            "last": "Drinkster",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 125,
+        "title": "Where do new species come from?",
+        "body": "I have learnt that one of the mechanisms of evolution is natural selection. However, how can this give rise to new species? Weren't these species already there in the population as a minority? My understanding is that new species can appear as a result of geographic isolation, and both populations will adapt differently to their environment. It confuses how new species can appear when organisms best suited for the environment are simply selected for survival (so they were there before). Maybe I have the wrong concept in my head. I have been trying to understand what actually happens, and any help will be greatly appreciated.",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T23:35:31.012Z",
+        "updated_at": "2017-06-14T23:35:31.012Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": 9,
+        "tag_name": "Biology",
+        "profiles": {
+            "id": 20,
+            "first": "b",
+            "last": "b",
+            "display": null,
+            "avatar": null
+        }
+    },
+    {
+        "id": 126,
+        "title": "Bio",
+        "body": "",
+        "profile_id": 20,
+        "image": "",
+        "created_at": "2017-06-14T23:39:24.107Z",
+        "updated_at": "2017-06-14T23:39:24.107Z",
+        "status": "false",
+        "feedback_rating": null,
+        "answerer_id": null,
+        "tag_id": 9,
+        "tag_name": "Biology",
+        "profiles": {
+            "id": 20,
+            "first": "Ames",
+            "last": "Brit",
+            "display": null,
+            "avatar": null
+        }
+    }
+]

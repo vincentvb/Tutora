@@ -2,9 +2,9 @@ const db = require('../');
 
 const Question = db.Model.extend({
 	tableName: 'questions',
-	profiles: () => {
-		return this.belongsToMany(profiles);
-	}, 
+	profiles: function(){
+		return this.belongsTo('Profile', 'profile_id');
+  },  
   tags: () => {
     return this.hasOne(tags)
   }, 

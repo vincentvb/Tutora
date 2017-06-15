@@ -61,13 +61,15 @@ class QuestionPage extends React.Component {
       console.log("USER LOGGED OFF")
       // reset this.props.questionlist to the online qs, based on the current filter 
       // do a fresh call to find all online questions, since this.props.question is old off IndexPage 
-        
-      var context = this;
-      getAllOnlineQ(onlinequestions => {
-        this.filterTutorQ(undefined, onlinequestions, filteredq => {
-          context.setState({ questions: filteredq })
-        });
-      })
+      
+      if (this.props.user.type === "tutor"){  
+        var context = this;
+        getAllOnlineQ(onlinequestions => {
+          this.filterTutorQ(undefined, onlinequestions, filteredq => {
+            context.setState({ questions: filteredq })
+          });
+        })
+      }
 
     })
 
@@ -97,7 +99,7 @@ class QuestionPage extends React.Component {
   componentDidMount() {
     this.props.getTags();
     this.props.getTaglets();
-    
+
     if (this.props.user.type === null){
       axios
       .get('/redirectsignup')

@@ -212,4 +212,24 @@ module.exports = {
 			callback(error, null);
 		})
 	}
+
+	// getUserQuestions : (userID, callback) => {
+	// 	Question.where({ profile_id : userID , status: false}).orderBy('-created_at').fetchAll({
+ //     	withRelated: [
+ //        {
+ //          'profiles': function(qb){
+ //            qb.select('id', 'first', 'last', 'display', 'avatar')
+ //          }
+ //        }]
+ //      })
+	// 	.then(questions => {
+	// 		// console.log(questions, "QUESTIONS FROM GET")
+	// 		callback(null, questions);
+	// 	})
+	// 	.catch((error) => {
+	// 		callback(error, null);
+	// 	})
+	// }
+
+
 }

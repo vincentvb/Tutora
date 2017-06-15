@@ -52,7 +52,6 @@ class QuestionListItem extends React.Component {
 
   broadcast() {
     this.state.broadcastSocket(this.props.question.profile_id, this.props.question.id);
-    this.props.setAnswerer(this.props.user.display)
   }
 
   handleExpandChange (expanded) {
@@ -129,11 +128,6 @@ const mapStateToProps = (state) => ({
   skills: state.skills
 });
 
-const mapDispatchToProps = dispatch => ({
-  setQuestioner: questionerid => dispatch(setQuestioner(questionerid)),
-  setAnswerer: answerername => dispatch(setAnswerer(answerername))
-})
-
 const styles = {
   card: {
     margin: 10,
@@ -148,4 +142,4 @@ const styles = {
   },
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuestionListItem)
+export default connect(mapStateToProps, null)(QuestionListItem)
