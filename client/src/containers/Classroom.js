@@ -18,7 +18,6 @@ const imageStyle = {
   position: "fixed",
   width: "100%",
   height: "100%",
-  zIndex: 1
 }
 
 
@@ -219,7 +218,6 @@ const styles = {
     fontFamily: 'Vibur',
     textAlign: 'center',
     margin: 30,
-    zIndex: 3
   },
   chat: {
     // borderColor: 'green',
