@@ -171,7 +171,7 @@ const data02 = [
 
     return (
     <div>
-      {this.props.modal ? <div></div> : <img src ="https://static.pexels.com/photos/226591/pexels-photo-226591.jpeg" style = {imageStyle} />
+      {this.props.modal ? <div></div> : <img src ="/assets/chalk.jpeg" style = {imageStyle} />
       }
 
     <a href="/"> <FlatButton style = {buttonStyle} label="Home" /> </a>

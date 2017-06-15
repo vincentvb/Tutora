@@ -113,6 +113,7 @@ componentDidMount() {
      }
     })
      room.on('participantDisconnected', (participant) => {
+      console.log("IN HERE");
       this.handleOpen();
 
      })

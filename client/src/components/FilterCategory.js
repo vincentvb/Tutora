@@ -95,7 +95,7 @@ class FilterCategory extends React.Component {
 
 
     return (
-      <div>
+    <div>
         <Autosuggest 
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -105,8 +105,10 @@ class FilterCategory extends React.Component {
           inputProps={inputProps}  
 
         />
+        <div style = {{marginBottom: "12%"}}>
 
-        <button onClick={this.sendTagValue} className="btn btn-default" >Go </button>
+        <button style = {{position: "absolute"}} onClick={this.sendTagValue} className="btn btn-default" >Submit </button>
+        </div>
 
       </div>
     )
