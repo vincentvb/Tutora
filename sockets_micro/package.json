@@ -1,0 +1,17 @@
+{
+  "name": "sockets_microservice",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "nodemon server"
+  },
+  "author": "Talented Toasters",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "connect-flash": "^0.1.1",
+    "connect-redis": "^3.2.0",
+    "express": "^4.15.2",
+    "redis": "^2.7.1",
+    "socket.io": "^2.0.1"
+  }
+}

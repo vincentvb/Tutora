@@ -51,6 +51,7 @@ handleFeedbackQuestionClose() {
 }
 
 handleFeedbackNoQuestionClose() {
+  console.log("ROUTE", `/api/questions/user/${this.props.location.state.questionId}`)
   axios.post(`/api/questions/user/${this.props.location.state.questionId}`, {rating: this.state.rating, questionId: this.props.location.state.questionId, answererId: this.props.location.state.requestUser, questionAnswered: true})
   this.redirect();
   this.setState({feedback: false})
