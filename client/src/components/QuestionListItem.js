@@ -91,7 +91,7 @@ class QuestionListItem extends React.Component {
 
         <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
             <CardHeader
-              title={this.props.question.title+' asked by '+this.state.questionUserName}
+              title={this.props.question.id+' '+this.props.question.title+' asked by '+this.state.questionUserName}
               subtitleStyle={styles.wrapper}
               subtitle={this.state.tags.map(this.renderChip, this)}
               avatar={this.state.questionAvatar || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"}

@@ -217,13 +217,15 @@ class Index extends React.Component {
         <Dialog
           title="We found a tutor for your question!"
           actions={actions}
+          contentStyle={{border: '0px'}}
           modal={false}
           open={this.state.open}
           autoScrollBodyContent={true}
           autoDetectWindowHeight = {true}
         >
-          <UserDashBoard user = {this.state.requestUser} modal = {true} />
-          Accept and go to the classroom or wait.
+
+        <UserDashBoard user = {this.state.requestUser} modal = {true} />
+        
         </Dialog>
 
         </div>
