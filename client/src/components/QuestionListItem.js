@@ -95,7 +95,7 @@ class QuestionListItem extends React.Component {
             />
 
             <CardText expandable={true}>
-              <p style={{fontSize: "30px"}}>{this.props.question.body}</p>
+              <p style={{fontSize: "15px"}}>{this.props.question.body}</p>
 
             </CardText>
             {this.props.question.image ? (
@@ -127,7 +127,7 @@ const mapStateToProps = (state) => ({
 const styles = {
   card: {
     margin: 10,
-    opacity: 0.92
+    opacity: 0.93
   }, 
   chip: {
     margin: 2,

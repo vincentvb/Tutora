@@ -267,7 +267,7 @@ class AskQuestion extends React.Component {
           <Taglets options={this.state.options} tagletsValue={this.state.tagletsValue} updateTagletsValue={this.updateTagletsValue} />
           {this.props.funds >= 5 ? (
             <div>
-              Tips from your friends at Tutora: Pay the Tutor $5 to get faster response from saught after tutors!
+              Tips from your friends at Tutora: Pay the Tutor $5 to get faster response from sought after tutors!
               <Toggle
                 label="Paid Question"
                 defaultToggled={false}
