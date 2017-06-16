@@ -93,9 +93,10 @@ class FilterCategory extends React.Component {
       onChange: this.onChange
     }
 
+// className="row"
 
     return (
-    <div className="row">
+    <div className="specialDiv">
          <div className="col-md-10 category">
           <Autosuggest 
             suggestions={suggestions}
@@ -108,7 +109,7 @@ class FilterCategory extends React.Component {
          </div>
           
         <div className="col-md-2 catbutton">
-          <button onClick={this.sendTagValue} className="btn btn-default" > Go </button>
+          <button onClick={this.sendTagValue} className="btn btn-default mini" > Go </button>
         </div>
     </div>
     )

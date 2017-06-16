@@ -76,7 +76,7 @@ class FilterQuestion extends React.Component {
           </SelectField>
          </div> 
 
-        <div className="col-md-4">
+        <div className="col-md-4 filtercats">
           {this.state.showCategory ? <FilterCategory socket={this.props.socket} menufilter={this.state.filter} /> : null}
           {this.state.showTaglets ? <FilterTaglets /> : null }
         </div>
