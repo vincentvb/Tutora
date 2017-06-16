@@ -1,0 +1,95 @@
+version: "3"
+services:
+  redis:
+    image: "redis:alpine"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    expose:
+      - 6379
+    networks:
+      - webnet
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: thesis
+    volumes: 
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - webnet
+  web:
+    image: tomdickson/tutora:webserver2
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      replicas: 10
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+    links:
+      - db
+      - payments
+      - sockets
+    ports:
+      - "3000:3000"
+    networks:
+     - webnet
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - COMPOSE_PROJECT_NAME=tutora
+      - DOCKER=isTrue
+    command: npm run migrateDB
+  sockets:
+    image: tomdickson/tutora:sockets
+    ports: 
+      - "3030:3030"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      replicas: 4
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+    networks:
+      - webnet
+    environment:
+      - DOCKER=isTrue
+      - REDIS_HOST=redis
+  payments:
+    image: tomdickson/tutora:payments
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+    links:
+      - db
+    ports:
+      - 1337:1337
+    networks:
+      - webnet
+    environment:
+      - DOCKER=isTrue
+volumes:
+  db-data:
+networks:
+  webnet:
