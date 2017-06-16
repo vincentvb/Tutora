@@ -63,7 +63,6 @@ class FilterQuestion extends React.Component {
       <div className="row">
         <div className="col-md-4 filterq">
           <SelectField
-            style={{display: 'inline-block'}}
             floatingLabelText="Filter Student Questions By"
             value={this.props.filter}
             onChange={this.handleChange}

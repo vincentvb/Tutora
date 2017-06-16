@@ -88,7 +88,7 @@ class FilterTaglets extends React.Component {
 
     return (
       <div className="specialDiv">
-        <div className="col-md-10">
+        <div className="col-md-8">
           <Autosuggest 
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}

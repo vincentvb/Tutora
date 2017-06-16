@@ -97,7 +97,7 @@ class FilterCategory extends React.Component {
 
     return (
     <div className="specialDiv">
-         <div className="col-md-10 category">
+         <div className="col-md-8">
           <Autosuggest 
             suggestions={suggestions}
             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -108,7 +108,7 @@ class FilterCategory extends React.Component {
           />
          </div>
           
-        <div className="col-md-2 catbutton">
+        <div className="col-md-2">
           <button onClick={this.sendTagValue} className="btn btn-default mini" > Go </button>
         </div>
     </div>

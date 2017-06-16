@@ -15,16 +15,10 @@
 
 .mini {
   padding: 4px 12px;
+  margin-left: 5px;
 }
 .filterq {
   vertical-align: top;
-}
-  .tagClass{
-    width: 240px;
-    outline: 1px solid black;
-    position: relative;
-    margin-right: 8px;
-    float: left;
 }
 
 .charttitle {
