@@ -63,11 +63,13 @@ class UserDashBoard extends React.Component {
     var date = new Date()
     this.setState({currentDate: date})
     this.setState({studentType: newUser.type})
-    console.log("NEW USER", newUser)
-    if (this.state.studentType === "tutor") {
+    console.log("STUDENT TYPE", this.state.studentType)
+    if (newUser.type === "tutor") {
+    	console.log("AXIOS HAPPENING");
 	    axios
 	    .get('/api/dashboard/rating', {params: { user: newUser}})
 	    .then(response => {
+	      console.log("RESPONSE", response);
 	      var questions = response.data
 	      var ratingTotal = 0
 	      questions.forEach((question) => {
@@ -116,7 +118,6 @@ class UserDashBoard extends React.Component {
 
 
   render() {
-    console.log('THE MODAL: ', this.props.requestFromInvite);
     var user = this.state.user
     const divStyle = {
       backgroundColor: "white",
@@ -312,7 +313,7 @@ const data02 = [
           </div>    
           
           <div className="row">
-            <div className="charttitle"> Question Types Answered </div>
+            <div className="charttitle"> Question Types Asked </div>
             <div className="chart">          
               <RadarChart margin = {{top: 10, bottom: 0, left: 0, right: 0}}cx={300} cy={175} outerRadius={150} width={500} height={420} data={data02}>
                 <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
