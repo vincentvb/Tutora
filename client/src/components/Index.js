@@ -16,8 +16,6 @@ import UserDashBoard from './UserDashBoard.js';
 import FilterQuestion from './FilterQuestion.js';
 import { getOnlineQ , getAllQ} from '../network.js';
 
-
-
 class Index extends React.Component {
   constructor(props) {
     super(props);
@@ -40,9 +38,6 @@ class Index extends React.Component {
   }
 
   broadcastSocket (userId, questionId) {
-    console.log(questionId, "QUESTION ID")
-    console.log(userId, "STATE QUESTIONER ID")
-
     this.socket.emit('connectionRequest', {
       receivingUser: userId,
       requestUser: this.props.userid,
@@ -89,7 +84,6 @@ class Index extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // Logic to throw user to signup2 if they don't have a role:
     var referedWebSite = document.referrer;
     var endpoint = referedWebSite.split('/');
     endpoint = endpoint[endpoint.length - 1];
@@ -101,13 +95,9 @@ class Index extends React.Component {
   componentWillMount() {
     this.getUserInfo();
     this.socket = io.connect();
-    // this.socket = io.connect(process.env.SOCKET_SERVER || '');
     var randomRoom = Math.random() * 9999999
     this.setState({roomName: randomRoom})
-    console.log(this.socket);
-
     this.socket.on('alertMessage', (alert) => {
-      console.log(alert);
       this.setState({questionId: alert.questionId})
       this.setState({roomName: alert.roomName})
       this.setState({requestUser: alert.requestUser})
@@ -139,11 +129,9 @@ class Index extends React.Component {
       var roomName = JSON.stringify(this.state.roomName)
       var search = roomName + "&" + this.props.userid.id;
       this.props.setRoomLocation(search)
-      console.log(this.state.roomName, "ROOMNAME");
       var room = this.state.roomName
       var questionId = this.state.questionId
       var requestUser = this.state.requestUser
-      console.log("REQUEST USER", requestUser)
       return (
         <Redirect to={{
           pathname: '/classroom',
@@ -224,7 +212,7 @@ class Index extends React.Component {
           autoDetectWindowHeight = {true}
         >
 
-        <UserDashBoard user = {this.state.requestUser} modal = {true} />
+        <UserDashBoard user = {this.state.requestUser} modal = {true} requestFromInvite = {true} />
         
         </Dialog>
 
