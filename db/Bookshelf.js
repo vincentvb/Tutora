@@ -37,15 +37,11 @@ module.exports = {
 	
 
 	getAllQbyTaglet : (tagletid, callback) => {
-		Taglets_Question.where({ taglet_id: tagletid }).orderBy('-created_at').fetchAll({
-			withRelated: [
-			{
-				'questions': function(qb){
-					qb.select()
-				}
-			}
-			]
-		})
+		Taglets_Question.query(function(qb){
+			qb.join('questions', 'taglets_questions.question_id', '=', 'questions.id')
+			qb.orderBy('questions.created_at', 'desc')
+			qb.where('taglets_questions.taglet_id', '=', tagletid)
+		}).fetchAll()
 		.then(question => {
 			callback(null, question);
 		})
@@ -54,15 +50,24 @@ module.exports = {
 		})
 	},
 
-	// models.Tags_Question.where( { question_id: req.params.questionId }).fetchAll({ 
-//     withRelated: [
-//     {
-//       'tags': function(qb){
-//         qb.select()
-//       }
-//     }
-//     ]
-//   })
+	// 	getAllQbyTaglet : (tagletid, callback) => {
+	// 	Taglets_Question.where({ taglet_id: tagletid }).fetchAll({
+	// 		withRelated: [
+	// 		{
+	// 			'questions': function(qb){
+	// 				qb.select()
+	// 			}
+	// 		}
+	// 		]
+	// 	})
+	// 	.then(question => {
+	// 		callback(null, question);
+	// 	})
+	// 	.catch(error => {
+	// 		callback(error, null);
+	// 	})
+	// },
+
 
 
 	updateProfile : (userID, userDescription, userAvatar, userType, userFirstName, userLastName, userPhone, callback) => {
@@ -212,4 +217,24 @@ module.exports = {
 			callback(error, null);
 		})
 	}
+
+	// getUserQuestions : (userID, callback) => {
+	// 	Question.where({ profile_id : userID , status: false}).orderBy('-created_at').fetchAll({
+ //     	withRelated: [
+ //        {
+ //          'profiles': function(qb){
+ //            qb.select('id', 'first', 'last', 'display', 'avatar')
+ //          }
+ //        }]
+ //      })
+	// 	.then(questions => {
+	// 		// console.log(questions, "QUESTIONS FROM GET")
+	// 		callback(null, questions);
+	// 	})
+	// 	.catch((error) => {
+	// 		callback(error, null);
+	// 	})
+	// }
+
+
 }

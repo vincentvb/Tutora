@@ -87,8 +87,9 @@ class FilterTaglets extends React.Component {
 
 
     return (
-      <div>
-        <Autosuggest 
+      <div className="specialDiv">
+        <div className="col-md-8">
+          <Autosuggest 
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           getSuggestionValue={this.getSuggestionValue}
@@ -97,9 +98,11 @@ class FilterTaglets extends React.Component {
           inputProps={inputProps}  
 
         />
+        </div>
 
-        <button onClick={this.sendTagValue} className="btn btn-default" >Go </button>
-
+        <div className="col-md-2">
+          <button onClick={this.sendTagValue} className="btn btn-default mini" >Go </button>
+        </div>
       </div>
     )
   }

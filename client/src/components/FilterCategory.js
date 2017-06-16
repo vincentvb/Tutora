@@ -93,24 +93,25 @@ class FilterCategory extends React.Component {
       onChange: this.onChange
     }
 
+// className="row"
 
     return (
-    <div>
-        <Autosuggest 
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-          getSuggestionValue={this.getSuggestionValue}
-          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          renderSuggestion={this.renderSuggestion}
-          inputProps={inputProps}  
-
-        />
-        <div style = {{marginBottom: "12%"}}>
-
-        <button style = {{position: "absolute"}} onClick={this.sendTagValue} className="btn btn-default" >Submit </button>
+    <div className="specialDiv">
+         <div className="col-md-8">
+          <Autosuggest 
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+            getSuggestionValue={this.getSuggestionValue}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            renderSuggestion={this.renderSuggestion}
+            inputProps={inputProps}  
+          />
+         </div>
+          
+        <div className="col-md-2">
+          <button onClick={this.sendTagValue} className="btn btn-default mini" > Go </button>
         </div>
-
-      </div>
+    </div>
     )
   }
 }
@@ -128,42 +129,4 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterCategory);
 
-
-// const test = [
-//   {
-//     "id": 1,
-//     "value": "Math"
-//   },
-//   {
-//     "id": 2,
-//     "value": "Mazzie"
-//   },
-//   {
-//     "id": 3,
-//     "value": "Matthie"
-//   },
-//   {
-//     "id": 4,
-//     "value": "Art"
-//   },
-//   {
-//     "id": 5,
-//     "value": "Physics"
-//   },
-//   {
-//     "id": 6,
-//     "value": "Chemistry"
-//   },
-//   {
-//     "id": 7,
-//     "value": "Grammar"
-//   },
-//   {
-//     "id": 8,
-//     "value": "English"
-//   },
-//   {
-//     "id": 9,
-//     "value": "Biology"
-//   }
-// ]
+// <div style = {{marginBottom: "12%"}}>

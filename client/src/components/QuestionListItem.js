@@ -48,7 +48,6 @@ class QuestionListItem extends React.Component {
 
   broadcast() {
     this.state.broadcastSocket(this.props.question.profile_id, this.props.question.id);
-    this.props.setAnswerer(this.props.user.display)
   }
 
   handleExpandChange (expanded) {
@@ -85,7 +84,9 @@ class QuestionListItem extends React.Component {
 
         <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
             <CardHeader
-              title={this.state.questionUserName + ': ' + this.props.question.title}
+              title={this.props.question.title}
+              titleStyle={styles.title}
+
               subtitleStyle={styles.wrapper}
               subtitle={this.state.tags.map(this.renderChip, this)}
               avatar={this.state.questionAvatar || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"}
@@ -123,11 +124,6 @@ const mapStateToProps = (state) => ({
   skills: state.skills
 });
 
-const mapDispatchToProps = dispatch => ({
-  setQuestioner: questionerid => dispatch(setQuestioner(questionerid)),
-  setAnswerer: answerername => dispatch(setAnswerer(answerername))
-})
-
 const styles = {
   card: {
     margin: 10,
@@ -140,6 +136,10 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
   },
+  title: {
+    fontSize: 20, 
+    fontWeight: 'bold'
+  }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuestionListItem)
+export default connect(mapStateToProps, null)(QuestionListItem)

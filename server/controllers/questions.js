@@ -4,10 +4,35 @@ const saveImageToS3 = require('../middleware/images.js').uploadQuestionPic;
 const client = require('../app.js').client;
 const redisclient = require('../redis.js');
 
+// module.exports.getOnlineQ = (req, res) => {
+//   redisclient.smembersAsync("online")
+//     .then(ids => {
+//       models.Question.where('profile_id', 'in', ids).where({ status: false }).fetchAll()
+//       .then(questions => {
+//         res.status(200).send(questions)
+//       })
+//       .error(err => {
+//         res.status(500).send(err)
+//       })
+//       .catch(e => {
+//         console.log(e, "from catch")
+//         res.sendStatus(404)
+//       })
+//     })
+
+// }
+
 module.exports.getOnlineQ = (req, res) => {
   redisclient.smembersAsync("online")
     .then(ids => {
-      models.Question.where('profile_id', 'in', ids).where({ status: false }).fetchAll()
+      models.Question.where('profile_id', 'in', ids).where({ status: false }).orderBy('-created_at').fetchAll({
+        withRelated: [
+        {
+          'profiles': function(qb){
+            qb.select('id', 'first', 'last', 'display', 'avatar')
+          }
+        }]
+      })
       .then(questions => {
         res.status(200).send(questions)
       })
@@ -21,7 +46,6 @@ module.exports.getOnlineQ = (req, res) => {
     })
 
 }
-
 
 module.exports.getRecommendedQ = (req, res) => {
   // get profile skills 
