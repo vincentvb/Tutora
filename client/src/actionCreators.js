@@ -11,7 +11,6 @@ var setUserQ = function (userquestions){
   return { type: 'SET_USER_Q', userquestions }
 }
 
-// tags are the same as categories and skills
 var setTags = function (tags){
   return { type: 'SET_Q_CATEGORIES', tags }
 }
@@ -34,15 +33,10 @@ export function setQ(questionlist){
 
 export function getProfileSkills(profileid){
   return dispatch => {
-    console.log(profileid, "PROFILE ID")
-    
     axios
       .get('/api/tags/profile/'+profileid)
       .then(skills => {
         var skillsarr = skills.data.map(skill => skill.tags.value)
-
-        console.log(skillsarr, "SKILLS ARR")
-
         dispatch(setProfileSkills(skillsarr))
       })
       .catch(error => {
@@ -71,7 +65,6 @@ export function getTags(){
     axios
       .get('/api/tags')
       .then(tags => {
-        // var tagsarr = tags.data.map(tag => tag.value)
         dispatch(setTags(tags.data))
       })
       .catch(error => {
@@ -86,7 +79,6 @@ export function getTaglets(){
     axios
       .get('/api/tags/taglets')
       .then(taglets => {
-        // var tagletsarr = taglets.data.map(taglet => taglet.value)
         dispatch(setTaglets(taglets.data))
       })
       .catch(error => {
@@ -107,27 +99,6 @@ export const setQuestioner = (questionerid) => {
 export const setAnswerer = (answerername) => {
   return { type: 'SET_ANSWERER', answerername}
 }
-
-// export function getUserInfo(userid){
-//   return dispatch => {
-//     dispatch(setUserID(userid))
-//   }
-// }
-
-// export function getUserQuestions (){
-//   return dispatch => {
-//     axios
-//       .get('/api/questions/user/2')
-//       .then(response => {
-//         // console.log(response.data, "GETUSERQ")
-//         dispatch(setUserQ(response.data))
-//       })
-//       .catch(error => {
-//         console.error('axios error', error)
-//       });
-//   }
-// }
-
 
 
 

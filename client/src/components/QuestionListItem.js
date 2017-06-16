@@ -39,15 +39,11 @@ class QuestionListItem extends React.Component {
   
     getTagletsbyQ(this.props.question.id, tags =>{
       var tagsarr = [{ key: 0, label: this.props.question.tag_name }]
-
       tags.forEach(function(tag, idx){
         tagsarr.push({ key: idx+1, label: tag.taglets.value })
       })
-
       this.setState({ tags: tagsarr })
-
     })
-
   }
 
   broadcast() {
@@ -79,8 +75,6 @@ class QuestionListItem extends React.Component {
     );
   }
 
-
-
   render() {
     var label = "ANSWER QUESTION"
     if (this.props.user.type === 'student'){
@@ -91,7 +85,7 @@ class QuestionListItem extends React.Component {
 
         <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
             <CardHeader
-              title={this.props.question.id+' '+this.props.question.title+' asked by '+this.state.questionUserName}
+              title={this.state.questionUserName + ': ' + this.props.question.title}
               subtitleStyle={styles.wrapper}
               subtitle={this.state.tags.map(this.renderChip, this)}
               avatar={this.state.questionAvatar || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"}

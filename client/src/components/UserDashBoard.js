@@ -116,8 +116,7 @@ class UserDashBoard extends React.Component {
 
 
   render() {
-  	console.log("USER", this.state.user.id);
-    console.log('STATE', this.state);
+    console.log('THE MODAL: ', this.props.requestFromInvite);
     var user = this.state.user
     const divStyle = {
       backgroundColor: "white",
@@ -144,14 +143,24 @@ class UserDashBoard extends React.Component {
 
     var Header = (props) => (
        <div>
-      <Balance funds={props.funds} />         
+      {this.props.requestFromInvite ? (
+        <div>
+        </div>
+      ) : (
+        <Balance funds={props.funds} />
+      )}
       <div><strong>Total Questions Answered:</strong> {this.state.totalQuestions}</div>
       <div><strong>Summary:</strong> {this.state.user.description}</div>
        </div>
     )
     var Header2 = (props) => (
        <div>
-      <Balance funds={props.funds} />
+      {this.props.requestFromInvite ? (
+        <div>
+        </div>
+      ) : (
+        <Balance funds={props.funds} />
+      )}
       <div><strong>Total Questions Asked:</strong> {this.state.totalQuestions}</div>
       <div><strong>Summary:</strong> {this.state.user.description}</div>
        </div>
@@ -216,7 +225,7 @@ const data02 = [
           value={this.state.ratingValue}
           max={5}
         />, 
-        <Header style={{marginLeft: "25%"}} {...this.state.props} funds={this.state.funds} />
+        <Header style={{marginLeft: "25%"}} {...this.state.props} funds={this.state.funds} requestFromInvite={this.props.requestFromInvite}/>
       ]}
     />
     <Divider />
@@ -278,7 +287,7 @@ const data02 = [
       title={this.state.user.display}
       avatar={this.state.user.avatar}
       children={
-        <Header2 style={{marginLeft: "25%"}} {...this.state.props} funds={this.state.funds} />
+        <Header2 style={{marginLeft: "25%"}} {...this.state.props} funds={this.state.funds} requestFromInvite={this.props.requestFromInvite} />
       }
     />
     <Divider />
