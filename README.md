@@ -1,13 +1,11 @@
-# Project Name
+# Tutora
 
-The project description
 
 ## Team
 
-- teamMember
-- teamMember
-- teamMember
-- teamMember
+- Vincent Van Buskirk
+- Tom Dickson
+- Agnes Chu
 
 ## Roadmap
 
@@ -25,16 +23,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
     1. [Installing Dependencies](#installing-dependencies)
     1. [Tasks](#tasks)
 
-## Usage
-
-> Some usage instructions
 
 ## Requirements
 
 - Node 6.9.x
 - Redis 3.2.x
 - Postgresql 9.6.x
-- etc
 
 ## Development
 
@@ -46,7 +40,6 @@ brew install redis
 brew install postgresql
 ```
 
-Yarn is a replacement for npm. It's faster and *guarantees* consistency -- as you deploy your code in various environments, you won't run the risk of slight variations in what gets installed.
 
 ### Install Project Dependencies
 
